@@ -1,5 +1,12 @@
 {% extends 'base.html' %}
-{% block content %}
+
+{% block title %}
+    <title>
+        IUStore
+    </title>
+{% endblock title %}
+
+{% block style %}
 <style>
     /* Make the image fully responsive */
     .carousel-inner img {
@@ -20,6 +27,9 @@
         background-color: white;
     }
 </style>
+{% endblock style %}
+
+{% block content %}
 <div class="container">
     <div class="slide bg-white">
         <div class="row  pt-3 pb-5 pl-2">

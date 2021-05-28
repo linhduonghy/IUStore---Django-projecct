@@ -1,0 +1,213 @@
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #f2f2f2;
+}
+a {
+    background-color: transparent;
+    text-decoration: none;
+}
+
+.nav-link {
+    color: white !important;
+}
+.navbar {
+    background-color: #4285DE !important;
+}
+
+/* Cart Style */
+.cart {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+}
+.cart-inner {
+    width: 750px;
+    display: block;
+}
+.cart-title {
+    margin-bottom: 20px;
+}
+.cart-item-group {
+    background-color: #fff;
+    margin-bottom: 16px;
+}
+.cart-item {
+    padding: 20px 20px 20px;
+}
+.cart-item-inner {
+    display: flex;
+    flex-wrap: nowrap;
+}
+.card-item-img {
+    width: 100px;
+    margin-right: 20px;
+}
+.cart-item-content {
+    width: calc(100% - 100px);
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+}
+.cart-item-desc {
+    width: 60%;
+}
+.card-item-name {
+    color: rgb(36, 36, 36);
+    font-weight: 400;
+    display: inline-block;
+    margin-bottom: 5px;
+}
+.card-item-name:hover {
+    color: rgb(0, 127, 240);
+    text-decoration: none;
+}
+.cart-item-del {
+    color: rgb(13, 92, 182);
+    display: inline-block;
+    margin-right: 20px;
+    font-size: 14px;
+}
+.cart-item-detail {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+}
+.cart-item-price {
+    text-align: right;
+    margin-right: 25px;
+}
+.cart-total-prices {
+    width: calc(100% - 765px);
+    margin-top: 41px;
+}
+.cart-total-prices-inner {
+    position: sticky;
+    top: 20px;
+}
+.shipping-address {
+    background-color: #fff;
+    padding: 15px;
+    margin-bottom: 12px;
+    border-radius: 4px;
+}
+.cart-customer-name {
+    font-weight: 500;
+    margin-right: 10px;
+    font-size: 15px;
+    display: inline-block;
+}
+.cart-customer-name::after {
+    content: "";
+    width: 1px;
+    height: 22px;
+    background: rgb(224, 224, 224);
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 10px;
+}
+.cart-customer-phone {
+    font-size: 15px;
+    font-weight: 500;
+    color: rgb(36, 36, 36);
+}
+.cart-customer-address {
+    margin: 0;
+    color: rgb(120, 120, 120);
+    font-size: 15px;
+}
+.prices-total {
+    background-color: #fff;
+    border-radius: 4px;
+    padding: 17px 20px;
+    display: flex;
+    flex-wrap: nowrap   ;
+    justify-content: space-between;
+    margin: auto;
+}
+.prices-text {
+    font-weight: 300;
+    color: rgb(51, 51, 51);
+    display: inline-block;
+}
+.prices-value {
+    color: rgb(254, 56, 52);
+    font-size: 22px;
+    font-weight: 400;
+    text-align: right;
+}
+.cart-submit {
+    text-align: center;
+    margin-top: 20px;
+}
+.cart-submit-btn {
+    background-color: rgb(255, 66, 78);
+    color: #fff;
+    padding: 8px 10px;
+    text-align: center;
+    border-radius: 4px;
+    border: none;
+    margin: 15px 0;
+    cursor: pointer;
+    outline: none;
+    width: 50%;
+    transition: opacity 0.2s ease-in-out;
+}
+.cart-submit-btn:hover {
+    opacity: 0.8;
+}
+
+.detail-item  {
+    display: flex;
+    margin-bottom: 40px;
+    background-color: #fff;
+    border-radius: 0px 0px 4px 4px;
+}
+.detail-item-img {
+    position: relative;
+    padding: 10px;
+    width: 350px;
+}
+.detail-item-content {
+    width: calc(100% - 360px);
+}
+.item-title {
+    font-size: 30px;
+    color: rgb(25, 25, 25);
+    font-weight: 300;
+    line-height: 32px;
+}
+.item-description {
+    font-size: 18px;
+    color: rgb(71, 71, 71);
+}
+.item-price {
+    background-color: rgb(250, 250, 250);
+    padding: 8px;
+}
+.item-price__price {
+    font-size: 32px;
+    line-height: 40px;
+    font-weight: 500;
+}
+.cart-add-btn {
+    background-color: rgb(255, 66, 78);
+    color: #fff;
+    padding: 8px 10px;
+    text-align: center;
+    border-radius: 4px;
+    border: none;
+    margin: 15px 0;
+    cursor: pointer;
+    outline: none;
+    width: 200px;
+    transition: opacity 0.2s ease-in-out;
+}
+.cart-add-btn:hover {
+    opacity: 0.8;
+}
+.evaluation {
+    background-color: #fff;
+    margin-top: 20px;
+}
