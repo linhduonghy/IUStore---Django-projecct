@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    <title>
-        IUStore
-    </title>
+<title>
+    IUStore
+</title>
 {% endblock title %}
 
 {% block style %}
@@ -19,12 +19,41 @@
         /* background-color: red; */
 
     }
-    .product-title{
+
+    .product-title {
         background-color: white;
         padding: 10px 10px;
     }
-    .product{
+
+    .product {
         background-color: white;
+    }
+
+    .price {
+        font-size: larger;
+        font-weight:bold;
+    }
+
+    .sale {
+        color: white;
+        background-color: red;
+
+
+    }
+
+    .rate {
+        color: gold;
+        font-size: 17px;
+    }
+
+    .name {
+        font-size: large;
+    }
+
+    .item:hover {
+        box-shadow: 0 0 15px rgba(24, 23, 23, 0.2);
+
+
     }
 </style>
 {% endblock style %}
@@ -79,29 +108,46 @@
             <h3>Sản phẩm nổi bật</h3>
         </div>
 
-        <div class="row m-auto ">
+        {% for i in '0123456789' %}
+    
 
-            <div class="col border-right  border-secondary">
-                Item 1
-            </div>
+        <div class="item pl-2 d-inline-block pb-5" style="width: 215px; font-family: Arial, Helvetica, sans-serif;">
 
-            <div class="col border-right border-secondary">
-                Item 2
-            </div>
+            <a href="{% url 'mystore:product-detail' product_id=i %}" style="color: black; text-decoration: none;">
+                <div class="thumbnail pb-2 pt-2">
+                    <div class="badge-top">
+                        <img src="https://salt.tikicdn.com/cache/280x280/ts/product/7f/e6/1e/dc0d6dcd10f4a31d5f6dcab75566637e.jpg"
+                            width="180px" alt="Máy Tính Bảng Samsung Galaxy">
+                    </div>
+                </div>
+                <div class="info">
 
-            <div class="col border-right border-secondary">
-                Item 3
-            </div>
+                    <div class="name">
+                        Máy Tính Bảng Samsung Galaxy Tab A
+                    </div>
+                    <div class="row ml-auto ">
+                        <span class="rate">
+                            5 <i class="fas fa-star"></i>
+                        </span>
+                        <span class="viewer"> (50) </span>
+                    </div>
 
-            <div class="col border-right border-secondary">
-                Item 4
-            </div>
+                    <div class="row ml-auto ">
+                        <span class="price  ">
+                            2.990.000 đ
+                        </span>
+                        <span class="sale  ml-4">
+                            -49%
+                        </span>
 
-            <div class="col border   ">
-                Item
-            </div>
+                    </div>
+
+                </div>
+            </a>
 
         </div>
+        {% endfor %}
+       
 
         <div class=" d-flex justify-content-center">
             <button class="btn btn-info ">Xem thêm</button>
