@@ -14,53 +14,210 @@
 
 {% block content %}
 <div class="container pt-4">
-    <div class="row">
-        <div class="product-detail">
-            <div class="product-img">
-                <img src="https://salt.tikicdn.com/cache/w444/ts/product/77/ea/24/0f64f866fa54852acb8237a1de13137a.jpg"
-                    alt="Bộ bàn phím và chuột chuyên Game Led 7 màu LIMEIDE GTX300" height="400px">
+
+    <!-- product detail -->
+    <div class="product-detail">
+        <div class="product-img">
+            <img src="https://salt.tikicdn.com/cache/w444/ts/product/77/ea/24/0f64f866fa54852acb8237a1de13137a.jpg"
+                alt="Bộ bàn phím và chuột chuyên Game Led 7 màu LIMEIDE GTX300" height="400px">
+        </div>
+        <div style="margin: 0px 12px; width: 1px; background: rgb(242, 242, 242);"></div>
+        <div class="product-content">
+            <div class="product-header">
+                <h1 class="product-title">Bộ bàn phím và chuột chuyên Game Led 7 màu LIMEIDE GTX300</h1>
+                <div class="product-bellow-title">
+                    <span style="margin-right: 12px;">
+                        5 <i style="color: rgb(253, 216, 53);" class="fas fa-star"></i>
+                    </span>
+                    <a href="#" style="cursor: pointer; color: inherit; text-decoration: none;"> (Xem 1 đánh giá)
+                    </a>
+                    <span
+                        style="width: 1px; height: 15px; background-color: rgb(199, 199, 199); margin: 0 8px 0 8px"></span>
+                    <span> Đã bán 10 </span>
+                </div>
             </div>
-            <div style="margin: 0px 12px; width: 1px; background: rgb(242, 242, 242);"></div>
-            <div class="product-content">
-                <div class="product-header">
-                    <h1 class="product-title">Bộ bàn phím và chuột chuyên Game Led 7 màu LIMEIDE GTX300</h1>
-                    <div class="product-bellow-title">
-                        <span style="margin-right: 12px;">
-                            5 <i style="color: rgb(253, 216, 53);" class="fas fa-star"></i>
-                        </span>
-                        <a href="#" style="cursor: pointer; color: inherit; text-decoration: none;"> (Xem 1 đánh giá) </a>
-                        <span style="width: 1px; height: 15px; background-color: rgb(199, 199, 199); margin: 0 8px 0 8px"></span>
-                        <span > Đã bán 10 </span>
+            <div class="product-body">
+                <div class="product-price">
+                    <span class="product-price__current-price">125.000 ₫</span>
+                    <span class="product-price__price">255.000 ₫</span>
+                    <span class="product-price__discount-rate">-51%</span>
+                </div>
+                <div class="add-to-cart">
+                    <div class="qty">
+                        <span style="color: rgb(36, 36, 36);"> Số Lượng </span>
+                        <div class="qty-input">
+                            <button class="qty-btn" style="border-right: none;" id="btnMinus">
+                                <img src="{% static 'images/icons-remove.svg' %}" alt="icon remove">
+                            </button>
+                            <input type="text" value="1" class="qty-value" id="qtyValue">
+                            <button class="qty-btn" style="border-left: none;" id="btnAdd">
+                                <img src="{% static 'images/icons-add.svg' %}" alt="icon remove">
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <button class="btn btn-add-to-cart">Chọn Mua</button>
                     </div>
                 </div>
-                <div class="product-body">
-                    <div class="product-price">
-                        <span class="product-price__current-price">125.000 ₫</span>
-                        <span class="product-price__price">255.000 ₫</span>
-                        <span class="product-price__discount-rate">-51%</span>
+            </div>
+        </div>
+
+    </div>
+    <!-- product description -->
+    <div class="product-description">
+        <h5 style="font-weight: 400; ">THÔNG TIN CHI TIẾT
+        </h5>
+        <div class="product-basic-info">
+            <div class="product-attributes">
+                <div class="product-attribute-item">Thương hiệu</div>
+                <div class="product-attribute-item">Kích thước</div>
+                <div class="product-attribute-item">Model</div>
+            </div>
+            <div class="product-attributes-value">
+                <div class="product-attribute-item">OEM</div>
+                <div class="product-attribute-item">140mm X 440mm</div>
+                <div class="product-attribute-item">gtx300</div>
+            </div>
+        </div>
+        <h5 style="font-weight: 400; margin-top: 40px;"> MÔ TẢ SẢN PHẨM
+        </h5>
+        <div class="product-description-detail">
+            <div class="content">
+                Thông Số Kỹ Thuật: <br>
+
+                - Màu sắc: Đen - Xám <br>
+
+                - Chữ khắc Laser chống bay <br>
+
+                - Kết nối: USB 2.0, tương thích mọi hệ điều hành <br>
+
+                - Độ bền phím > 10.000.000 lượt bấm <br>
+
+                Bàn phím led chuyên game giả cơ với thiết kế tựa như 1 bàn phím cơ với đường nét và kiểu dáng rất phá
+                cách, hệ thống đèn led dưới nền cực kỳ ấn tượng với 7 gam màu trải đều trên bàn phím. Giúp người dùng,
+                đặc biệt là các game thủ có thể thoải mái sử dụng vào ban đêm. <br>
+
+                Giá sản phẩm trên Tiki đã bao gồm thuế theo luật hiện hành. Tuy nhiên tuỳ vào từng loại sản phẩm hoặc
+                phương thức, địa chỉ giao hàng mà có thể phát sinh thêm chi phí khác như phí vận chuyển, phụ phí hàng
+                cồng kềnh, ... <br>
+            </div>
+        </div>
+    </div>
+    <!-- customer review -->
+    <div class="customer-reviews">
+        <h5 style="font-weight: 400;">
+            ĐÁNH GIÁ - NHẬN XÉT TỪ KHÁCH HÀNG
+        </h5>
+        <div class="customer-reviews__inner">
+            <div class="review-comment">
+                <div class="review-comment__user">
+                    <div class="review-comment__user-avatar">
+
                     </div>
-                    <div class="add-to-cart">
-                        <div class="qty">
-                            <span style="color: rgb(36, 36, 36);"> Số Lượng </span>
-                            <div class="qty-input">
-                                <button class="qty-btn" style="border-right: none;" id="btnMinus">
-                                    <img src="{% static 'images/icons-remove.svg' %}" alt="icon remove">
-                                </button>
-                                <input type="text" value="1" class="qty-value" id="qtyValue"> 
-                                <button class="qty-btn"  style="border-left: none;" id="btnAdd">
-                                    <img src="{% static 'images/icons-add.svg' %}" alt="icon remove">
-                                </button>
-                            </div>
+                    <div class="review-comment__user-info">
+                        <div class="review-comment__user-name">Soo Kang</div>
+                        <div class="review-comment__user-date"> Đã tham gia 1 năm</div>
+                    </div>
+                </div>
+                <div class="review-comment__comment">
+                    <div class="review-comment__rating">
+                        <div class="review-comment__rating-star">
+                            <span><i class="fas fa-star"></i></span>
+                            <span><i class="fas fa-star"></i></span>
+                            <span><i class="fas fa-star"></i></span>
+                            <span><i class="fas fa-star"></i></span>
+                            <span><i class="fas fa-star"></i></span>
                         </div>
-                        <div>
-                            <button class="btn btn-add-to-cart">Chọn Mua</button>
+                        <div class="review-comment__rating-text">
+                            Cực kỳ hài lòng
                         </div>
+                    </div>
+                    <div class="review-comment__content">
+                        sản phẩm rât ok
+                    </div>
+                    <div class="review-comment__images">
+                        <div class="review-comment__image-item"
+                            style="background-image: url('https://vcdn.tikicdn.com/ts/review/12/78/f3/fdb18507bd7603e83be9492af9458641.jpg');">
+                        </div>
+                    </div>
+                    <div class="review-comment_created-date">
+                        <span>Nhận xét vào 25/05/2021</span>
+                    </div>
+                </div>
+            </div>
+            <div class="review-comment">
+                <div class="review-comment__user">
+                    <div class="review-comment__user-avatar">
+
+                    </div>
+                    <div class="review-comment__user-info">
+                        <div class="review-comment__user-name">Soo Kang</div>
+                        <div class="review-comment__user-date"> Đã tham gia 1 năm</div>
+                    </div>
+                </div>
+                <div class="review-comment__comment">
+                    <div class="review-comment__rating">
+                        <div class="review-comment__rating-star">
+                            <span><i class="fas fa-star"></i></span>
+                            <span><i class="fas fa-star"></i></span>
+                            <span><i class="fas fa-star"></i></span>
+                            <span><i class="fas fa-star"></i></span>
+                            <span><i class="fas fa-star"></i></span>
+                        </div>
+                        <div class="review-comment__rating-text">
+                            Cực kỳ hài lòng
+                        </div>
+                    </div>
+                    <div class="review-comment__content">
+                        sản phẩm rât ok
+                    </div>
+                    <div class="review-comment__images">
+                        <div class="review-comment__image-item"
+                            style="background-image: url('https://vcdn.tikicdn.com/ts/review/12/78/f3/fdb18507bd7603e83be9492af9458641.jpg');">
+                        </div>
+                    </div>
+                    <div class="review-comment_created-date">
+                        <span>Nhận xét vào 25/05/2021</span>
+                    </div>
+                </div>
+            </div>
+            <div class="review-comment">
+                <div class="review-comment__user">
+                    <div class="review-comment__user-avatar">
+
+                    </div>
+                    <div class="review-comment__user-info">
+                        <div class="review-comment__user-name">Soo Kang</div>
+                        <div class="review-comment__user-date"> Đã tham gia 1 năm</div>
+                    </div>
+                </div>
+                <div class="review-comment__comment">
+                    <div class="review-comment__rating">
+                        <div class="review-comment__rating-star">
+                            <span><i class="fas fa-star"></i></span>
+                            <span><i class="fas fa-star"></i></span>
+                            <span><i class="fas fa-star"></i></span>
+                            <span><i class="fas fa-star"></i></span>
+                            <span><i class="fas fa-star"></i></span>
+                        </div>
+                        <div class="review-comment__rating-text">
+                            Cực kỳ hài lòng
+                        </div>
+                    </div>
+                    <div class="review-comment__content">
+                        sản phẩm rât ok
+                    </div>
+                    <div class="review-comment__images">
+                        <div class="review-comment__image-item"
+                            style="background-image: url('https://vcdn.tikicdn.com/ts/review/12/78/f3/fdb18507bd7603e83be9492af9458641.jpg');">
+                        </div>
+                    </div>
+                    <div class="review-comment_created-date">
+                        <span>Nhận xét vào 25/05/2021</span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<script src="{% static 'js/add-to-cart.js' %}"></script>
-{% endblock content %}
-
+    <script src="{% static 'js/add-to-cart.js' %}"></script>
+    {% endblock content %}
