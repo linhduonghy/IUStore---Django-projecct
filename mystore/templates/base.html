@@ -18,7 +18,7 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark p-3">
+    <nav class="navbar navbar-expand-lg navbar-dark p-3" >
         <a class="navbar-brand" href="{% url 'mystore:home' %}">IUStore</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -27,7 +27,7 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                
+
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -50,28 +50,36 @@
                         <a class="dropdown-item" href="#">Quần Áo Trẻ Em</a>
                     </div>
                 </li>
-                <li class="nav-item">
-                    <form class="form-inline my-2 my-lg-0">
-                        <input class="form-control mr-sm-2" type="search" placeholder="Bạn tìm gì..."
-                            aria-label="Search" style="width: 450px;">
-                        <button class="btn btn-outline-light" style="color: white;" type="submit"><i
-                                class="fas fa-search"></i></button>
+                <li class="nav-item ml-2 mt-1">
+                    <form action="{% url 'mystore:search-product' %}" class="search-product my-2 my-lg-0" method="GET" >
+                        <input type="text" placeholder="Tìm sản phẩm mong muốn ..."
+                            aria-label="Search" class="search-product-input" name="q">
+                        <button class=" btn btn-search-product"
+                            type="submit"><i class="fas fa-search" style="margin-right: 3px;"></i> Tìm kiếm </button>
                     </form>
-
                 </li>
-
-
             </ul>
-            <div class="dropdown">
+            <div class="dropdown ">
                 <button class="btn dropdown-toggle" style="color: white;" type="button" id="dropdownMenuButton"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-user fa-2x"></i> Tài khoản
+                    <i class="far fa-user"></i> 
+                    {% if 'user' not in request.session %}
+                        Tài khoản
+                    {% else %}
+                        {{request.session.user}}
+                    {% endif %}
+
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="width: 250px;">
-                    <a class="dropdown-item btn " href="#" style="background-color: aqua;">Đăng Nhập</a>
-                    <a class="dropdown-item btn " href="#">Đăng Ký</a>
-                    <div class=" dropdown-divider "></div>
-                    <a class="dropdown-item btn" href="#">Something else here</a>
+                    {% if 'user' not in request.session %}
+                        <a class="dropdown-item btn " href="{% url 'mystore:login' %}">Đăng Nhập</a>
+                        <a class="dropdown-item btn " href="#">Đăng Ký</a>
+                    {% else %}
+                        <a class="dropdown-item btn " href="#">Danh sách đơn hàng</a>
+                        <a class="dropdown-item btn " href="#">Thông báo</a>
+                        <div class=" dropdown-divider "></div>
+                        <a class="dropdown-item btn" href="{% url 'mystore:logout' %}">Đăng xuất</a>
+                    {% endif %}
                 </div>
             </div>
             <a class="nav-link btn " href="{% url 'mystore:cart' %}">Giỏ hàng <i class="fas fa-shopping-cart"></i></a>
@@ -80,4 +88,5 @@
     </nav>
     {% block content %} {% endblock content %}
 </body>
+
 </html>

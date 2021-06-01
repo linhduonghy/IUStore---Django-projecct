@@ -8,12 +8,74 @@ a {
     background-color: transparent;
     text-decoration: none;
 }
-
 .nav-link {
     color: white !important;
 }
 .navbar {
     background-color: #4285DE !important;
+}
+.search-product {
+    display: flex;
+    align-items: center;
+    height: 35px;
+    margin-top: 6px;
+}
+.search-product-input {
+    width: 450px; 
+    padding: 0 12px;
+    font-size: 13px;
+    overflow: visible;
+    font-family: Roboto, Helvetica, Arial, sans-serif;
+    color: rgb(36, 36, 36);
+    border: none;
+    height: inherit;
+    border-radius: 3px 0 0 3px;
+    outline: none;
+}
+.btn-search-product {
+    border-radius: 0px 3px 3px 0; 
+    height: inherit;
+    background-color:rgb(13, 92, 182); 
+    color: rgb(240, 240, 240);
+    border: 0px;
+    width: 100px;
+    font-size: 13px;
+    font-weight: 500;
+    transition: 0.3s background-color ease-in-out;
+    outline: none;
+    overflow: visible;
+}
+.btn-search-product:hover {
+    background-color:#0d60bf;
+    color: rgb(240, 240, 240);
+}
+
+/* Home Style */
+.carousel-inner img {
+    width: 100%;
+    height: 100%;
+}
+
+.product {
+    background-color: white;
+}
+.price {
+    font-size: larger;
+    font-weight:bold;
+}
+.sale {
+    color: white;
+    background-color: red;
+}
+.rate {
+    color: gold;
+    font-size: 17px;
+}
+.name {
+    font-size: large;
+}
+.item:hover {
+    box-shadow: 0 0 15px rgba(24, 23, 23, 0.2);
 }
 
 /* Cart Style */
@@ -437,4 +499,21 @@ a {
     font-size: 15px;
     line-height: 16px;
     color: rgb(120, 120, 120);
+}
+/* Search Product Style */
+.search-summary {
+    padding: 0;
+    background-color: #fff;
+    padding-bottom: 15px;
+}
+.search-summary>.title {
+    padding: 16px 0px 0px 16px;
+    font-weight: 350;
+    font-size: 24px !important;
+}
+.list-search-product {
+    border-top: 1px solid rgb(240, 240, 240);
+    background-color: #fff;
+    display: flex;
+    flex-wrap: wrap;
 }
