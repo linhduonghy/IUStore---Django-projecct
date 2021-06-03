@@ -1,4 +1,4 @@
-{% extends 'dashboard-base.html' %} {% block title %}
+{% extends 'manager/dashboard-base.html' %} {% block title %}
 <title>Thêm mới sản phẩm</title>
 {% endblock title %}
 {% block content %}
@@ -44,38 +44,33 @@
                         <input type="file" name="image6" class="drop-zone__input">
                     </div>
                 </div>
-    
+
                 <div class="col form-group">
-                    <label for="_des">Mô tả sản phẩm*</label>
-                    <textarea class="form-control" name="description" id="description" cols="10" rows="3"></textarea>
+                    <label for="nameProduct">Tên sách*</label>
+                    <input class="form-control" name="name" type="text" placeholder="Nhập tên sách" required />
+                    <p class="form-text text-muted">
+                        <small>Tên sách tối thiểu 10 kí tự</small>
+                    </p>
                 </div>
-    
+
                 <div class="col form-group">
-                    <label for="reputation">Thương hiệu*</label>
-                    <input class="form-control" type="text" placeholder="Nhập tên thương hiệu" required>
+                    <label for="_des">Ngày phát hành*</label>
+                    <input type="date" class="form-control" name="publishedDate" required>
                 </div>
 
                 <div class="col form-group">
                     <label for="author">Tác giả*</label>
-                    <input class="form-control" type="text" placeholder="Nhập tên tác giả" required>
+                    <input class="form-control" name="author" type="text" placeholder="Nhập tên tác giả" required>
                 </div>
 
                 <div class="col form-group">
                     <label for="publisher">Nhà xuất bản*</label>
-                    <input class="form-control" type="text" placeholder="Nhập tên nhà xuất bản" required>
+                    <input class="form-control" name="publisher" type="text" placeholder="Nhập tên nhà xuất bản" required>
                 </div>
 
-                <div class="col form-group form-inline">
-                    <label for="origin" class="mr-3">Origin</label>
-                    <select class="form-control" id="origin">
-                        <option value="" style="display: none;">Vui lòng chọn</option>
-                        <option value="1">Viet Nam</option>
-                        <option value="2">USA</option>
-                        <option value="3">UK</option>
-                        <option value="4">Korea</option>
-                        <option value="5">China</option>
-                        <option value="6">Germany</option>
-                    </select>
+                <div class="col form-group">
+                    <label for="pages">Số trang*</label>
+                    <input class="form-control" name="pages" type="text" placeholder="Nhập số trang" required>
                 </div>
             </div>
     
@@ -83,19 +78,19 @@
                 <h3>Thông tin bán hàng</h3>
                 <div class="col form-group">
                     <label for="price">Giá*</label>
-                    <input class="form-control" type="text" placeholder="Nhập giá sản phẩm. Đơn vị 'VND'" required>
+                    <input class="form-control" name="price" type="text" placeholder="Nhập giá sản phẩm. Đơn vị 'VND'" required>
                 </div>
                 <div class="col form-group">
                     <label for="stock">Kho hàng*</label>
-                    <input class="form-control" type="text" placeholder="Nhập số lượng hàng còn trong kho" required>
+                    <input class="form-control" name="stock" type="text" placeholder="Nhập số lượng hàng còn trong kho" required>
                 </div>
             </div>
     
             <div class="col mt-2 pt-2 pb-2 bg-light" style="border: 1px solid #f3f3f3;">
                 <h3>Vận chuyển</h3>
                 <div class="col form-group">
-                    <label for="weight">Cân nặng*</label>
-                    <input class="form-control" type="text" placeholder="Đơn vị 'kg'" required>
+                    <label for="released">Nhà phát hành*</label>
+                    <input class="form-control" name="released" type="text" placeholder="Nhập tên nhà phát hành" required>
                 </div>
                 <div class="col form-group form-inline">
                     <label for="demension">Kích thước*</label>
@@ -110,34 +105,18 @@
     
             <div class="col mt-2 pt-2 pb-2 bg-light" style="border: 1px solid #f3f3f3;">
                 <h3>Thông tin khác</h3>
-                <div class="col form-group form-inline pt-2">
-                    <label for="orderFirst">Hàng đặt trước</label>
-                    <div class="form-inline ml-3">
-                        <input class="mr-2 ml-lg-5" type="radio" name="nope">
-                        <label for="_none">Không</label>
-                    </div>
-                    <div class="form-inline ml-3">
-                        <input class="ml-2 mr-2" type="radio" name="yep">
-                        <label for="_yep">Đồng ý</label>
-                    </div>
-                </div>
     
                 <div class="col form-group">
                     <label for="status" class="mr-3">Tình trạng</label>
-                    <select class="form-control" id="typeProduct">
+                    <select class="form-control" name="status" id="typeProduct">
                         <option value="" style="display: none;">Chọn trạng thái</option>
                         <option value="1">Mới</option>
                         <option value="2">Đã sử dụng</option>
                     </select>
                 </div>
-    
-                <div class="col form-group">
-                    <label for="sku">SKU sản phẩm*</label>
-                    <input class="form-control" type="text" placeholder="Nhập mã SKU sản phẩm" required>
-                </div>
             </div>
     
-            <div class="col form-group mt-2 pt-2 pb-2">
+            <div class="col form-group mt-2 pt-2 pb-2" style="border: 1px solid #f3f3f3;">
                 <button class="btn btn-info" data-toggle="modal" data-target="#cancel">Hủy</button>
                 <button type="submit" class="btn btn-success">Lưu & Hiển thị</button>
             </div>

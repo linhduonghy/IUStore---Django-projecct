@@ -7,7 +7,7 @@
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
 from datetime import datetime
-
+import json
 
 class Account(models.Model):
     # Field name made lowercase.
@@ -649,8 +649,9 @@ class Type(models.Model):
     class Meta:
 
         db_table = 'type'
-    def __str__(self):
-        return self.name
+
+    def toJSON(self):
+        return json.dumps(self.__dict__)
 
 
 class Category(models.Model):
