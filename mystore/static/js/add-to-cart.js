@@ -1,12 +1,13 @@
-$('#btnMinus').on('click', () => {
-    let qty = +($('#qtyValue').val())
-    if (qty == 1) {
-        return
-    }
-    $('#qtyValue').val(qty - 1)
+$('.qty-add').on('click', () => {
+    console.log(123);
+    let qty_value = $(this).closest('.qty-input').find('.qty-value');
+    
+    $(this).closest('')
 })
 
-$('#btnAdd').on('click', () => {
-    let qty = +($('#qtyValue').val())
-    $('#qtyValue').val(qty + 1)
+$('.qty-minus').on('click', () => {
+    let qty_value = $(this).closest('.qty-input').find('.qty-value');
+    if (+(qty_value) == 1) {
+        return
+    }
 })
