@@ -11,9 +11,7 @@ a {
 .nav-link {
     color: white !important;
 }
-.navbar {
-    background-color: #4285DE !important;
-}
+
 .search-product {
     display: flex;
     align-items: center;
@@ -203,8 +201,8 @@ a {
     text-align: center;
     margin-top: 20px;
 }
-.cart-submit-btn {
-    background-color: rgb(255, 66, 78);
+.btn-cart-submit {
+    background-color: #ff0011;
     color: #fff;
     padding: 8px 10px;
     text-align: center;
@@ -214,10 +212,13 @@ a {
     cursor: pointer;
     outline: none;
     width: 50%;
+    opacity: 0.7;
     transition: opacity 0.2s ease-in-out;
 }
-.cart-submit-btn:hover {
-    opacity: 0.8;
+.btn-cart-submit:hover {
+    opacity: 1;
+    background-color: #ff0011;
+    color: #fff;
 }
 
 .detail-item  {
@@ -517,3 +518,4 @@ a {
     display: flex;
     flex-wrap: wrap;
 }
+/* Checkout Style */

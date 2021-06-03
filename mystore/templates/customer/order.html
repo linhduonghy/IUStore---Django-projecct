@@ -1,0 +1,38 @@
+{% extends './customer_base.html' %} {% block title %}
+<title>
+    Tài khoản của tôi
+</title>
+{% endblock title %} {% block content %}
+
+
+<div class="container mt-5">
+    <h4>Đơn hàng của tôi</h4>
+    <div class="main-body bg-white p-3 mt-3">
+        <table class="table   ">
+            <thead>
+                <th>Mã đơn hàng</th>
+                <th>Ngày mua</th>
+                <th>Sản phẩm</th>
+                <th>Tổng tiền</th>
+                <th>Trạng thái đơn hàng</th>
+            </thead>
+            <tbody>
+                {% for i in 'order' %}
+                <tr class="border-bottom">
+                    <td>774523160</td>
+                    <td>31/05/2021</td>
+                    <td>Làm Bạn Thân Có Khó Không ? - Tập 3 (Tặng Kèm : 01 Postcard Gập 2 Mặt (10 x 15 cm) + 01 Bookmark)...và 01 sản phẩm khác</td>
+                    <td>177.100 ₫</td>
+                    <td>Đã hủy</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+
+
+
+</div>
+
+{% endblock content %}

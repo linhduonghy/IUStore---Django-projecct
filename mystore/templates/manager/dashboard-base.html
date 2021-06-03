@@ -1,0 +1,151 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://use.fontawesome.com/releases/v5.15.2/js/all.js" data-auto-replace-svg="nest"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Odibee+Sans&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href={% static 'css/style.css' %}>
+    <link rel="stylesheet" type="text/css" href={% static 'css/style2.css' %}>
+    {% block title %} {% endblock title %}
+
+    {% block style %}{% endblock style %}
+
+</head>
+<style>
+    .sidenav {
+        height: 100%;
+        width: 250px;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        overflow-x: hidden;
+        padding-top: 20px;
+    }
+
+    .sidenav-item {
+        padding: 6px 8px 6px 16px;
+        text-decoration: none;
+
+        color: #818181;
+        display: block;
+
+    }
+    .main{
+        margin-left: 250px;
+    }
+</style>
+
+
+<body>  
+    <div>
+        <nav class="navbar navbar-expand-sm  justify-content-center " style="background-color: white !important;  ">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                <div class="dropdown border-right ">
+                    <button class="btn dropdown-toggle" style="border-radius: 100px;"  type="button" id="dropdownMenuButton"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-user fa-2x"></i> Tài khoản
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" >
+                        <a class="dropdown-item btn " href="#">Hồ Sơ Shop</a>
+                        <a class="dropdown-item btn " href="#">Đăng Xuất</a>
+                       
+                    </div>
+                </div>
+              </li>
+              <li class="nav-item pr-5">
+                <a class="btn" href="#"><i class="far fa-2x fa-bell"></i></i></a>
+              </li>
+              
+            </ul>
+          </nav>
+        </div>
+    <div class="sidenav navbar navbar-dark ">
+
+        <ul class="navbar-nav mb-auto ">
+            <li class="nav-item sidenav-item mr-auto">
+                <a href="#" class="d-flex align-items-center justify-content-center"
+                    style="color:white; text-decoration: none;">
+                    <div class="brand h2">
+                        E-Commerce
+                    </div>
+                </a>
+            </li>
+
+            <li class=" pt-5">
+                <form class="form-inline  bg-white">
+                    <input class="form-control " type="search" placeholder="Bạn tìm gì..." aria-label="Search"
+                        style="width: 170px;">
+                    <button class="btn " type="submit"><i class="fas fa-search"></i></button>
+                </form>
+
+            </li>
+            <!-- Van chuyen -->
+            <li class=" navbar-text  mr-auto">
+                Vận chuyển
+            </li>
+            <li class="nav-item sidenav-item mr-auto">
+                <a class="nav-link " href="/mystore/shipment">Quản lý vận chuyển</a>
+            </li>
+            <li class="nav-item sidenav-item mr-auto">
+                <a class="nav-link " href="#">Giao hàng loạt</a>
+            </li>
+
+            <!-- Quan ly san pham -->
+            <li class=" navbar-text  mr-auto">
+                Quản lý bán hàng
+            </li>
+            <li class="nav-item sidenav-item mr-auto">
+                <a class="nav-link " href="/mystore/new-product">Thêm sản phẩm</a>
+            </li>
+
+            <!-- Quan ly ban hang -->
+            <li class=" navbar-text  mr-auto">
+                Quản lý bán hàng
+            </li>
+            <li class="nav-item sidenav-item mr-auto">
+                <a class="nav-link " href="/mystore/saler">Tất cả đơn hàng</a>
+            </li>
+            <li class="nav-item sidenav-item mr-auto">
+                <a class="nav-link " href="#">Thêm đơn hàng</a>
+            </li>
+            <li class="nav-item sidenav-item mr-auto">
+                <a class="nav-link " href="#">Trả hàng / hoàn tiền</a>
+            </li>
+
+            <!-- Thong ke -->
+            <li class=" navbar-text  mr-auto">
+                Dữ liệu
+            </li>
+            <li class="nav-item sidenav-item mr-auto">
+                <a class="nav-link " href="saler-statistic.html">Thống kê bán hàng</a>
+            </li>
+
+        </ul>
+
+    </div>
+    </div>
+    <div class="main">
+        
+        {% block content %} {% endblock content %}
+    </div>
+
+
+
+
+
+</body>
+
+</html>

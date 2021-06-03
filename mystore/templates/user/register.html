@@ -1,0 +1,136 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://use.fontawesome.com/releases/v5.15.2/js/all.js" data-auto-replace-svg="nest"></script>
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/logo.png' %}">
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/lan.jpg' %}">
+    <link rel="stylesheet" type="text/css" href={% static 'css/style.css' %}>
+    <link rel="stylesheet" type="text/css" href={% static 'css/style2.css' %}>
+    {% block title %} 
+        <title>Đăng kí</title>
+    {% endblock title %}
+</head>
+{% block content %}
+<!-- Main content -->
+<body class="bg-register" style="background-image: url('{% static 'images/lan.jpg'%}')">
+    <nav class="navbar navbar-light navbar-expand-lg bg-white">
+
+        <a class="navbar-brand " href="{% url 'mystore:home' %}">IUStore</a>
+        <div class="ml-auto pr-5">
+            <a class="nav-link p-1 " href="#"> <i class="fa fa-question-circle" aria-hidden="true"></i> Hỗ trợ</a>
+
+        </div>
+    </nav>
+
+    <div class="container">
+        <form action="#" method="POST" class="form-horizontal" role="form">
+            <h2>Registration</h2>
+            <div class="form-group col">
+                <small class="text-muted">(*) là các trường yêu cầu bắt buộc cần điền thông tin</small>
+            </div>
+            <div class="form-row">
+                <div class="form-group ml-1">
+                    <label for="firstName" class="col col-form-label">First Name*</label>
+                    <div class="col">
+                        <input type="text" id="firstName" placeholder="First Name" class="form-control" autofocus>
+                    </div>
+                </div>
+            
+                <div>
+                    <label for="lastName" class="col col-form-label">Last Name*</label>
+                    <div class="col">
+                        <input type="text" id="lastName" placeholder="Last Name" class="form-control" autofocus>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="email" class="col col-form-label">Email* </label>
+                <div class="col-sm-11">
+                    <input type="email" id="email" placeholder="Email" class="form-control" name="email">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="password" class="col col-form-label">Password*</label>
+                <div class="col-sm-11">
+                    <input type="password" id="password" placeholder="Password" class="form-control">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="password" class="col col-form-label">Confirm Password*</label>
+                <div class="col-sm-11">
+                    <input type="password" id="password" placeholder="Password" class="form-control">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="birthDate" class="col col-form-label">Date of Birth*</label>
+                <div class="col-sm-11">
+                    <input type="date" id="birthDate" class="form-control">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="phoneNumber" class="col col-form-label">Phone number*</label>
+                <div class="col-sm-11">
+                    <input type="phoneNumber" id="phoneNumber" placeholder="Phone number" class="form-control">
+                </div>
+            </div>
+
+
+            <label for="address" class="col col-form-label">Address</label>
+            <div class="form-row">
+                <div class="ml-1">
+                    <label for="province" class="col col-form-label">Province*</label>
+                    <div class="col">
+                        <input type="text" id="province" placeholder="Province" class="form-control" autofocus>
+                    </div>
+                </div>
+
+                <div class="ml-1">
+                    <label for="country" class="col col-form-label">Country*</label>
+                    <div class="col">
+                        <input type="text" id="country" placeholder="Country" class="form-control" autofocus>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col col-form-label">Gender*</label>
+                <div class="col form-row">
+                    <div class="row">
+                        <div class="form-inline col ml-1" style="width: 100px;">
+                            <input type="radio" id="maleRadio" value="Male">
+                            <label class="ml-1">Male</label>
+                        </div>
+                        <div class="form-inline col ml-1" style="width: 100px;">
+                            <input type="radio" id="femaleRadio" value="Female">
+                            <label class="ml-1">Female</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="form-inline col">
+                    <input class="mr-1" type="checkbox" id="accept" required>
+                    <span>Tôi đồng ý với các điều khoản và chính sách của cửa hàng.</span>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Register</button>
+
+            <div class="form-group mt-3">
+                <div class="form-inline col">
+                    <span>Nếu đã có tài khoản, hãy <a href="">đăng nhập</a> .</span>
+                </div>
+            </div>
+        </form> <!-- /form -->
+    </div>
+</body>
+{% endblock content %}

@@ -1,0 +1,37 @@
+{% extends 'dashboard-base.html' %} {% block title %}
+<title>Thêm mới sản phẩm</title>
+{% endblock title %}
+{% block content %}
+<!-- Main content -->
+<body>
+    <div class="container bg-light pt-2 pb-2">
+        <div class="col mt-3">
+            <h3>Thêm mới 1 sản phẩm</h3>
+        </div>
+
+        <form action="" method="">
+            <div class="col form-group" style="padding: 20px 20px 10px 20px;">
+                <label for="nameProduct" style="font-size: 18px;">Tên sản phẩm</label>
+                <input class="form-control" type="text" placeholder="Nhập tên sản phẩm" required>
+                <p class="form-text text-muted">
+                    <small>Tên sản phẩm tối thiểu 10 kí tự</small>
+                </p>
+            </div>
+    
+            <div class="col form-group form-inline">
+                <label for="typeProdcut" class="mr-3">Loại sản phẩm</label>
+                <select class="form-control" id="typeProduct">
+                    <option value="" style="display: none;">Vui lòng chọn</option>
+                    <option value="1">Sách</option>
+                    <option value="2">Đồ điện tử</option>
+                    <option value="3">Quần áo</option>
+                </select>
+            </div>
+
+            <div class="col form-group">
+                <button type="submint" class="btn btn-info">Tiếp tục</button>
+            </div>
+        </form>
+    </div>
+</body>
+{% endblock content %}

@@ -15,7 +15,7 @@ class Account(models.Model):
     password = models.CharField(db_column='Password', max_length=255, blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        
+        managed = False
         db_table = 'account'
 
 
@@ -28,7 +28,7 @@ class Address(models.Model):
     address = models.CharField(db_column='Address', max_length=255, blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        
+        managed = False
         db_table = 'address'
 
 
@@ -38,7 +38,7 @@ class Bank(models.Model):
     logo = models.CharField(db_column='Logo', max_length=255, blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        
+        managed = False
         db_table = 'bank'
 
 
@@ -50,7 +50,7 @@ class Bill(models.Model):
     address = models.CharField(db_column='Address', max_length=255, blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        
+        managed = False
         db_table = 'bill'
 
 
@@ -65,7 +65,7 @@ class Book(models.Model):
     released_company = models.CharField(db_column='Released_company', max_length=255, blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        
+        managed = False
         db_table = 'book'
 
 
@@ -74,7 +74,7 @@ class BussinessStaff(models.Model):
     memberid = models.ForeignKey('Member', models.DO_NOTHING, db_column='memberID')  # Field name made lowercase.
 
     class Meta:
-        
+        managed = False
         db_table = 'bussiness_staff'
 
 
@@ -84,7 +84,7 @@ class Cart(models.Model):
     is_order = models.TextField(db_column='Is_order')  # Field name made lowercase. This field type is a guess.
 
     class Meta:
-        
+        managed = False
         db_table = 'cart'
 
 
@@ -95,7 +95,7 @@ class CartItem(models.Model):
     qty = models.IntegerField(db_column='Qty')  # Field name made lowercase.
 
     class Meta:
-        
+        managed = False
         db_table = 'cart_item'
 
 
@@ -104,16 +104,16 @@ class Category(models.Model):
     name = models.CharField(db_column='Name', max_length=255, blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        
+        managed = False
         db_table = 'category'
 
 
 class CategoryProduct(models.Model):
-    categoryid = models.OneToOneField(Category, models.DO_NOTHING,db_column='CategoryID', primary_key=True)  # Field name made lowercase.
+    categoryid = models.OneToOneField(Category, models.DO_NOTHING, db_column='CategoryID', primary_key=True)  # Field name made lowercase.
     productid = models.ForeignKey('Product', models.DO_NOTHING, db_column='ProductID')  # Field name made lowercase.
 
     class Meta:
-        
+        managed = False
         db_table = 'category_product'
         unique_together = (('categoryid', 'productid'),)
 
@@ -127,7 +127,7 @@ class Clothes(models.Model):
     color = models.CharField(db_column='Color', max_length=255, blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        
+        managed = False
         db_table = 'clothes'
 
 
@@ -136,7 +136,7 @@ class ClothesColor(models.Model):
     colorid = models.IntegerField(db_column='ColorID')  # Field name made lowercase.
 
     class Meta:
-        
+        managed = False
         db_table = 'clothes_color'
         unique_together = (('clothesid', 'colorid'),)
 
@@ -146,7 +146,7 @@ class ClothesSize(models.Model):
     sizeid = models.ForeignKey('Size', models.DO_NOTHING, db_column='SizeID')  # Field name made lowercase.
 
     class Meta:
-        
+        managed = False
         db_table = 'clothes_size'
         unique_together = (('clothesid', 'sizeid'),)
 
@@ -157,7 +157,7 @@ class Comment(models.Model):
     updated_date = models.IntegerField(db_column='Updated_date', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        
+        managed = False
         db_table = 'comment'
 
 
@@ -165,7 +165,7 @@ class Customer(models.Model):
     id = models.AutoField(db_column='ID', primary_key=True)  # Field name made lowercase.
 
     class Meta:
-        
+        managed = False
         db_table = 'customer'
 
 
@@ -178,7 +178,7 @@ class DeliveryAddress(models.Model):
     phone = models.CharField(db_column='Phone', max_length=255, blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        
+        managed = False
         db_table = 'delivery_address'
 
 
@@ -190,7 +190,7 @@ class Discount(models.Model):
     to_date = models.IntegerField(db_column='To_date', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        
+        managed = False
         db_table = 'discount'
 
 
@@ -204,7 +204,7 @@ class Electro(models.Model):
     color = models.CharField(db_column='Color', max_length=255, blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        
+        managed = False
         db_table = 'electro'
 
 
@@ -213,7 +213,7 @@ class ElectroColor(models.Model):
     colorid = models.IntegerField(db_column='ColorID')  # Field name made lowercase.
 
     class Meta:
-        
+        managed = False
         db_table = 'electro_color'
         unique_together = (('electroid', 'colorid'),)
 
@@ -225,7 +225,7 @@ class Event(models.Model):
     to_date = models.IntegerField(db_column='To_date', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        
+        managed = False
         db_table = 'event'
 
 
@@ -238,7 +238,7 @@ class Feedback(models.Model):
     created_date = models.IntegerField(db_column='Created_date', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        
+        managed = False
         db_table = 'feedback'
 
 
@@ -249,7 +249,7 @@ class Image(models.Model):
     path = models.CharField(db_column='Path', max_length=255, blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        
+        managed = False
         db_table = 'image'
 
 
@@ -258,7 +258,7 @@ class ImportFile(models.Model):
     created_date = models.IntegerField(db_column='Created_date', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        
+        managed = False
         db_table = 'import_file'
 
 
@@ -269,7 +269,7 @@ class ImportProduct(models.Model):
     qty = models.IntegerField(db_column='Qty')  # Field name made lowercase.
 
     class Meta:
-        
+        managed = False
         db_table = 'import_product'
 
 
@@ -280,7 +280,7 @@ class Item(models.Model):
     price = models.CharField(db_column='Price', max_length=255, blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        
+        managed = False
         db_table = 'item'
 
 
@@ -295,7 +295,7 @@ class Member(models.Model):
     avatar = models.CharField(db_column='Avatar', max_length=255, blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        
+        managed = False
         db_table = 'member'
 
 
@@ -305,7 +305,7 @@ class Order(models.Model):
     created_date = models.IntegerField(db_column='Created_date', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        
+        managed = False
         db_table = 'order'
 
 
@@ -317,7 +317,7 @@ class OrderHistory(models.Model):
     time = models.IntegerField(db_column='Time', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        
+        managed = False
         db_table = 'order_history'
 
 
@@ -327,7 +327,7 @@ class Payment(models.Model):
     orderid = models.ForeignKey(Order, models.DO_NOTHING, db_column='OrderID')  # Field name made lowercase.
 
     class Meta:
-        
+        managed = False
         db_table = 'payment'
 
 
@@ -338,7 +338,7 @@ class PaymentDetail(models.Model):
     card = models.CharField(db_column='Card', max_length=255, blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        
+        managed = False
         db_table = 'payment_detail'
 
 
@@ -347,7 +347,7 @@ class PaymentMethod(models.Model):
     method_name = models.CharField(db_column='Method_name', max_length=255, blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        
+        managed = False
         db_table = 'payment_method'
 
 
@@ -356,7 +356,7 @@ class PaymentmethodBank(models.Model):
     bankid = models.ForeignKey(Bank, models.DO_NOTHING, db_column='bankID')  # Field name made lowercase.
 
     class Meta:
-        
+        managed = False
         db_table = 'paymentmethod_bank'
         unique_together = (('paymentmethodid', 'bankid'),)
 
@@ -368,7 +368,7 @@ class Permission(models.Model):
     description = models.CharField(db_column='Description', max_length=255, blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        
+        managed = False
         db_table = 'permission'
 
 
@@ -381,7 +381,7 @@ class Product(models.Model):
     qty_in_stock = models.IntegerField(db_column='Qty_in_stock')  # Field name made lowercase.
 
     class Meta:
-        
+        managed = False
         db_table = 'product'
 
 
@@ -393,7 +393,7 @@ class Respone(models.Model):
     updated_date = models.IntegerField(db_column='Updated_date', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        
+        managed = False
         db_table = 'respone'
 
 
@@ -402,7 +402,7 @@ class SalerStaff(models.Model):
     memberid = models.ForeignKey(Member, models.DO_NOTHING, db_column='memberID')  # Field name made lowercase.
 
     class Meta:
-        
+        managed = False
         db_table = 'saler_staff'
 
 
@@ -412,7 +412,7 @@ class Shipment(models.Model):
     fee = models.FloatField(db_column='Fee')  # Field name made lowercase.
 
     class Meta:
-        
+        managed = False
         db_table = 'shipment'
 
 
@@ -424,7 +424,7 @@ class ShipmentMethod(models.Model):
     fee = models.FloatField(db_column='Fee')  # Field name made lowercase.
 
     class Meta:
-        
+        managed = False
         db_table = 'shipment_method'
 
 
@@ -432,7 +432,7 @@ class Shipper(models.Model):
     id = models.AutoField(db_column='ID', primary_key=True)  # Field name made lowercase.
 
     class Meta:
-        
+        managed = False
         db_table = 'shipper'
 
 
@@ -446,7 +446,7 @@ class Shop(models.Model):
     desc = models.CharField(db_column='Desc', max_length=255, blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        
+        managed = False
         db_table = 'shop'
 
 
@@ -456,7 +456,7 @@ class Size(models.Model):
     weight = models.FloatField(db_column='Weight')  # Field name made lowercase.
 
     class Meta:
-        
+        managed = False
         db_table = 'size'
 
 
@@ -467,7 +467,7 @@ class Tax(models.Model):
     value = models.CharField(db_column='Value', max_length=255, blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        
+        managed = False
         db_table = 'tax'
 
 
@@ -477,7 +477,7 @@ class Warehouse(models.Model):
     city = models.CharField(db_column='City', max_length=255, blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        
+        managed = False
         db_table = 'warehouse'
 
 
@@ -487,5 +487,5 @@ class WarehouseStaff(models.Model):
     memberid = models.ForeignKey(Member, models.DO_NOTHING, db_column='memberID')  # Field name made lowercase.
 
     class Meta:
-        
+        managed = False
         db_table = 'warehouse_staff'

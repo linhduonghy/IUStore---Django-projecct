@@ -81,7 +81,7 @@ DATABASES = {
     },
     'mysql_db': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'tmdt_store',
+        'NAME': 'iustore',
         'USER': 'root',
         'PASSWORD': 'linhdv',
         'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
