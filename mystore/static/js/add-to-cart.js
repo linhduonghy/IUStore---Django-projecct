@@ -1,13 +1,37 @@
-$('.qty-add').on('click', () => {
-    console.log(123);
+
+
+// 
+$('.qty-add').click(function() {
     let qty_value = $(this).closest('.qty-input').find('.qty-value');
     
-    $(this).closest('')
-})
+    qty_value.val(+(qty_value.val()) + 1)
 
-$('.qty-minus').on('click', () => {
+    let item_id = $(this).closest('.qty-input').find('.item-id').val();
+    addToCart(item_id, 1)
+})
+$('.qty-minus').click(function() {
     let qty_value = $(this).closest('.qty-input').find('.qty-value');
-    if (+(qty_value) == 1) {
+    
+    if (+(qty_value.val()) == 1) {
         return
     }
+
+    let item_id = $(this).closest('.qty-input').find('.item-id').val();
+    addToCart(item_id, -1)
+    qty_value.val(+(qty_value.val()) - 1)
 })
+
+const addToCart = (item_id, qty) => {
+    $.ajax({
+        url: "http://127.0.0.1:8000/mystore/add-to-cart",
+        type: 'GET',
+        data: {
+            'item_id': `${item_id}`,
+            'qty': qty
+        },
+        dataType: 'json', 
+        success: function (res) {
+            console.log(res);                    
+        }
+    });
+}

@@ -44,19 +44,18 @@
                 </div>
                 <div class="add-to-cart">
                     <div class="qty">
-                        <span style="color: rgb(36, 36, 36);"> Số Lượng </span>
                         <div class="qty-input">
-                            <button class="qty-btn" style="border-right: none;" id="btnMinus">
+                            <button class="qty-btn qty-minus" style="border-right: none;">
                                 <img src="{% static 'images/icons-remove.svg' %}" alt="icon remove">
                             </button>
-                            <input type="text" value="1" class="qty-value" id="qtyValue">
-                            <button class="qty-btn" style="border-left: none;" id="btnAdd">
+                            <input type="text" value="1" class="qty-value">
+                            <button class="qty-btn qty-add" style="border-left: none;">
                                 <img src="{% static 'images/icons-add.svg' %}" alt="icon remove">
                             </button>
                         </div>
                     </div>
                     <div>
-                        <button class="btn btn-add-to-cart">Chọn Mua</button>
+                        <button class="btn btn-add-to-cart" id="addToCart">Chọn Mua</button>
                     </div>
                 </div>
             </div>
@@ -219,5 +218,21 @@
             </div>
         </div>
     </div>
+    <script>
+        $('#addToCart').click(() => {
+            $.ajax({
+                url: "http://127.0.0.1:8000/mystore/add-to-cart",
+                type: 'GET',
+                data: {
+                    'item_id': "{{request.resolver_match.kwargs.item_id}}",
+                    'qty': 1
+                },
+                dataType: 'json', 
+                success: function (res) {
+                    console.log(res);                    
+                }
+            });
+        })
+    </script>
     <script src="{% static 'js/add-to-cart.js' %}"></script>
     {% endblock content %}

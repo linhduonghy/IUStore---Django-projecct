@@ -12,11 +12,9 @@ from datetime import datetime
 class Account(models.Model):
     # Field name made lowercase.
     id = models.AutoField(db_column='ID', primary_key=True)
+
     # Field name made lowercase.
-    memberid = models.ForeignKey(
-        'Member', models.DO_NOTHING, db_column='memberID')
-    # Field name made lowercase.
-    Permissionid = models.ForeignKey(
+    permission = models.ForeignKey(
         'Permission', models.DO_NOTHING, db_column='PermissionID')
     # Field name made lowercase.
     username = models.CharField(
@@ -25,6 +23,9 @@ class Account(models.Model):
     password = models.CharField(
         db_column='Password', max_length=255, blank=True, null=True)
 
+    def __str__(self):
+        return self.username
+    
     class Meta:
 
         db_table = 'account'
@@ -71,7 +72,7 @@ class Bill(models.Model):
     # Field name made lowercase.
     id = models.AutoField(db_column='ID', primary_key=True)
     # Field name made lowercase.
-    orderid = models.ForeignKey(
+    order = models.ForeignKey(
         'Order', models.DO_NOTHING, db_column='OrderID')
     # Field name made lowercase.
     company = models.CharField(
@@ -88,40 +89,11 @@ class Bill(models.Model):
         db_table = 'bill'
 
 
-class Book(models.Model):
-    # Field name made lowercase.
-    id = models.AutoField(db_column='ID', primary_key=True)
-    # Field name made lowercase.
-    productid = models.ForeignKey(
-        'Product', models.DO_NOTHING, db_column='ProductID')
-    # Field name made lowercase.
-    publisher = models.CharField(
-        db_column='Publisher', max_length=255, blank=True, null=True)
-    # Field name made lowercase.
-    published_date = models.DateField(
-        db_column='Published_date', blank=True, null=True)
-    # Field name made lowercase.
-    size = models.CharField(
-        db_column='Size', max_length=255, blank=True, null=True)
-    # Field name made lowercase.
-    cover = models.CharField(
-        db_column='Cover', max_length=255, blank=True, null=True)
-    # Field name made lowercase.
-    pages = models.IntegerField(db_column='Pages', blank=True, null=True)
-    # Field name made lowercase.
-    released_company = models.CharField(
-        db_column='Released_company', max_length=255, blank=True, null=True)
-
-    class Meta:
-
-        db_table = 'book'
-
-
 class BussinessStaff(models.Model):
     # Field name made lowercase.
     id = models.AutoField(db_column='ID', primary_key=True)
     # Field name made lowercase.
-    memberid = models.ForeignKey(
+    member = models.ForeignKey(
         'Member', models.DO_NOTHING, db_column='memberID')
 
     class Meta:
@@ -132,14 +104,13 @@ class BussinessStaff(models.Model):
 class Cart(models.Model):
     # Field name made lowercase.
     id = models.AutoField(db_column='ID', primary_key=True)
-    # Field name made lowercase.
-    orderid = models.ForeignKey(
-        'Order', models.DO_NOTHING, db_column='OrderID')
-    customerid = models.ForeignKey(
+    customer = models.ForeignKey(
         'Customer', models.DO_NOTHING, db_column='CustomerID', null=True)
     # Field name made lowercase. This field type is a guess.
     is_order = models.TextField(db_column='Is_order')
 
+    def __str__(self):
+        return str(self.id)
     class Meta:
 
         db_table = 'cart'
@@ -149,91 +120,15 @@ class CartItem(models.Model):
     # Field name made lowercase.
     id = models.AutoField(db_column='ID', primary_key=True)
     # Field name made lowercase.
-    cartid = models.ForeignKey(
+    cart = models.ForeignKey(
         Cart, on_delete=models.CASCADE, db_column='CartID')
     # Field name made lowercase.
-    itemid = models.ForeignKey('Item', models.DO_NOTHING, db_column='ItemID')
+    item = models.ForeignKey('Item', models.CASCADE, db_column='ItemID')
     qty = models.IntegerField(db_column='Qty')  # Field name made lowercase.
 
     class Meta:
 
         db_table = 'cart_item'
-
-
-class Category(models.Model):
-    # Field name made lowercase.
-    id = models.AutoField(db_column='ID', primary_key=True)
-    # Field name made lowercase.
-    name = models.CharField(
-        db_column='Name', max_length=255, blank=True, null=True)
-
-    class Meta:
-
-        db_table = 'category'
-
-
-class CategoryProduct(models.Model):
-    # Field name made lowercase.
-    categoryid = models.OneToOneField(
-        Category, models.DO_NOTHING, db_column='CategoryID', primary_key=True)
-    # Field name made lowercase.
-    productid = models.ForeignKey(
-        'Product', models.DO_NOTHING, db_column='ProductID')
-
-    class Meta:
-
-        db_table = 'category_product'
-        unique_together = (('categoryid', 'productid'),)
-
-
-class Clothes(models.Model):
-    # Field name made lowercase.
-    id = models.AutoField(db_column='ID', primary_key=True)
-    # Field name made lowercase.
-    productid = models.ForeignKey(
-        'Product', models.DO_NOTHING, db_column='ProductID')
-    # Field name made lowercase.
-    material = models.CharField(
-        db_column='Material', max_length=255, blank=True, null=True)
-    # Field name made lowercase.
-    brand = models.CharField(
-        db_column='Brand', max_length=255, blank=True, null=True)
-    # Field name made lowercase.
-    origin = models.CharField(
-        db_column='Origin', max_length=255, blank=True, null=True)
-    # Field name made lowercase.
-    color = models.CharField(
-        db_column='Color', max_length=255, blank=True, null=True)
-
-    class Meta:
-
-        db_table = 'clothes'
-
-
-class ClothesColor(models.Model):
-    # Field name made lowercase.
-    clothesid = models.OneToOneField(
-        Clothes, models.DO_NOTHING, db_column='ClothesID', primary_key=True)
-    # Field name made lowercase.
-    colorid = models.IntegerField(db_column='ColorID')
-
-    class Meta:
-
-        db_table = 'clothes_color'
-        unique_together = (('clothesid', 'colorid'),)
-
-
-class ClothesSize(models.Model):
-    # Field name made lowercase.
-    clothesid = models.OneToOneField(
-        Clothes, models.DO_NOTHING, db_column='ClothesID', primary_key=True)
-    # Field name made lowercase.
-    sizeid = models.ForeignKey('Size', models.DO_NOTHING, db_column='SizeID')
-
-    class Meta:
-
-        db_table = 'clothes_size'
-        unique_together = (('clothesid', 'sizeid'),)
 
 
 class Comment(models.Model):
@@ -254,9 +149,11 @@ class Comment(models.Model):
 class Customer(models.Model):
     # Field name made lowercase.
     id = models.AutoField(db_column='ID', primary_key=True)
-    memberid = models.ForeignKey(
+    member = models.ForeignKey(
         'Member', models.DO_NOTHING, db_column='memberID')
 
+    def __str__(self):
+        return self.member.name
     class Meta:
 
         db_table = 'customer'
@@ -266,13 +163,13 @@ class DeliveryAddress(models.Model):
     # Field name made lowercase.
     id = models.AutoField(db_column='ID', primary_key=True)
     # Field name made lowercase.
-    orderid = models.ForeignKey(
+    order = models.ForeignKey(
         'Order', models.DO_NOTHING, db_column='OrderID')
     # Field name made lowercase.
-    addressid = models.ForeignKey(
+    address = models.ForeignKey(
         Address, models.DO_NOTHING, db_column='AddressID')
     # Field name made lowercase.
-    customerid = models.ForeignKey(
+    customer = models.ForeignKey(
         Customer, models.DO_NOTHING, db_column='CustomerID')
     # Field name made lowercase.
     receiver = models.CharField(
@@ -282,15 +179,13 @@ class DeliveryAddress(models.Model):
         db_column='Phone', max_length=255, blank=True, null=True)
 
     class Meta:
-
         db_table = 'delivery_address'
-
 
 class Discount(models.Model):
     # Field name made lowercase.
     id = models.AutoField(db_column='ID', primary_key=True)
     # Field name made lowercase.
-    itemid = models.ForeignKey('Item', models.DO_NOTHING, db_column='ItemID')
+    item = models.ForeignKey('Item', models.DO_NOTHING, db_column='ItemID')
     # Field name made lowercase.
     discount_value = models.FloatField(db_column='Discount_value')
     # Field name made lowercase.
@@ -302,46 +197,6 @@ class Discount(models.Model):
     class Meta:
 
         db_table = 'discount'
-
-
-class Electro(models.Model):
-    # Field name made lowercase.
-    id = models.AutoField(db_column='ID', primary_key=True)
-    # Field name made lowercase.
-    productid = models.ForeignKey(
-        'Product', models.DO_NOTHING, db_column='ProductID')
-    # Field name made lowercase.
-    brand = models.CharField(
-        db_column='Brand', max_length=255, blank=True, null=True)
-    # Field name made lowercase.
-    model = models.CharField(
-        db_column='Model', max_length=255, blank=True, null=True)
-    # Field name made lowercase.
-    origin = models.CharField(
-        db_column='Origin', max_length=255, blank=True, null=True)
-    # Field name made lowercase.
-    size = models.CharField(
-        db_column='Size', max_length=255, blank=True, null=True)
-    # Field name made lowercase.
-    color = models.CharField(
-        db_column='Color', max_length=255, blank=True, null=True)
-
-    class Meta:
-
-        db_table = 'electro'
-
-
-class ElectroColor(models.Model):
-    # Field name made lowercase.
-    electroid = models.OneToOneField(
-        Electro, models.DO_NOTHING, db_column='ElectroID', primary_key=True)
-    # Field name made lowercase.
-    colorid = models.IntegerField(db_column='ColorID')
-
-    class Meta:
-
-        db_table = 'electro_color'
-        unique_together = (('electroid', 'colorid'),)
 
 
 class Event(models.Model):
@@ -365,9 +220,9 @@ class Feedback(models.Model):
     # Field name made lowercase.
     id = models.AutoField(db_column='ID', primary_key=True)
     # Field name made lowercase.
-    itemid = models.ForeignKey('Item', models.DO_NOTHING, db_column='ItemID')
+    item = models.ForeignKey('Item', models.DO_NOTHING, db_column='ItemID')
     # Field name made lowercase.
-    commentid = models.ForeignKey(
+    comment = models.ForeignKey(
         Comment, models.DO_NOTHING, db_column='CommentID')
     # Field name made lowercase.
     liked = models.IntegerField(db_column='Liked')
@@ -386,7 +241,7 @@ class Image(models.Model):
     # Field name made lowercase.
     id = models.AutoField(db_column='ID', primary_key=True)
     # Field name made lowercase.
-    productid = models.ForeignKey(
+    product = models.ForeignKey(
         'Product', models.DO_NOTHING, db_column='ProductID')
     # Field name made lowercase.
     caption = models.CharField(
@@ -416,10 +271,10 @@ class ImportProduct(models.Model):
     # Field name made lowercase.
     id = models.AutoField(db_column='ID', primary_key=True)
     # Field name made lowercase.
-    productid = models.ForeignKey(
+    product = models.ForeignKey(
         'Product', models.DO_NOTHING, db_column='ProductID')
     # Field name made lowercase.
-    import_fileid = models.ForeignKey(
+    import_file = models.ForeignKey(
         ImportFile, models.DO_NOTHING, db_column='Import_fileID')
     qty = models.IntegerField(db_column='Qty')  # Field name made lowercase.
 
@@ -432,7 +287,7 @@ class Item(models.Model):
     # Field name made lowercase.
     id = models.AutoField(db_column='ID', primary_key=True)
     # Field name made lowercase.
-    productid = models.ForeignKey(
+    product = models.ForeignKey(
         'Product', models.DO_NOTHING, db_column='ProductID')
     # Field name made lowercase.
     name = models.CharField(
@@ -440,6 +295,9 @@ class Item(models.Model):
     # Field name made lowercase.
     price = models.CharField(
         db_column='Price', max_length=255, blank=True, null=True)
+
+    def __str__(self):
+        return self.name
 
     class Meta:
 
@@ -450,8 +308,11 @@ class Member(models.Model):
     # Field name made lowercase.
     id = models.AutoField(db_column='ID', primary_key=True)
 
-    addressid = models.ForeignKey(
-        Address, models.DO_NOTHING, db_column='AddressID')
+    account = models.ForeignKey(
+        Account, models.DO_NOTHING, db_column='AccountID', null=True)
+
+    address = models.ForeignKey(
+        Address, models.DO_NOTHING, db_column='AddressID', null=True)
     # Field name made lowercase.
     name = models.CharField(
         db_column='Name', max_length=255, blank=True, null=True)
@@ -469,6 +330,9 @@ class Member(models.Model):
     avatar = models.CharField(
         db_column='Avatar', max_length=255, blank=True, null=True)
 
+    def __str__(self):
+        return self.name
+        
     class Meta:
 
         db_table = 'member'
@@ -478,7 +342,10 @@ class Order(models.Model):
     # Field name made lowercase.
     id = models.AutoField(db_column='ID', primary_key=True)
     # Field name made lowercase.
-    shipmentid = models.ForeignKey(
+    cart = models.ForeignKey(
+        'Cart', models.DO_NOTHING, db_column='CartID', null=True, blank=True)
+    # Field name made lowercase.
+    shipment = models.ForeignKey(
         'Shipment', models.DO_NOTHING, db_column='ShipmentID')
     # Field name made lowercase.
     created_date = models.DateTimeField(
@@ -493,10 +360,10 @@ class OrderHistory(models.Model):
     # Field name made lowercase.
     id = models.AutoField(db_column='ID', primary_key=True)
     # Field name made lowercase.
-    saler_staffid = models.ForeignKey(
+    saler_staff = models.ForeignKey(
         'SalerStaff', models.DO_NOTHING, db_column='Saler_staffID')
     # Field name made lowercase.
-    orderid = models.ForeignKey(Order, models.DO_NOTHING, db_column='OrderID')
+    order = models.ForeignKey(Order, models.DO_NOTHING, db_column='OrderID')
     # Field name made lowercase.
     status = models.CharField(
         db_column='Status', max_length=255, blank=True, null=True)
@@ -512,10 +379,10 @@ class Payment(models.Model):
     # Field name made lowercase.
     id = models.AutoField(db_column='ID', primary_key=True)
     # Field name made lowercase.
-    paymentmethodid = models.ForeignKey(
+    paymentmethod = models.ForeignKey(
         'PaymentMethod', models.DO_NOTHING, db_column='PaymentMethodID')
     # Field name made lowercase.
-    orderid = models.ForeignKey(Order, models.DO_NOTHING, db_column='OrderID')
+    order = models.ForeignKey(Order, models.DO_NOTHING, db_column='OrderID')
 
     class Meta:
 
@@ -526,10 +393,10 @@ class PaymentDetail(models.Model):
     # Field name made lowercase.
     id = models.AutoField(db_column='ID', primary_key=True)
     # Field name made lowercase.
-    customerid = models.ForeignKey(
+    customer = models.ForeignKey(
         Customer, models.DO_NOTHING, db_column='CustomerID')
     # Field name made lowercase.
-    bankid = models.ForeignKey(Bank, models.DO_NOTHING, db_column='bankID')
+    bank = models.ForeignKey(Bank, models.DO_NOTHING, db_column='bankID')
     # Field name made lowercase.
     card = models.CharField(
         db_column='Card', max_length=255, blank=True, null=True)
@@ -553,15 +420,15 @@ class PaymentMethod(models.Model):
 
 class PaymentmethodBank(models.Model):
     # Field name made lowercase.
-    paymentmethodid = models.OneToOneField(
+    paymentmethod = models.OneToOneField(
         PaymentMethod, models.DO_NOTHING, db_column='PaymentMethodID', primary_key=True)
     # Field name made lowercase.
-    bankid = models.ForeignKey(Bank, models.DO_NOTHING, db_column='bankID')
+    bank = models.ForeignKey(Bank, models.DO_NOTHING, db_column='bankID')
 
     class Meta:
 
         db_table = 'paymentmethod_bank'
-        unique_together = (('paymentmethodid', 'bankid'),)
+        unique_together = (('paymentmethod', 'bank'),)
 
 
 class Permission(models.Model):
@@ -583,7 +450,7 @@ class Product(models.Model):
     # Field name made lowercase.
     id = models.AutoField(db_column='ID', primary_key=True)
     # Field name made lowercase.
-    warehouseid = models.ForeignKey(
+    warehouse = models.ForeignKey(
         'Warehouse', models.DO_NOTHING, db_column='WarehouseID')
     # Field name made lowercase.
     name = models.CharField(
@@ -594,17 +461,21 @@ class Product(models.Model):
         db_column='Description', max_length=255, blank=True, null=True)
     # Field name made lowercase.
     qty_in_stock = models.IntegerField(db_column='Qty_in_stock')
+    type = models.ForeignKey(
+        'Type', models.DO_NOTHING, db_column='TypeID',null=True)
 
     class Meta:
 
         db_table = 'product'
+    def __str__(self):
+        return self.name
 
 
 class Respone(models.Model):
     # Field name made lowercase.
     id = models.AutoField(db_column='ID', primary_key=True)
     # Field name made lowercase.
-    commentid = models.ForeignKey(
+    comment = models.ForeignKey(
         Comment, models.DO_NOTHING, db_column='CommentID')
     # Field name made lowercase.
     content = models.CharField(
@@ -625,7 +496,7 @@ class SalerStaff(models.Model):
     # Field name made lowercase.
     id = models.AutoField(db_column='ID', primary_key=True)
     # Field name made lowercase.
-    memberid = models.ForeignKey(
+    member = models.ForeignKey(
         Member, models.DO_NOTHING, db_column='memberID')
 
     class Meta:
@@ -637,7 +508,7 @@ class Shipment(models.Model):
     # Field name made lowercase.
     id = models.AutoField(db_column='ID', primary_key=True)
     # Field name made lowercase.
-    shipperid = models.ForeignKey(
+    shipper = models.ForeignKey(
         'Shipper', models.DO_NOTHING, db_column='ShipperID')
     fee = models.FloatField(db_column='Fee')  # Field name made lowercase.
 
@@ -650,7 +521,7 @@ class ShipmentMethod(models.Model):
     # Field name made lowercase.
     id = models.AutoField(db_column='ID', primary_key=True)
     # Field name made lowercase.
-    shipmentid = models.ForeignKey(
+    shipment = models.ForeignKey(
         Shipment, models.DO_NOTHING, db_column='ShipmentID')
     # Field name made lowercase.
     method_name = models.CharField(
@@ -667,7 +538,7 @@ class ShipmentMethod(models.Model):
 class Shipper(models.Model):
     # Field name made lowercase.
     id = models.AutoField(db_column='ID', primary_key=True)
-    memberid = models.ForeignKey(
+    member = models.ForeignKey(
         Member, models.DO_NOTHING, db_column='memberID')
 
     class Meta:
@@ -702,25 +573,11 @@ class Shop(models.Model):
         db_table = 'shop'
 
 
-class Size(models.Model):
-    # Field name made lowercase.
-    id = models.AutoField(db_column='ID', primary_key=True)
-    # Field name made lowercase.
-    size = models.CharField(
-        db_column='Size', max_length=255, blank=True, null=True)
-    # Field name made lowercase.
-    weight = models.FloatField(db_column='Weight')
-
-    class Meta:
-
-        db_table = 'size'
-
-
 class Tax(models.Model):
     # Field name made lowercase.
     id = models.AutoField(db_column='ID', primary_key=True)
     # Field name made lowercase.
-    productid = models.ForeignKey(
+    product = models.ForeignKey(
         Product, models.DO_NOTHING, db_column='ProductID')
     # Field name made lowercase.
     no = models.CharField(db_column='No', max_length=255,
@@ -748,15 +605,18 @@ class Warehouse(models.Model):
 
         db_table = 'warehouse'
 
+    def __str__(self):
+        return self.name
+
 
 class WarehouseStaff(models.Model):
     # Field name made lowercase.
     id = models.AutoField(db_column='ID', primary_key=True)
     # Field name made lowercase.
-    import_fileid = models.ForeignKey(
+    import_file = models.ForeignKey(
         ImportFile, models.DO_NOTHING, db_column='Import_fileID')
     # Field name made lowercase.
-    memberid = models.ForeignKey(
+    member = models.ForeignKey(
         Member, models.DO_NOTHING, db_column='memberID')
 
     class Meta:
@@ -766,7 +626,7 @@ class WarehouseStaff(models.Model):
 
 class Notification(models.Model):
     id = models.AutoField(db_column='ID', primary_key=True)
-    customerid = models.ForeignKey(
+    customer = models.ForeignKey(
         'Customer', on_delete=models.CASCADE, db_column="customerID")
     content = models.CharField(db_column='content', max_length=255, blank=True, null=True
                                )
@@ -775,3 +635,71 @@ class Notification(models.Model):
     class Meta:
 
         db_table = 'notification'
+
+
+class Type(models.Model):
+    id = models.AutoField(db_column='ID', primary_key=True)
+    name = models.CharField(db_column='content',
+                            max_length=255, blank=True, null=True)
+    category = models.ForeignKey(
+        'Category', on_delete=models.CASCADE, db_column="CategoryID",null=True)
+
+    attributes = models.ManyToManyField('Attribute',through='AttributeType')
+
+    class Meta:
+
+        db_table = 'type'
+    def __str__(self):
+        return self.name
+
+
+class Category(models.Model):
+    id = models.AutoField(db_column='ID', primary_key=True)
+    name = models.CharField(db_column='content',
+                            max_length=255, blank=True, null=True)
+
+    class Meta:
+
+        db_table = 'category'
+    def __str__(self):
+        return self.name
+
+
+class Attribute(models.Model):
+    id = models.AutoField(db_column='ID', primary_key=True)
+    name = models.CharField(db_column='name',
+                            max_length=255, blank=True, null=True)
+    types = models.ManyToManyField('Type',through='AttributeType')
+
+    class Meta:
+
+        db_table = 'attribute'
+    def __str__(self):
+        return self.name
+
+class AttributeType(models.Model):
+    id = models.AutoField(db_column='ID', primary_key=True)
+    type = models.ForeignKey(
+        'Type', on_delete=models.CASCADE, db_column="TypeID",null=True)
+
+    attribute = models.ForeignKey(
+        'Attribute', on_delete=models.CASCADE, db_column="AttributeID",null=True)
+
+    class Meta:
+
+        db_table = 'attribute_type'
+   
+
+
+class AttributeValue(models.Model):
+    id = models.AutoField(db_column='ID', primary_key=True)
+    attribute = models.ForeignKey(
+        'Attribute', on_delete=models.CASCADE, db_column="AttributeID",null=True)
+    product = models.ForeignKey(
+        'Product', on_delete=models.CASCADE, db_column="ProductID",null=True)
+    value = models.CharField(db_column='value',
+                            max_length=255, blank=True, null=True)
+
+    class Meta:
+
+        db_table = 'attribute_value'
