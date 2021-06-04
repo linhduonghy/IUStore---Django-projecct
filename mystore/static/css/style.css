@@ -58,16 +58,27 @@ a {
     background-color: white;
 }
 .price {
-    font-size: larger;
-    font-weight:bold;
+    font-size: 15px;
+    font-weight: 600;
+    color: rgb(36, 36, 36);
+    margin: 0px 8px 0px 0px;
 }
 .sale {
+    font-size: 13px;
+    line-height: 20px;
+    border-radius: 2px;
+    background: rgb(255, 66, 78);
     color: white;
-    background-color: red;
+    padding: 0px 2px;
 }
 .rate {
-    color: gold;
-    font-size: 17px;
+    color: rgb(253, 216, 54);
+    font-size: 13px;
+}
+.review {
+    font-size: 12px;
+    margin-left: 3px;
+    color: rgb(120, 120, 120);
 }
 .name {
     font-size: large;

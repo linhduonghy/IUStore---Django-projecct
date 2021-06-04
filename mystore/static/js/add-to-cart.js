@@ -31,7 +31,9 @@ const addToCart = (item_id, qty) => {
         },
         dataType: 'json', 
         success: function (res) {
-            console.log(res);                    
+            console.log(res)
+            const totalPrice = res.totalPrice.toLocaleString('it-IT', {style : 'currency', currency : 'VND'});
+            $('#totalPrice').html(totalPrice)
         }
     });
 }

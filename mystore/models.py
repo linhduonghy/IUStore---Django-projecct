@@ -163,9 +163,6 @@ class DeliveryAddress(models.Model):
     # Field name made lowercase.
     id = models.AutoField(db_column='ID', primary_key=True)
     # Field name made lowercase.
-    order = models.ForeignKey(
-        'Order', models.DO_NOTHING, db_column='OrderID')
-    # Field name made lowercase.
     address = models.ForeignKey(
         Address, models.DO_NOTHING, db_column='AddressID')
     # Field name made lowercase.
@@ -297,8 +294,8 @@ class Item(models.Model):
     name = models.CharField(
         db_column='Name', max_length=255, blank=True, null=True)
     # Field name made lowercase.
-    price = models.CharField(
-        db_column='Price', max_length=255, blank=True, null=True)
+    price = models.BigIntegerField(
+        db_column='Price')
 
     def __str__(self):
         return self.name
@@ -459,7 +456,7 @@ class Product(models.Model):
     # Field name made lowercase.
     name = models.CharField(
         db_column='Name', max_length=255, blank=True, null=True)
-    price = models.FloatField(db_column='Price')  # Field name made lowercase.
+    price = models.BigIntegerField(db_column='Price')  # Field name made lowercase.
     # Field name made lowercase.
     description = models.CharField(
         db_column='Description', max_length=255, blank=True, null=True)

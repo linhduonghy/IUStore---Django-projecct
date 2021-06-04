@@ -51,4 +51,50 @@ def logout(request):
 
 
 def register(request):
+    if request.POST:
+        return doRegiter(request)
     return render(request, 'user/register.html')
+
+def doRegiter(request):
+    context = {}
+    if request.POST:
+        usr = request.POST.get('username')
+        pwd = request.POST.get('password')
+
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        dob = request.POST.get('dob')
+        phone = request.POST.get('phone')
+
+        city = request.POST.get('city')
+        district = request.POST.get('district')
+        ward = request.POST.get('ward')
+        description = request.POST.get('addr')
+        addres = Address(city=city, district=district, ward=ward, address=description)
+
+        selected = request.POST.get('gender')
+        gender = -1
+        if selected == 'Male':
+            gender = 0
+        else: 
+            gender = 1
+
+        account = Account.objects.filter(username=usr)
+        if account:
+            context['mess'] = "Người dùng đã tồn tại, hãy đăng nhập"
+            return render(request, 'user/login.html')
+        else:
+            addres.save()
+
+            permission = Permission(level=3, description='customer')
+            permission.save()
+
+            acc = Account(username=usr, password=pwd, Permission=permission)
+            acc.save()
+
+            user = Member(name=name, email=email, phone=phone, dob=dob, gender=gender, avatar=None)
+            user.save()  
+
+            context['username'] = account.username
+            context['password'] = account.password
+            return render(request, 'user/login.html', context)

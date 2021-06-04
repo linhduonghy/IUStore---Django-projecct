@@ -9,12 +9,20 @@ def cart(request):
     if 'cart' in request.session:
         print(request.session['cart'])
         try:
+            # total price
+            totalPrice = 0
             for item_id, qty in request.session['cart'].items():
                 item = Item.objects.get(pk=item_id)
-                context['items'].append((item, qty))
+                product_images = Image.objects.filter(product=item.product)
+                img_path = product_images[0].path
+                # add total price
+                totalPrice += item.price * int(qty)
+
+                context['items'].append((item, qty, img_path))
+            context['totalPrice'] = totalPrice
         except Item.DoesNotExist:
             context['msg'] = 'cart is none'
-    print(context)
+        
     return render(request=request, template_name='cart.html', context=context)
 
 def deleteItem(request, item_id):
@@ -78,7 +86,13 @@ def addToCart(request):
 
     request.session['cart'] = cart
 
-    return JsonResponse({'msg':'add to cart: ' + item_id + ' : ' + str(qty)})
+    # cal total price
+    totalPrice = 0
+    for item_id, qty in request.session['cart'].items():
+        item = Item.objects.get(pk=item_id)
+        totalPrice += item.price * int(qty)
+
+    return JsonResponse({'msg':'add to cart: ' + item_id + ' : ' + str(qty), 'totalPrice': totalPrice})
 
 def setCart(request):
     customer_id = request.session['customer']
