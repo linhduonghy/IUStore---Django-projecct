@@ -1,5 +1,6 @@
-{% extends 'manager/dashboard-base.html' %} {% block title %}
-<title>Saler</title>
+{% extends 'manager/dashboard-base.html' %} 
+{% block title %}
+<title>Warehouse</title>
 {% endblock title %}
 {% block content %}
 <!-- Main content -->
@@ -40,33 +41,25 @@
         <div class="bg-white" style="border-radius: 5px; padding-left: 15px;">
             <div class="pt-3 d-flex">
 
-                <h4>Đơn hàng</h4>
+                <h4>Đơn hàng chờ đóng gói</h4>
 
-                <span class="ml-auto mr-2">
-                    <button class="btn btn-danger">
-                        <span><i class="fa fa-shopping-bag" aria-hidden="true"></i></span> Giao
-                        hàng loạt
-                    </button>
-                </span>
+                
             </div>
 
             <div>
                 <table class="table table-bordered table-hover" style=" margin-top: 10px">
-                    <colgroup>
-                        <col span="1">
-                        <col span="1">
-                        <col span="1">
-                        <col span="1">
-                        <col span="1">
-                    </colgroup>
+                  
                     <thead style="text-align: center">
                         <th>Ngày tạo</th>
                         <th>Sản phẩm</th>
                         <th>Tổng đơn hàng</th>
                         <th>Trạng thái</th>
-                        <th>Xem Chi tiết</th>
                         <th>Thao tác</th>
+                        <th>Xem đơn hàng</th>
+
                     </thead>
+
+                   
                     <tbody>
                         <tr>
                             {% for order,item in orders %}
@@ -75,20 +68,31 @@
                             <td>{{order.created_date|date:'Y-m-d '}}</td>
                             <td>{{item}}</td>
                             <td>#</td>
-                            
                             <td>{{order.statusNow}}</td>
-                            <td style="text-align: center">{% if order.statusNow == 'Chờ duyệt' %}
-                                <a href="{% url 'mystore:send-warehouse' order_id=order.id %}" class="btn btn-primary">
-                                    Gửi kho</a>
+                            <td style="text-align: center">
+                                <a href="{% url 'mystore:export-product' order_id=order.id %}" class="btn btn-primary">
+                                    Gửi Hàng</a>
 
-                                {% endif %}
+                                
                             </td>
                             <td><a href="" class="btn btn-success">Xem đơn hàng </a></td>
 
                             {% endfor %}
                         </tr>
                     </tbody>
+                    
+                    <div>
+                    
+                </div>
+                    
                 </table>
+                {% if orders|length  == 0 %}
+                <div class="text-center pb-5"><h5>Không có đơn hàng nào đợi duyệt</h5></div>
+                  
+                {% endif %}
+                
+                
+             
             </div>
         </div>
     </div>

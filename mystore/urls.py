@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import index, cart, item, user,customer,payment,manage,types,product, addressAPI
+from .views import index, cart, item, user,customer,payment,manage,types,product, addressAPI,warehouse
 
 app_name = 'mystore'
 
@@ -31,7 +31,9 @@ urlpatterns = [
     path('new-product/new-book-product', manage.newBookDetail, name = 'new-book-product'),
     path('new-product/new-electro-product', manage.newElectroDetail, name = 'new-electro-product'),
     path('new-product/new-clothes-product', manage.newClothesDetail, name = 'new-clothes-product'),
-
+    path('warehouse', warehouse.warehouse, name='warehouse'),
+    path('product/send-warehouse/<order_id>', manage.sendWarehouse, name='send-warehouse'),
+    path('warehouse/export-product/<order_id>', warehouse.exportProduct, name='export-product'),
     # address api
     path('city', addressAPI.getCities, name='city'),
     path('city/<int:city_id>/district', addressAPI.getDistrictsInCity, name='district-in-city'),

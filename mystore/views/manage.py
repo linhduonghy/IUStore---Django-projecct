@@ -2,7 +2,17 @@ from django.shortcuts import render, redirect
 from ..models import *
 
 def saler(request):
-    return render(request, 'manager/saler.html')
+    orders = Order.objects.all()
+    context = {}
+    context['orders'] = []
+    for order in orders:
+        cart_items = CartItem.objects.filter( cart =order.cart)
+        order_item = str(cart_items[0].qty) + ' ' + cart_items[0].item.name
+        if len(cart_items)-1 > 0:
+            order_item += ' và ' +  str(len(cart_items)-1)+' các sản phẩm khác'
+        order_item = str(cart_items[0].qty) + ' ' + cart_items[0].item.name
+        context['orders'].append((order,order_item))
+    return render(request, 'manager/saler.html',context)
 
 def shipment(request):
     return render(request, 'manager/shipment.html')
@@ -103,11 +113,12 @@ def sendWarehouse(request,order_id):
 
     order = Order.objects.get(id = order_id)
     order.statusNow = 'Đợi kho'
-    print(order)
     order.save()
-    print(order.statusNow)
 
-    updateStatus = OrderHistory(order=order,status='Đợi kho',time=datetime.now)
+    member = Member.objects.get(id = request.session.get('member'))
+
+    updateStatus = OrderHistory(order=order,status=order.statusNow,member=member)
+
     updateStatus.save()
 
     return redirect('mystore:saler')

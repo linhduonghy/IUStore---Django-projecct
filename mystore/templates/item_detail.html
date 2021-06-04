@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load number_format %}
 {% block title %}
 <title>
 
@@ -24,7 +25,7 @@
         <div style="margin: 0px 12px; width: 1px; background: rgb(242, 242, 242);"></div>
         <div class="product-content">
             <div class="product-header">
-                <h1 class="product-title">Bộ bàn phím và chuột chuyên Game Led 7 màu LIMEIDE GTX300</h1>
+                <h1 class="product-title">{{item.name}}</h1>
                 <div class="product-bellow-title">
                     <span style="margin-right: 12px;">
                         5 <i style="color: rgb(253, 216, 53);" class="fas fa-star"></i>
@@ -38,9 +39,9 @@
             </div>
             <div class="product-body">
                 <div class="product-price">
-                    <span class="product-price__current-price">125.000 ₫</span>
-                    <span class="product-price__price">255.000 ₫</span>
-                    <span class="product-price__discount-rate">-51%</span>
+                    <span class="product-price__current-price">{{discount_price|int_format}} đ</span>
+                    <span class="product-price__price">{{current_price|int_format}} đ </span>
+                    <span class="product-price__discount-rate">{{discount_rate}} %</span>
                 </div>
                 <div class="add-to-cart">
                     <div class="qty">
@@ -68,21 +69,21 @@
         </h5>
         <div class="product-basic-info">
             <div class="product-attributes">
-                <div class="product-attribute-item">Thương hiệu</div>
-                <div class="product-attribute-item">Kích thước</div>
-                <div class="product-attribute-item">Model</div>
+                {% for attr in attrs %}
+                <div class="product-attribute-item">{{attr}}</div>
+                {% endfor %}
             </div>
             <div class="product-attributes-value">
-                <div class="product-attribute-item">OEM</div>
-                <div class="product-attribute-item">140mm X 440mm</div>
-                <div class="product-attribute-item">gtx300</div>
+                {% for attr_value in attribute_values %}
+                <div class="product-attribute-item">{{attr_value}}</div>
+                {% endfor %}
             </div>
         </div>
         <h5 style="font-weight: 400; margin-top: 40px;"> MÔ TẢ SẢN PHẨM
         </h5>
         <div class="product-description-detail">
             <div class="content">
-                Thông Số Kỹ Thuật: <br>
+                {% comment %} Thông Số Kỹ Thuật: <br>
 
                 - Màu sắc: Đen - Xám <br>
 
@@ -98,7 +99,8 @@
 
                 Giá sản phẩm trên Tiki đã bao gồm thuế theo luật hiện hành. Tuy nhiên tuỳ vào từng loại sản phẩm hoặc
                 phương thức, địa chỉ giao hàng mà có thể phát sinh thêm chi phí khác như phí vận chuyển, phụ phí hàng
-                cồng kềnh, ... <br>
+                cồng kềnh, ... <br> {% endcomment %}
+                {{product.description}}
             </div>
         </div>
     </div>

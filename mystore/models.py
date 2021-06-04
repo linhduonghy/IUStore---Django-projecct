@@ -9,7 +9,6 @@ from django.db import models
 from datetime import datetime
 import json
 
-
 class Account(models.Model):
     # Field name made lowercase.
     id = models.AutoField(db_column='ID', primary_key=True)
@@ -26,7 +25,7 @@ class Account(models.Model):
 
     def __str__(self):
         return self.username
-
+    
     class Meta:
 
         db_table = 'account'
@@ -48,9 +47,6 @@ class Address(models.Model):
     # Field name made lowercase.
     address = models.CharField(
         db_column='Address', max_length=255, blank=True, null=True)
-
-    def __str__(self):
-        return self.address + ', ' + self.ward + ', ' + self.district + ', ' + self.city
 
     class Meta:
 
@@ -115,7 +111,6 @@ class Cart(models.Model):
 
     def __str__(self):
         return str(self.id)
-
     class Meta:
 
         db_table = 'cart'
@@ -159,7 +154,6 @@ class Customer(models.Model):
 
     def __str__(self):
         return self.member.name
-
     class Meta:
 
         db_table = 'customer'
@@ -168,10 +162,10 @@ class Customer(models.Model):
 class DeliveryAddress(models.Model):
     # Field name made lowercase.
     id = models.AutoField(db_column='ID', primary_key=True)
-
+    
     # Field name made lowercase.
     address = models.ForeignKey(
-        Address, models.CASCADE, db_column='AddressID')
+        Address, models.DO_NOTHING, db_column='AddressID')
     # Field name made lowercase.
     customer = models.ForeignKey(
         Customer, models.DO_NOTHING, db_column='CustomerID')
@@ -185,14 +179,13 @@ class DeliveryAddress(models.Model):
     class Meta:
         db_table = 'delivery_address'
 
-
 class Discount(models.Model):
     # Field name made lowercase.
     id = models.AutoField(db_column='ID', primary_key=True)
     # Field name made lowercase.
-    item = models.ForeignKey('Item', models.DO_NOTHING, db_column='ItemID')
+    item = models.ForeignKey('Item', models.CASCADE, db_column='ItemID')
     # Field name made lowercase.
-    discount_value = models.FloatField(db_column='Discount_value')
+    discount_value = models.BigIntegerField(db_column='Discount_value')
     # Field name made lowercase.
     from_date = models.DateTimeField(
         db_column='From_date', blank=True, null=True)
@@ -274,7 +267,6 @@ class ImportFile(models.Model):
     def __str__(self):
         return str(self.id) + ': ' + str(self.created_date)
 
-
 class ImportProduct(models.Model):
     # Field name made lowercase.
     id = models.AutoField(db_column='ID', primary_key=True)
@@ -293,7 +285,6 @@ class ImportProduct(models.Model):
     def __str__(self):
         return str(self.product) + ': ' + str(self.qty)
 
-
 class Item(models.Model):
     # Field name made lowercase.
     id = models.AutoField(db_column='ID', primary_key=True)
@@ -306,7 +297,6 @@ class Item(models.Model):
     # Field name made lowercase.
     price = models.BigIntegerField(
         db_column='Price')
-
     def __str__(self):
         return self.name
 
@@ -343,7 +333,7 @@ class Member(models.Model):
 
     def __str__(self):
         return self.name
-
+        
     class Meta:
 
         db_table = 'member'
@@ -359,15 +349,12 @@ class Order(models.Model):
     shipment = models.ForeignKey(
         'Shipment', models.DO_NOTHING, db_column='ShipmentID')
     payment = models.ForeignKey(
-        'Payment', models.DO_NOTHING, db_column='PaymentID', null=True)
+        'Payment', models.DO_NOTHING, db_column='PaymentID',null=True)
 
-    deliveryAddress = models.ForeignKey(
-        'DeliveryAddress', models.DO_NOTHING, db_column='DeliveryAddressID', null=True, blank=True)
+    deliveryAddress = models.ForeignKey('DeliveryAddress',models.DO_NOTHING,db_column='DeliveryAddressID', null=True, blank=True)
     # Field name made lowercase.
     created_date = models.DateTimeField(
         db_column='Created_date', default=datetime.now, blank=True)
-
-    # Field name made lowercase.
     statusNow = models.CharField(
         db_column='Status_now', max_length=255, blank=True, null=True)
 
@@ -381,14 +368,15 @@ class OrderHistory(models.Model):
     id = models.AutoField(db_column='ID', primary_key=True)
     # Field name made lowercase.
     member = models.ForeignKey(
-        'Member', models.DO_NOTHING, db_column='MemberID', null=True)
+        'Member', models.DO_NOTHING, db_column='MemberID',null=True)
     # Field name made lowercase.
     order = models.ForeignKey(Order, models.DO_NOTHING, db_column='OrderID')
     # Field name made lowercase.
     status = models.CharField(
         db_column='Status', max_length=255, blank=True, null=True)
+    
     # Field name made lowercase.
-    time = models.DateTimeField(db_column='Time', blank=True, null=True)
+    time = models.DateTimeField(db_column='Time', blank=True, null=True,auto_now_add=True)
 
     class Meta:
 
@@ -402,9 +390,9 @@ class Payment(models.Model):
     paymentmethod = models.ForeignKey(
         'PaymentMethod', models.DO_NOTHING, db_column='PaymentMethodID')
     # Field name made lowercase.
+   
 
-    paymentDetail = models.ForeignKey(
-        'PaymentDetail', models.DO_NOTHING, db_column='PaymentDetailID', null=True)
+    paymentDetail = models.ForeignKey('PaymentDetail', models.DO_NOTHING, db_column='PaymentDetailID',null=True, blank=True)
 
     class Meta:
 
@@ -477,20 +465,18 @@ class Product(models.Model):
     # Field name made lowercase.
     name = models.CharField(
         db_column='Name', max_length=255, blank=True, null=True)
-    # Field name made lowercase.
-    price = models.BigIntegerField(db_column='Price')
+    price = models.BigIntegerField(db_column='Price')  # Field name made lowercase.
     # Field name made lowercase.
     description = models.CharField(
         db_column='Description', max_length=255, blank=True, null=True)
     # Field name made lowercase.
     qty_in_stock = models.IntegerField(db_column='Qty_in_stock')
     type = models.ForeignKey(
-        'Type', models.DO_NOTHING, db_column='TypeID', null=True)
+        'Type', models.DO_NOTHING, db_column='TypeID',null=True)
 
     class Meta:
 
         db_table = 'product'
-
     def __str__(self):
         return self.name
 
@@ -528,10 +514,26 @@ class SalerStaff(models.Model):
         db_table = 'saler_staff'
 
 
+class Shipment(models.Model):
+    # Field name made lowercase.
+    id = models.AutoField(db_column='ID', primary_key=True)
+    # Field name made lowercase.
+    shipper = models.ForeignKey(
+        'Shipper', models.DO_NOTHING, db_column='ShipperID', null=True, blank=True)
+    shipmentMethod = models.ForeignKey(
+        'ShipmentMethod', models.DO_NOTHING, db_column='ShipmentMethodID',null=True)
+    fee = models.FloatField(db_column='Fee')  # Field name made lowercase.
+
+    class Meta:
+
+        db_table = 'shipment'
+
+
 class ShipmentMethod(models.Model):
     # Field name made lowercase.
     id = models.AutoField(db_column='ID', primary_key=True)
-    
+    # Field name made lowercase.
+
     # Field name made lowercase.
     method_name = models.CharField(
         db_column='Method_name', max_length=255, blank=True, null=True)
@@ -542,23 +544,6 @@ class ShipmentMethod(models.Model):
     class Meta:
 
         db_table = 'shipment_method'
-        
-class Shipment(models.Model):
-    # Field name made lowercase.
-    id = models.AutoField(db_column='ID', primary_key=True)
-    shipmentMethod = models.ForeignKey(
-        ShipmentMethod, models.DO_NOTHING, null=True, blank=True, db_column='ShipmentMethodID')
-    # Field name made lowercase.
-    shipper = models.ForeignKey(
-        'Shipper', models.DO_NOTHING, db_column='ShipperID')
-    fee = models.FloatField(db_column='Fee')  # Field name made lowercase.
-
-    class Meta:
-
-        db_table = 'shipment'
-
-
-
 
 
 class Shipper(models.Model):
@@ -668,9 +653,9 @@ class Type(models.Model):
     name = models.CharField(db_column='content',
                             max_length=255, blank=True, null=True)
     category = models.ForeignKey(
-        'Category', on_delete=models.CASCADE, db_column="CategoryID", null=True)
+        'Category', on_delete=models.CASCADE, db_column="CategoryID",null=True)
 
-    attributes = models.ManyToManyField('Attribute', through='AttributeType')
+    attributes = models.ManyToManyField('Attribute',through='AttributeType')
 
     class Meta:
 
@@ -678,7 +663,6 @@ class Type(models.Model):
 
     def __str__(self):
         return self.name
-
     def toJSON(self):
         return json.dumps(self.__dict__)
 
@@ -691,7 +675,6 @@ class Category(models.Model):
     class Meta:
 
         db_table = 'category'
-
     def __str__(self):
         return self.name
 
@@ -700,43 +683,41 @@ class Attribute(models.Model):
     id = models.AutoField(db_column='ID', primary_key=True)
     name = models.CharField(db_column='name',
                             max_length=255, blank=True, null=True)
-    types = models.ManyToManyField('Type', through='AttributeType')
+    types = models.ManyToManyField('Type',through='AttributeType')
 
     class Meta:
 
         db_table = 'attribute'
-
     def __str__(self):
         return self.name
-
 
 class AttributeType(models.Model):
     id = models.AutoField(db_column='ID', primary_key=True)
     type = models.ForeignKey(
-        'Type', on_delete=models.CASCADE, db_column="TypeID", null=True)
+        'Type', on_delete=models.CASCADE, db_column="TypeID",null=True)
 
     attribute = models.ForeignKey(
-        'Attribute', on_delete=models.CASCADE, db_column="AttributeID", null=True)
+        'Attribute', on_delete=models.CASCADE, db_column="AttributeID",null=True)
 
     class Meta:
 
         db_table = 'attribute_type'
-
+   
     def __str__(self):
-        return str(self.type) + ': ' + str(self.attribute)
-
+        return  str(self.type) + ': ' +str(self.attribute)
 
 class AttributeValue(models.Model):
     id = models.AutoField(db_column='ID', primary_key=True)
     attribute = models.ForeignKey(
-        'Attribute', on_delete=models.CASCADE, db_column="AttributeID", null=True)
+        'Attribute', on_delete=models.CASCADE, db_column="AttributeID",null=True)
     product = models.ForeignKey(
-        'Product', on_delete=models.CASCADE, db_column="ProductID", null=True)
+        'Product', on_delete=models.CASCADE, db_column="ProductID",null=True)
     value = models.CharField(db_column='value',
-                             max_length=255, blank=True, null=True)
+                            max_length=255, blank=True, null=True)
 
     class Meta:
+
         db_table = 'attribute_value'
 
-    def __str__(self):
+    def __str__(self) :
         return '{' + str(self.product) + ',' + str(self.attribute) + '}' + ':' + self.value
