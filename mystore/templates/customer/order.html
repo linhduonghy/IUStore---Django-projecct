@@ -17,13 +17,13 @@
                 <th>Trạng thái đơn hàng</th>
             </thead>
             <tbody>
-                {% for i in 'order' %}
+                {% for order,item in orders %}
                 <tr class="border-bottom">
-                    <td>774523160</td>
-                    <td>31/05/2021</td>
-                    <td>Làm Bạn Thân Có Khó Không ? - Tập 3 (Tặng Kèm : 01 Postcard Gập 2 Mặt (10 x 15 cm) + 01 Bookmark)...và 01 sản phẩm khác</td>
-                    <td>177.100 ₫</td>
-                    <td>Đã hủy</td>
+                    <td>{{order.id}}</td>
+                    <td>{{order.created_date|date:'Y-m-d '}}</td>
+                    <td>{{item}}</td>
+                    <td>₫</td>
+                    <td>{{order.statusNow}}</td>
                 </tr>
                 {% endfor %}
             </tbody>

@@ -68,8 +68,9 @@
                         <th>Thao tác</th>
                     </thead>
                     <tbody>
+                    {% for order,item in orders %}
                         <tr>
-                            {% for order,item in orders %}
+                            
 
 
                             <td>{{order.created_date|date:'Y-m-d '}}</td>
@@ -83,10 +84,9 @@
 
                                 {% endif %}
                             </td>
-                            <td><a href="" class="btn btn-success">Xem đơn hàng </a></td>
-
-                            {% endfor %}
+                            <td><a href="{% url 'mystore:view-order' order_id=order.id %}"  class="btn btn-success">Xem đơn hàng </a></td>
                         </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>

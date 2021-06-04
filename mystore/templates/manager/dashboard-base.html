@@ -6,7 +6,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+    {% if 'user' not in request.session %}
+    <script>
+        var url = "{% url 'mystore:login' %}"
+        window.location.href = url;
+    </script>
+
+    {% endif %}
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -47,7 +53,7 @@
 
     <nav class="navbar navbar-expand-sm  justify-content-center " style="background-color: white">
         <li class="nav-item sidenav-item mr-auto">
-            <a href="{% url 'mystore:home' %}" class="d-flex align-items-center justify-content-center"
+            <a href="{% url 'mystore:product' %}" class="d-flex align-items-center justify-content-center"
                 style="color:rgb(1, 127, 255); text-decoration: none;">
                 <div class="brand h2">
                     E-Commerce
@@ -107,11 +113,9 @@
                         Vận chuyển
                     </li>
                     <li class="nav-item sidenav-item mr-auto">
-                        <a class="nav-link " href="/mystore/shipment">Quản lý vận chuyển</a>
+                        <a class="nav-link " href="{% url 'mystore:shipper' %}">Quản lý vận chuyển</a>
                     </li>
-                    <li class="nav-item sidenav-item mr-auto">
-                        <a class="nav-link " href="#">Giao hàng loạt</a>
-                    </li>
+
 
                     <!-- Quan ly san pham -->
                     <li class=" navbar-text  mr-auto">
@@ -131,7 +135,7 @@
                     <li class="nav-item sidenav-item mr-auto">
                         <a class="nav-link " href="/mystore/saler">Tất cả đơn hàng</a>
                     </li>
-                   
+
                     <li class="nav-item sidenav-item mr-auto">
                         <a class="nav-link " href="#">Trả hàng / hoàn tiền</a>
                     </li>
@@ -158,4 +162,5 @@
         </div>
     </div>
 </body>
+
 </html>

@@ -1,15 +1,25 @@
 from django.shortcuts import render, redirect
 from ..views import addressAPI
-from ..models import Customer, Address, DeliveryAddress, Item, Image
+from ..models import *
 
 def checkout(request):
     if 'user' not in request.session:
         return redirect('mystore:login')
     
     context = {}
+
+    shipmentMethods = ShipmentMethod.objects.all()
+    context['shipmentMethods'] = shipmentMethods
+
+    paymentMethods = PaymentMethod.objects.all()
+    context['paymentMethods'] = paymentMethods
+
+    banks = Bank.objects.all()
+    context['banks'] = banks
+
     context['items'] = []
     if 'cart' in request.session:
-        print(request.session['cart'])
+        # print(request.session['cart'])
         try:
             # total price
             totalPrice = 0
@@ -33,6 +43,57 @@ def checkout(request):
             context['deliveryAddress'] = deliveryAddresses[len(deliveryAddresses) - 1]
 
     return render(request, 'checkout/checkout.html', context)
+
+def handleCheckout(request):
+
+    shipment_method_id = request.POST['shipment_method']
+    payment_method_name = request.POST['payment_method']
+
+    # get customer
+    customer_id = request.session['customer']
+    customer = Customer.objects.get(pk=customer_id)
+    cart = Cart.objects.get(customer=customer,is_order=False)
+    deliveryAddresses = DeliveryAddress.objects.filter(customer=customer)
+
+    # shipment
+    shipment = Shipment()
+    shipmentMethod = ShipmentMethod.objects.get(pk=shipment_method_id)
+    shipment.shipmentMethod = shipmentMethod
+    
+    
+    # payment
+    payment = Payment()
+    paymentMethod = PaymentMethod.objects.get(method_name=payment_method_name)        
+    payment.paymentmethod = paymentMethod
+    if payment_method_name == 'Thẻ ATM': # ATM payment method
+        # payment detail
+        paymentDetail = PaymentDetail()
+        bank = Bank.objects.get(pk=request.POST['bank'])
+        paymentDetail.customer = request.POST['customer_name']
+        paymentDetail.bank = bank
+        paymentDetail.card = request.POST['card_code']
+        paymentDetail.save()
+        payment.paymentDetail = paymentDetail
+    
+    shipment.save()
+    payment.save()
+
+    # reset cart
+    cart.is_order = True
+    if 'cart' in request.session:
+        del request.session['cart']
+    cart.save()
+
+    # order
+    order = Order()
+    order.cart = cart
+    order.shipment = shipment
+    order.payment = payment
+    order.deliveryAddress = deliveryAddresses[len(deliveryAddresses) - 1]
+    order.statusNow = 'Chờ duyệt'
+    order.save() # save order 
+
+    return redirect('mystore:home')
 
 def editDeliveryAddress(request):
     if 'customer' not in request.session:
@@ -71,3 +132,15 @@ def handleDeliveryAddress(request):
     deliveryAddress.save() # save delivery address
 
     return redirect('mystore:delivery-address/show-edit')
+
+def showOrder(request):
+
+    context = {}
+
+    shipmentMethods = ShipmentMethod.objects.all()
+    context['shipmentMethods'] = shipmentMethods
+
+    paymentMethods = PaymentMethod.objects.all()
+    context['paymentMetods'] = paymentMethods
+
+

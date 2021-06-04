@@ -7,7 +7,7 @@ def cart(request):
     context = {}
     context['items'] = []
     if 'cart' in request.session:
-        print(request.session['cart'])
+        # print(request.session['cart'])
         try:
             # total price
             totalPrice = 0
@@ -32,7 +32,7 @@ def cart(request):
     return render(request=request, template_name='cart.html', context=context)
 
 def deleteItem(request, item_id):
-    print(item_id)
+    # print(item_id)
     if str(item_id) in request.session['cart']:
         del request.session['cart'][str(item_id)]
     
@@ -43,7 +43,7 @@ def deleteItem(request, item_id):
         cart = Cart.objects.get(customer=customer, is_order=False)
         item=Item.objects.get(pk=item_id)
         CartItem.objects.get(cart=cart, item=item).delete()
-    print('after delete item:' , request.session['cart'])
+    # print('after delete item:' , request.session['cart'])
 
     request.session.modified = True
 
@@ -54,7 +54,7 @@ def addToCart(request):
     item_id = request.GET['item_id']
     qty = int(request.GET['qty'])
     item = Item.objects.get(pk=int(item_id))
-    print('add cart ' + str(item) + ' ' + str(qty))
+    # print('add cart ' + str(item) + ' ' + str(qty))
     if 'customer' in request.session:
         customer_id = request.session['customer']
         customer = Customer.objects.get(pk=customer_id)
@@ -132,6 +132,6 @@ def setCart(request):
         for cartItem in cartItems:
             session_cart[str(cartItem.item.id)] = cartItem.qty
         request.session['cart'] = session_cart
-    print(request.session['cart'])
+    # print(request.session['cart'])
     
 

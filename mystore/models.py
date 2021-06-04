@@ -48,6 +48,8 @@ class Address(models.Model):
     address = models.CharField(
         db_column='Address', max_length=255, blank=True, null=True)
 
+    def __str__(self):
+        return self.address + ', ' + self.ward + ', ' + self.district + ', ' + self.city
     class Meta:
 
         db_table = 'address'
@@ -67,6 +69,8 @@ class Bank(models.Model):
 
         db_table = 'bank'
 
+    def __str__(self):
+        return self.name
 
 class Bill(models.Model):
     # Field name made lowercase.
@@ -370,7 +374,7 @@ class OrderHistory(models.Model):
     member = models.ForeignKey(
         'Member', models.DO_NOTHING, db_column='MemberID',null=True)
     # Field name made lowercase.
-    order = models.ForeignKey(Order, models.DO_NOTHING, db_column='OrderID')
+    order = models.ForeignKey(Order, models.CASCADE, db_column='OrderID')
     # Field name made lowercase.
     status = models.CharField(
         db_column='Status', max_length=255, blank=True, null=True)
@@ -403,8 +407,7 @@ class PaymentDetail(models.Model):
     # Field name made lowercase.
     id = models.AutoField(db_column='ID', primary_key=True)
     # Field name made lowercase.
-    customer = models.ForeignKey(
-        Customer, models.DO_NOTHING, db_column='CustomerID')
+    customer_name = models.CharField(db_column='customer_name', max_length=255, blank=True, null=True)
     # Field name made lowercase.
     bank = models.ForeignKey(Bank, models.DO_NOTHING, db_column='bankID')
     # Field name made lowercase.
@@ -427,6 +430,8 @@ class PaymentMethod(models.Model):
 
         db_table = 'payment_method'
 
+    def __str__(self):
+        return self.method_name
 
 class PaymentmethodBank(models.Model):
     # Field name made lowercase.
@@ -522,7 +527,6 @@ class Shipment(models.Model):
         'Shipper', models.DO_NOTHING, db_column='ShipperID', null=True, blank=True)
     shipmentMethod = models.ForeignKey(
         'ShipmentMethod', models.DO_NOTHING, db_column='ShipmentMethodID',null=True)
-    fee = models.FloatField(db_column='Fee')  # Field name made lowercase.
 
     class Meta:
 

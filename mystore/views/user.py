@@ -52,10 +52,10 @@ def logout(request):
 
 def register(request):
     if request.POST:
-        return doRegiter(request)
+        return doRegister(request)
     return render(request, 'user/register.html')
 
-def doRegiter(request):
+def doRegister(request):
     context = {}
     if request.POST:
         usr = request.POST.get('username')

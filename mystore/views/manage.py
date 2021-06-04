@@ -37,7 +37,7 @@ def newProductDetail(request, type_id):
     # all warehouses
     warehouses = Warehouse.objects.all()
     context['warehouses'] = warehouses
-    return render(request, template_name='manager/new-clothes-product.html', context=context)
+    return render(request, template_name='manager/new-product-detail.html', context=context)
 
 def importProduct(request):
     
@@ -80,35 +80,6 @@ def importProduct(request):
     
     return redirect("mystore:new-product")
 
-def newBookDetail(request):
-    context = {}
-    if request.POST:
-        img1 = request.POST.get('image1')
-        name = request.POST.get('name')
-        published_date = request.POST.get('publishedDate')
-        author = request.POST.get('author')
-        pages = request.POST.get('pages')
-        publisher = request.POST.get('publisher')
-        price = request.POST.get('price')
-        stock = request.POST.get('stock')
-        released_company = request.POST.get('released')
-
-        height = request.POST.get('height')
-        width = request.POST.get('width')
-        length = request.POST.get('length')
-        demension = length + "x" + width + "x" + height + " mm"
-        cover = request.POST.get('status')
-
-        product = Product()
-
-    return render(request, 'manager/new-book-product.html')
-
-def newElectroDetail(request):
-    return render(request, 'manager/new-electro-product.html')
-
-def newClothesDetail(request):
-    return render(request, 'manager/new-clothes-product.html')
-
 def sendWarehouse(request,order_id):
 
     order = Order.objects.get(id = order_id)
@@ -122,3 +93,30 @@ def sendWarehouse(request,order_id):
     updateStatus.save()
 
     return redirect('mystore:saler')
+    
+def viewOrder(request,order_id):
+    context = {}
+    order = Order.objects.get(id=order_id)
+    cart_item = CartItem.objects.filter(cart=order.cart)
+    
+    sum = 0
+    context['items'] = []
+    for citem in cart_item:
+        amount = citem.qty * citem.item.price
+        sum += amount
+        context['items'].append((citem, amount))
+    
+    customer = Member.objects.get(id=order.cart.customer.member.id)
+
+    shipment = Shipment.objects.get(id=order.shipment.id)
+    # shipper = Member.objects.get(id=shipment.shipper.member.id)
+    tax = int(0.05 * sum)
+    total = sum + tax
+
+    context['customer'] = customer
+    context['citem'] = cart_item
+    # context['shipper'] = shipper
+    context['subtotal'] = sum
+    context['tax'] = tax
+    context['total'] = total
+    return render(request, 'manager/view-order.html', context)

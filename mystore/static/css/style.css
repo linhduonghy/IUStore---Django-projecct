@@ -628,3 +628,18 @@ a {
     flex-wrap: wrap;
 }
 /* Checkout Style */
+.payment {
+    display: flex;
+    
+}
+.payment-input {
+    margin-bottom: 15px;
+}
+.payment-label-input {
+    padding: 0 4px;
+    font-size: 20px;
+    font-weight: 600;
+}
+.payment-customer-info{
+   
+}
