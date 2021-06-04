@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from ..models import *
 
 def saler(request):
@@ -16,17 +16,59 @@ def newProduct(request):
     return render(request, template_name='manager/new-product.html', context=context)
 
 def newProductDetail(request, type_id):
-    
+    context = {}
+    context['type_id'] = type_id
     typee = Type.objects.get(pk=type_id)
     # attributes of product type
     typeAttributes = AttributeType.objects.filter(type=typee)
-    context = {}
-    context['attributes'] = typeAttributes
     
+    context['attributes'] = typeAttributes
+    print(typeAttributes)
     # all warehouses
     warehouses = Warehouse.objects.all()
     context['warehouses'] = warehouses
     return render(request, template_name='manager/new-clothes-product.html', context=context)
+
+def importProduct(request):
+    
+    warehouse_id = request.POST['warehouse']
+    product_name = request.POST['product-name']
+    product_price = (float)(request.POST['price'])
+    description = request.POST['description']
+    quantity = int(request.POST['qty'])
+    type_id = request.POST['type_id']
+
+    # save product
+    product = Product()
+    product.warehouse = Warehouse.objects.get(pk=warehouse_id)
+    product.name = product_name
+    product.price = product_price
+    product.qty_in_stock = quantity
+    product.type = Type.objects.get(pk=type_id)
+    
+    product.save()
+    
+    # save import file
+    importFile = ImportFile()
+    importFile.save()
+
+    # save import product
+    importProduct = ImportProduct()
+    importProduct.product = product
+    importProduct.import_file = importFile
+    importProduct.qty = quantity
+    importProduct.save()
+
+    attributes = AttributeType.objects.filter(type = Type.objects.get(pk=type_id))
+    for attributeType in attributes:
+        att_value = AttributeValue()
+        att_value.product = product
+        att_value.attribute = attributeType.attribute
+        att_value.value = request.POST[str(attributeType.attribute.id)]
+        # save product attribute value
+        att_value.save()
+    
+    return redirect("mystore:new-product")
 
 def newBookDetail(request):
     context = {}

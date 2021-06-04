@@ -266,6 +266,8 @@ class ImportFile(models.Model):
 
         db_table = 'import_file'
 
+    def __str__(self):
+        return str(self.id) + ': ' + str(self.created_date)
 
 class ImportProduct(models.Model):
     # Field name made lowercase.
@@ -275,13 +277,15 @@ class ImportProduct(models.Model):
         'Product', models.DO_NOTHING, db_column='ProductID')
     # Field name made lowercase.
     import_file = models.ForeignKey(
-        ImportFile, models.DO_NOTHING, db_column='Import_fileID')
+        'ImportFile', models.DO_NOTHING, db_column='Import_fileID')
     qty = models.IntegerField(db_column='Qty')  # Field name made lowercase.
 
     class Meta:
 
         db_table = 'import_product'
 
+    def __str__(self):
+        return str(self.product) + ': ' + str(self.qty)
 
 class Item(models.Model):
     # Field name made lowercase.
@@ -650,6 +654,8 @@ class Type(models.Model):
 
         db_table = 'type'
 
+    def __str__(self):
+        return self.name
     def toJSON(self):
         return json.dumps(self.__dict__)
 
@@ -690,7 +696,8 @@ class AttributeType(models.Model):
 
         db_table = 'attribute_type'
    
-
+    def __str__(self):
+        return  str(self.type) + ': ' +str(self.attribute)
 
 class AttributeValue(models.Model):
     id = models.AutoField(db_column='ID', primary_key=True)
@@ -704,3 +711,6 @@ class AttributeValue(models.Model):
     class Meta:
 
         db_table = 'attribute_value'
+
+    def __str__(self) :
+        return '{' + str(self.product) + ',' + str(self.attribute) + '}' + ':' + self.value

@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -110,6 +110,9 @@
                     <li class="nav-item sidenav-item mr-auto">
                         <a class="nav-link " href="{% url 'mystore:new-product' %}">Thêm sản phẩm</a>
                     </li>
+                    <li class="nav-item sidenav-item mr-auto">
+                        <a class="nav-link " href="{% url 'mystore:product' %}">Danh sách sản phẩm</a>
+                    </li>
 
                     <!-- Quan ly ban hang -->
                     <li class=" navbar-text  mr-auto">
@@ -146,16 +149,5 @@
             </div>
         </div>
     </div>
-
-
-
-
-
-
-
-
-
-
 </body>
-
 </html>
