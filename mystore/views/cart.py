@@ -22,7 +22,13 @@ def cart(request):
             context['totalPrice'] = totalPrice
         except Item.DoesNotExist:
             context['msg'] = 'cart is none'
-        
+    
+    # get delivery address
+    if 'customer' in request.session:
+        customer = Customer.objects.get(pk=request.session['customer'])
+        deliveryAddresses = DeliveryAddress.objects.filter(customer=customer)
+        if deliveryAddresses and len(deliveryAddresses) > 0:
+            context['deliveryAddress'] = deliveryAddresses[len(deliveryAddresses) - 1]
     return render(request=request, template_name='cart.html', context=context)
 
 def deleteItem(request, item_id):

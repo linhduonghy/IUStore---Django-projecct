@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import index, cart, item, user,customer,payment,manage,types,product
+from .views import index, cart, item, user,customer,payment,manage,types,product, addressAPI
 
 app_name = 'mystore'
 
@@ -16,6 +16,8 @@ urlpatterns = [
     path('item/<item_id>', item.showItemDetail, name='item-detail'),
     path('search', item.searchItem, name='search-item'),
     path('checkout', payment.checkout, name='checkout'),
+    path('checkout/delivery-address/show-edit', payment.editDeliveryAddress, name='delivery-address/show-edit'),
+    path('checkout/delivery-address/handle-edit', payment.handleDeliveryAddress, name='delivery-address/handle-edit'),
     path('type/category', types.getTypeByCategory, name='type-by-category'),
     path('product', product.product, name = 'product'),
     path('product/active', product.active, name = 'product-active'),
@@ -29,4 +31,9 @@ urlpatterns = [
     path('new-product/new-book-product', manage.newBookDetail, name = 'new-book-product'),
     path('new-product/new-electro-product', manage.newElectroDetail, name = 'new-electro-product'),
     path('new-product/new-clothes-product', manage.newClothesDetail, name = 'new-clothes-product'),
+
+    # address api
+    path('city', addressAPI.getCities, name='city'),
+    path('city/<int:city_id>/district', addressAPI.getDistrictsInCity, name='district-in-city'),
+    path('district/<int:district_id>/ward', addressAPI.getWardsInDistrict, name='ward-in-district'),
 ]

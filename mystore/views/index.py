@@ -6,11 +6,8 @@ from ..models import *
 def home(request):
     items = Item.objects.all()
     context = {}
-
-
     context['items'] = []
 
-    
     for item in items:
         product = item.product
         product_images = Image.objects.filter(product=product)

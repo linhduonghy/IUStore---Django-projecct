@@ -98,3 +98,16 @@ def newElectroDetail(request):
 
 def newClothesDetail(request):
     return render(request, 'manager/new-clothes-product.html')
+
+def sendWarehouse(request,order_id):
+
+    order = Order.objects.get(id = order_id)
+    order.statusNow = 'Đợi kho'
+    print(order)
+    order.save()
+    print(order.statusNow)
+
+    updateStatus = OrderHistory(order=order,status='Đợi kho',time=datetime.now)
+    updateStatus.save()
+
+    return redirect('mystore:saler')
