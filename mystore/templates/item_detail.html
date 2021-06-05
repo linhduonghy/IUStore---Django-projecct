@@ -56,7 +56,7 @@
                             <button class="qty-btn qty-minus" style="border-right: none;">
                                 <img src="{% static 'images/icons-remove.svg' %}" alt="icon remove">
                             </button>
-                            <input type="text" value="1" class="qty-value">
+                            <input type="text" value="1" class="qty-value" id="qty_value">
                             <button class="qty-btn qty-add" style="border-left: none;">
                                 <img src="{% static 'images/icons-add.svg' %}" alt="icon remove">
                             </button>
@@ -267,7 +267,7 @@
                 type: 'GET',
                 data: {
                     'item_id': "{{request.resolver_match.kwargs.item_id}}",
-                    'qty': 1
+                    'qty': $('#qty').val()
                 },
                 dataType: 'json',
                 success: function (res) {

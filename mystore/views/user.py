@@ -58,7 +58,7 @@ def register(request):
 def doRegister(request):
     context = {}
     if request.POST:
-        usr = request.POST.get('username')
+        usr = request.POST.get('usr')
         pwd = request.POST.get('password')
 
         name = request.POST.get('name')
@@ -89,12 +89,15 @@ def doRegister(request):
             permission = Permission(level=3, description='customer')
             permission.save()
 
-            acc = Account(username=usr, password=pwd, Permission=permission)
+            acc = Account(username=usr, password=pwd, permission=permission)
             acc.save()
 
-            user = Member(name=name, email=email, phone=phone, dob=dob, gender=gender, avatar=None)
-            user.save()  
+            user = Member(name=name, email=email, phone=phone, dob=dob, gender=gender, avatar=None, address=addres, account=acc)
+            user.save()
 
-            context['username'] = account.username
-            context['password'] = account.password
+            customer = Customer(member=user)
+            customer.save()
+
+            context['username'] = acc.username
+            context['password'] = acc.password
             return render(request, 'user/login.html', context)

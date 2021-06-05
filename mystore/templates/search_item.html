@@ -11,11 +11,20 @@
 <div class="container">
 
     <div class="search-summary mt-3">
+        {% if query %}
+            <div class="title">
+                Kết quả tìm kiếm cho '{{query}}' : <span style="color: rgb(137, 137, 137);;"> {{items|length}} kết
+                    quả</span>
+            </div>
+        {% elif type %}
         <div class="title">
-            Kết quả tìm kiếm cho '{{query}}' : <span style="color: rgb(137, 137, 137);;"> {{items|length}} kết
-                quả</span>
+            Sản phẩm loại : {{type}}
         </div>
-
+        {%else%}
+        <div class="title">
+            Tất cả sản phẩm
+        </div>
+        {% endif %}
     </div>
 
     <div class="list-search-product">
@@ -27,8 +36,8 @@
                 <div class="thumbnail pb-2 pt-2">
                     <div class="badge-top">
                         {% with 'images/product/'|add:path as image_path %}
-                            <img src="{% static image_path %}"
-                                width="205px" height="200px" alt="Máy Tính Bảng Samsung Galaxy">
+                        <img src="{% static image_path %}" width="205px" height="200px"
+                            alt="Máy Tính Bảng Samsung Galaxy">
                         {% endwith %}
                     </div>
                 </div>
@@ -48,24 +57,16 @@
                             {{item.product.price|int_format}} ₫
                         </span>
                         {% if discount_rate %}
-                                <span class="sale">
-                                    {{discount_rate}}
-                                </span>
-                            {% endif %}
+                        <span class="sale">
+                            {{discount_rate}}
+                        </span>
+                        {% endif %}
                     </div>
                 </div>
             </a>
         </div>
         {% endfor %}
     </div>
-
-
-
-
-    <div class=" d-flex justify-content-center">
-        <button class="btn btn-info ">Xem thêm</button>
-    </div>
-
 </div>
 
 </div>

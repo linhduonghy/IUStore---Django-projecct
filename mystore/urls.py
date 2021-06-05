@@ -14,6 +14,7 @@ urlpatterns = [
     path('customer/info', customer.info, name='info'),
     path('customer/order', customer.order, name='customer-order'),
     path('item/<item_id>', item.showItemDetail, name='item-detail'),
+    path('item-type/<type_id>', item.item_type, name='item-type'),
     path('search', item.searchItem, name='search-item'),
     path('checkout', payment.checkout, name='checkout'),
     path('handle-checkout', payment.handleCheckout, name='handle-checkout'),
