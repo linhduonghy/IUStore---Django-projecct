@@ -50,8 +50,26 @@ def showItemDetail(request, item_id):
     context['attribute_values'] = attr_values
     
     context['feedBacks'] = fbs[::-1]
-    return render(request, "item_detail.html", context)
 
+    # similar items
+    context['items'] = []
+    items = getSimilarItem(item_id)
+    for item in items:
+        product = item.product
+        product_images = Image.objects.filter(product=product)
+        if product_images.count() > 0:
+            img = product_images[0].path
+        else:
+            img = None
+        discount_rate = None
+        try:
+            discount = Discount.objects.get(id=item.id)
+            discount_rate = round(discount.discount_value / item.price * 100) - 100
+        except Discount.DoesNotExist:
+            pass
+        
+        context['items'].append((item,img, discount_rate))
+    return render(request, "item_detail.html", context)
 
 def searchItem(request):
 
@@ -148,3 +166,20 @@ def handleComment(request):
     feedBack.save()
     
     return showItemDetail(request, item_id)
+
+def getSimilarItem(item_id) :
+
+    item = Item.objects.get(pk=item_id)
+
+    typee = Type.objects.get(pk=item.product.type.id)
+    
+    products = Product.objects.filter(type=typee)
+    
+    items = []
+    for product in products:
+        try:
+            itemm = Item.objects.get(product=product)
+            items.append(itemm)
+        except Item.DoesNotExist:
+            pass
+    return [it for it in items if it.id != item.id]
