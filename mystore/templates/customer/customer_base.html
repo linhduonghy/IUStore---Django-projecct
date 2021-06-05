@@ -41,7 +41,7 @@
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item mt-1" style="margin-left: 200px;">
                     <form action="{% url 'mystore:search-product' %}" class="search-product my-2 my-lg-0" method="GET">
-                        <input type="text" placeholder="Tìm sản phẩm mong muốn ..." aria-label="Search" class="search-product-input" name="q" style="width: 650px;">
+                        <input type="text" placeholder="Tìm sản phẩm mong muốn ..." aria-label="Search" class="search-product-input" name="q" style="width: 550px;">
                         <button class=" btn btn-search-product" type="submit" style="color: white;"><i
                                 class="fas fa-search" style="margin-right: 3px;"></i> Tìm kiếm </button>
                     </form>
@@ -104,7 +104,7 @@
                             của tôi</button></a>
                 </li>
                 <li class="nav-item sidenav-item mr-auto">
-                    <a class="" href="#"><button class="slidenav-btn btn btn-light"><i class="fa fa-map-marker"
+                    <a class="" href="{% url 'mystore:customer-address' %}"><button class="slidenav-btn btn btn-light"><i class="fa fa-map-marker"
                                 aria-hidden="true"></i> Địa chỉ của tôi</button></a>
                 </li>
                 <li class="nav-item sidenav-item mr-auto">

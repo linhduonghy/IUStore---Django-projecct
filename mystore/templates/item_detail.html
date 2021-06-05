@@ -19,14 +19,16 @@
     <!-- product detail -->
     <div class="product-detail">
         <div class="product-img">
-            <img src="https://salt.tikicdn.com/cache/w444/ts/product/77/ea/24/0f64f866fa54852acb8237a1de13137a.jpg"
-                alt="Bộ bàn phím và chuột chuyên Game Led 7 màu LIMEIDE GTX300" height="400px">
+            {% with 'images/product/'|add:img_path as image_path %}
+                <img src="{% static image_path %}"
+                    height="400px" width="600px" alt="Máy Tính Bảng Samsung Galaxy">
+            {% endwith %}
         </div>
         <div style="margin: 0px 12px; width: 1px; background: rgb(242, 242, 242);"></div>
         <div class="product-content">
             <div class="product-header">
                 <h1 class="product-title">{{item.name}}</h1>
-                <div class="product-bellow-title">
+                {% comment %} <div class="product-bellow-title">
                     <span style="margin-right: 12px;">
                         5 <i style="color: rgb(253, 216, 53);" class="fas fa-star"></i>
                     </span>
@@ -34,14 +36,19 @@
                     </a>
                     <span
                         style="width: 1px; height: 15px; background-color: rgb(199, 199, 199); margin: 0 8px 0 8px"></span>
-                    <span> Đã bán 10 </span>
-                </div>
+                    
+                </div> {% endcomment %}
             </div>
             <div class="product-body">
                 <div class="product-price">
-                    <span class="product-price__current-price">{{discount_price|int_format}} đ</span>
-                    <span class="product-price__price">{{current_price|int_format}} đ </span>
-                    <span class="product-price__discount-rate">{{discount_rate}} %</span>
+                    {% if discount_rate %}
+                        <span class="product-price__current-price">{{discount_price|int_format}} đ</span>
+                        <span class="product-price__price">{{current_price|int_format}} đ </span>
+                        <span class="product-price__discount-rate">{{discount_rate}} %</span>
+                    
+                    {% else %}
+                        <span class="product-price__current-price">{{current_price|int_format}} đ</span>
+                    {% endif %}
                 </div>
                 <div class="add-to-cart">
                     <div class="qty">
@@ -109,8 +116,100 @@
         <h5 style="font-weight: 400;">
             ĐÁNH GIÁ - NHẬN XÉT TỪ KHÁCH HÀNG
         </h5>
+        {% if comment %}
+        <div class="customer-comment">
+            <form action="{% url 'mystore:item-review' %}" method="post">
+                {% csrf_token %}
+                <div class="customer-rate">
+                    <div>
+                        <input type="radio" id="one" name="rate" value="1">
+                        <label for="one">
+                            <i style="color: rgb(255, 181, 0);" class="fas fa-star"></i>
+                        </label>
+                    </div>
+                    <div>
+                        <input type="radio" id="two" name="rate" value="2">
+                        <label for="two">
+                            <i style="color: rgb(255, 181, 0);" class="fas fa-star"></i>
+                            <i style="color: rgb(255, 181, 0);" class="fas fa-star"></i>
+                        </label>
+                    </div>
+                    <div>
+                        <input type="radio" id="three" name="rate" value="3">
+                        <label for="three">
+                            <i style="color: rgb(255, 181, 0);" class="fas fa-star"></i>
+                            <i style="color: rgb(255, 181, 0);" class="fas fa-star"></i>
+                            <i style="color: rgb(255, 181, 0);" class="fas fa-star"></i>
+                        </label>
+                    </div>
+                    <div>
+                        <input type="radio" id="four" name="rate" value="4">
+                        <label for="four">
+                            <i style="color: rgb(255, 181, 0);" class="fas fa-star"></i>
+                            <i style="color: rgb(255, 181, 0);" class="fas fa-star"></i>
+                            <i style="color: rgb(255, 181, 0);" class="fas fa-star"></i>
+                            <i style="color: rgb(255, 181, 0);" class="fas fa-star"></i>
+                        </label>
+                    </div>
+                    <div>
+                        <input type="radio" id="five" name="rate" value="5">
+                        <label for="five">
+                            <i style="color: rgb(255, 181, 0);" class="fas fa-star"></i>
+                            <i style="color: rgb(255, 181, 0);" class="fas fa-star"></i>
+                            <i style="color: rgb(255, 181, 0);" class="fas fa-star"></i>
+                            <i style="color: rgb(255, 181, 0);" class="fas fa-star"></i>
+                            <i style="color: rgb(255, 181, 0);" class="fas fa-star"></i>
+                        </label>
+                    </div>
+                </div>
+                <textarea name="customer-comment" class="customer-comment form-control"></textarea>
+                <input type="hidden" name="item_id" value="{{item.id}}">
+                <div style="display: flex; justify-content: flex-end;">
+                    <button type="submit" class="btn btn-outline-success" style=" margin-bottom: 8px;">Gửi bình
+                        luận</button>
+                </div>
+            </form>
+        </div>
+        {% endif %}
         <div class="customer-reviews__inner">
+            {% for feedback,rates in feedBacks %}
+            
             <div class="review-comment">
+                <div class="review-comment__user">
+                    <div class="review-comment__user-avatar">
+
+                    </div>
+                    <div class="review-comment__user-info">
+                        <div class="review-comment__user-name">{{feedback.customer.member.name}}</div>
+                        {% comment %} <div class="review-comment__user-date"> Đã tham gia 1 năm</div> {% endcomment %}
+                    </div>
+                </div>
+                <div class="review-comment__comment">
+                    <div class="review-comment__rating">
+                        <div class="review-comment__rating-star">
+                            {% for rate in rates %}
+                                <span><i class="fas fa-star"></i></span>
+                            {% endfor %}
+                        </div>
+                        {% comment %} <div class="review-comment__rating-text">
+                            Cực kỳ hài lòng
+                        </div> {% endcomment %}
+                    </div>
+                    <div class="review-comment__content">
+                        {{feedback.comment.content}}
+                    </div>
+                    {% comment %} <div class="review-comment__images">
+                        <div class="review-comment__image-item"
+                            style="background-image: url('https://vcdn.tikicdn.com/ts/review/12/78/f3/fdb18507bd7603e83be9492af9458641.jpg');">
+                        </div>
+                    </div> {% endcomment %}
+                    <div class="review-comment_created-date">
+                        <span>Nhận xét vào {{feedback.created_date}}</span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% comment %} <div class="review-comment">
                 <div class="review-comment__user">
                     <div class="review-comment__user-avatar">
 
@@ -145,44 +244,8 @@
                         <span>Nhận xét vào 25/05/2021</span>
                     </div>
                 </div>
-            </div>
-            <div class="review-comment">
-                <div class="review-comment__user">
-                    <div class="review-comment__user-avatar">
-
-                    </div>
-                    <div class="review-comment__user-info">
-                        <div class="review-comment__user-name">Soo Kang</div>
-                        <div class="review-comment__user-date"> Đã tham gia 1 năm</div>
-                    </div>
-                </div>
-                <div class="review-comment__comment">
-                    <div class="review-comment__rating">
-                        <div class="review-comment__rating-star">
-                            <span><i class="fas fa-star"></i></span>
-                            <span><i class="fas fa-star"></i></span>
-                            <span><i class="fas fa-star"></i></span>
-                            <span><i class="fas fa-star"></i></span>
-                            <span><i class="fas fa-star"></i></span>
-                        </div>
-                        <div class="review-comment__rating-text">
-                            Cực kỳ hài lòng
-                        </div>
-                    </div>
-                    <div class="review-comment__content">
-                        sản phẩm rât ok
-                    </div>
-                    <div class="review-comment__images">
-                        <div class="review-comment__image-item"
-                            style="background-image: url('https://vcdn.tikicdn.com/ts/review/12/78/f3/fdb18507bd7603e83be9492af9458641.jpg');">
-                        </div>
-                    </div>
-                    <div class="review-comment_created-date">
-                        <span>Nhận xét vào 25/05/2021</span>
-                    </div>
-                </div>
-            </div>
-            <div class="review-comment">
+            </div> {% endcomment %}
+            {% comment %} <div class="review-comment">
                 <div class="review-comment__user">
                     <div class="review-comment__user-avatar">
 
@@ -217,7 +280,7 @@
                         <span>Nhận xét vào 25/05/2021 07:15</span>
                     </div>
                 </div>
-            </div>
+            </div> {% endcomment %}
         </div>
     </div>
     <script>
@@ -229,9 +292,9 @@
                     'item_id': "{{request.resolver_match.kwargs.item_id}}",
                     'qty': 1
                 },
-                dataType: 'json', 
+                dataType: 'json',
                 success: function (res) {
-                    console.log(res);                    
+                    console.log(res);
                 }
             });
         })

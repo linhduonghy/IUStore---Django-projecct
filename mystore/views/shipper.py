@@ -7,10 +7,11 @@ from ..views import cart
 def shipper(request):
     orders = Order.objects.filter(Q(statusNow='Đợi giao') | Q(statusNow='Đang giao')|Q(statusNow='Đã giao'))
     orderDone = Order.objects.filter(statusNow='Đã giao')
-    print(orders)
+
     context = {}
     context['orders'] = []
     context['orderDone'] = []
+    context['items'] = []
 
     for order in orders:
         cart_items = CartItem.objects.filter( cart =order.cart)
@@ -19,7 +20,7 @@ def shipper(request):
             order_item += ' và ' +  str(len(cart_items)-1)+' các sản phẩm khác'
         order_item = str(cart_items[0].qty) + ' ' + cart_items[0].item.name
         context['orders'].append((order,order_item))
-    
+
     for order in orderDone:
         cart_items = CartItem.objects.filter( cart =order.cart)
         order_item = str(cart_items[0].qty) + ' ' + cart_items[0].item.name
@@ -27,7 +28,13 @@ def shipper(request):
             order_item += ' và ' +  str(len(cart_items)-1)+' các sản phẩm khác'
         order_item = str(cart_items[0].qty) + ' ' + cart_items[0].item.name
         context['orderDone'].append((order,order_item))
-    
+
+
+    cart_item = CartItem.objects.filter(cart=order.cart)
+    context['items'] = []
+    for citem in cart_item:
+        amount = citem.qty * citem.item.price
+        context['items'].append((citem, amount))
 
     return render(request, 'manager/shipment.html',context)
 

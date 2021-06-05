@@ -14,11 +14,15 @@ def cart(request):
             for item_id, qty in request.session['cart'].items():
                 item = Item.objects.get(pk=item_id)
                 product_images = Image.objects.filter(product=item.product)
-                img_path = product_images[0].path
+                if product_images.count() > 0:
+                    img = product_images[0].path
+                else:
+                    img = None
+                
                 # add total price
                 totalPrice += item.price * int(qty)
 
-                context['items'].append((item, qty, img_path))
+                context['items'].append((item, qty, img))
             context['totalPrice'] = totalPrice
         except Item.DoesNotExist:
             context['msg'] = 'cart is none'

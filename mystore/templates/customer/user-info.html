@@ -13,7 +13,7 @@
                 <label for="fullName" class="input-label">Họ và tên</label>
             </div>
             <div class="col" style="max-width: 50%;">
-                <input type="text" class="form-control" value="Hoàng Hà Linh" name="fullName" id="fullName">
+                <label>{{customer.member}}</label>
             </div>
         </div>
 
@@ -22,7 +22,7 @@
                 <label for="phone" class="input-label">Số điện thoại</label>
             </div>
             <div class="col" style="max-width: 50%;">
-                <input type="text" class="form-control" value="Hoàng Hà Linh" name="phone" id="phone">
+                <label>{{customer.member.phone}}</label>
             </div>
         </div>
 
@@ -31,14 +31,28 @@
                 <label for="email" class="input-label">Email</label>
             </div>
             <div class="col" style="max-width: 50%;">
-                <input type="text" class="form-control" value="Hoàng Hà Linh" name="email" id="email">
+                <label>{{customer.member.email}}</label>
+            </div>
+        </div>
+        <div class="row pt-2 pb-2">
+            <div class="col-2">
+                <label for="email" class="input-label">Giới tính</label>
+            </div>
+            <div class="col" style="max-width: 50%;">
+                {% if customer.member.gender == 1 %}
+                <label>Nam</label>
+
+                {%elif customer.member.gender == 2 %}
+                <label>Nữ</label>
+                {%else%}
+                Khác
+                  
+                {% endif %}
+                
             </div>
         </div>
 
     </div>
-
-
-
 </div>
 
 {% endblock content %}

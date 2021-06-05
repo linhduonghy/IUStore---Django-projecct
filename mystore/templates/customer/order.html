@@ -1,9 +1,10 @@
-{% extends './customer_base.html' %} {% block title %}
+{% extends './customer_base.html' %} 
+{% load number_format %}
+{% block title %}
 <title>
     Tài khoản của tôi
 </title>
 {% endblock title %} {% block content %}
-
 
 <div class="container mt-5">
     <h4>Đơn hàng của tôi</h4>
@@ -17,12 +18,12 @@
                 <th>Trạng thái đơn hàng</th>
             </thead>
             <tbody>
-                {% for order,item in orders %}
+                {% for order,item,totalPrice in orders %}
                 <tr class="border-bottom">
-                    <td>{{order.id}}</td>
+                    <td><a href="{% url 'mystore:order/view' order_id=order.id %}" style="text-decoration: none;">{{order.id}}</a></td>
                     <td>{{order.created_date|date:'Y-m-d '}}</td>
                     <td>{{item}}</td>
-                    <td>₫</td>
+                    <td>{{totalPrice|int_format}}₫</td>
                     <td>{{order.statusNow}}</td>
                 </tr>
                 {% endfor %}
@@ -30,9 +31,6 @@
         </table>
 
     </div>
-
-
-
 </div>
 
 {% endblock content %}

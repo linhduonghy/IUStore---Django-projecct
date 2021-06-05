@@ -222,12 +222,11 @@ class Feedback(models.Model):
     # Field name made lowercase.
     id = models.AutoField(db_column='ID', primary_key=True)
     # Field name made lowercase.
-    item = models.ForeignKey('Item', models.DO_NOTHING, db_column='ItemID')
+    customer = models.ForeignKey('Customer', models.CASCADE, db_column='CustomerID', null=True, blank=True)
+    item = models.ForeignKey('Item', models.CASCADE, db_column='ItemID')
     # Field name made lowercase.
     comment = models.ForeignKey(
         Comment, models.DO_NOTHING, db_column='CommentID')
-    # Field name made lowercase.
-    liked = models.IntegerField(db_column='Liked')
     # Field name made lowercase.
     rate_score = models.IntegerField(db_column='Rate_score')
     # Field name made lowercase.
@@ -276,7 +275,7 @@ class ImportProduct(models.Model):
     id = models.AutoField(db_column='ID', primary_key=True)
     # Field name made lowercase.
     product = models.ForeignKey(
-        'Product', models.DO_NOTHING, db_column='ProductID')
+        'Product', models.CASCADE, db_column='ProductID')
     # Field name made lowercase.
     import_file = models.ForeignKey(
         'ImportFile', models.DO_NOTHING, db_column='Import_fileID')
@@ -543,7 +542,7 @@ class ShipmentMethod(models.Model):
         db_column='Method_name', max_length=255, blank=True, null=True)
     # Field name made lowercase.
     duration = models.IntegerField(db_column='Duration')
-    fee = models.FloatField(db_column='Fee')  # Field name made lowercase.
+    fee = models.IntegerField(db_column='Fee')  # Field name made lowercase.
 
     class Meta:
 
@@ -645,7 +644,9 @@ class Notification(models.Model):
         'Customer', on_delete=models.CASCADE, db_column="customerID")
     content = models.CharField(db_column='content', max_length=255, blank=True, null=True
                                )
-    time = models.DateTimeField(db_column='time', null=True, blank=True)
+    time = models.DateTimeField(db_column='time',default=datetime.now, null=True, blank=True)
+    attach = models.CharField(db_column='attach', max_length=255, blank=True, null=True
+                            )
 
     class Meta:
 

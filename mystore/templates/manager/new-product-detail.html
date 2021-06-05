@@ -6,7 +6,7 @@
 
 <body>
     <div class="container">
-        <form action="{% url 'mystore:import-product' %}" method="POST">
+        <form action="{% url 'mystore:import-product' %}" method="POST" enctype="multipart/form-data">>
             {% csrf_token %}
             <div class="col pt-2 pb-2 mt-2 bg-light" style="border: 1px solid #f3f3f3;">
                 <h3>Thông tin cơ bản</h3>
@@ -24,32 +24,32 @@
 
                     <div class="drop-zone mr-2">
                         <span class="drop-zone__prompt">Ảnh bìa</span>
-                        <input type="file" name="image1" class="drop-zone__input">
+                        <input type="file" name="image" class="drop-zone__input">
                     </div>
 
                     <div class="drop-zone mr-2">
                         <span class="drop-zone__prompt">Ảnh 1</span>
-                        <input type="file" name="image2" class="drop-zone__input">
+                        <input type="file" name="image" class="drop-zone__input">
                     </div>
 
                     <div class="drop-zone mr-2">
                         <span class="drop-zone__prompt">Ảnh 2</span>
-                        <input type="file" name="image3" class="drop-zone__input">
+                        <input type="file" name="image" class="drop-zone__input">
                     </div>
 
                     <div class="drop-zone mr-2">
                         <span class="drop-zone__prompt">Ảnh 3</span>
-                        <input type="file" name="image4" class="drop-zone__input">
+                        <input type="file" name="image" class="drop-zone__input">
                     </div>
 
                     <div class="drop-zone mr-2">
                         <span class="drop-zone__prompt">Ảnh 4</span>
-                        <input type="file" name="image5" class="drop-zone__input">
+                        <input type="file" name="image" class="drop-zone__input">
                     </div>
 
                     <div class="drop-zone mr-2">
                         <span class="drop-zone__prompt">Ảnh 5</span>
-                        <input type="file" name="image6" class="drop-zone__input">
+                        <input type="file" name="image" class="drop-zone__input">
                     </div>
                 </div>
 

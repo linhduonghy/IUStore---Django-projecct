@@ -41,6 +41,11 @@ def newProductDetail(request, type_id):
 
 def importProduct(request):
     
+    images = []
+
+    for f in request.FILES.getlist('image'):
+        images.append(f.name)
+    
     warehouse_id = request.POST['warehouse']
     product_name = request.POST['product-name']
     product_price = (float)(request.POST['price'])
@@ -58,6 +63,12 @@ def importProduct(request):
     
     product.save()
     
+    # save images
+    for img_name in images:
+        image = Image()
+        image.product = product
+        image.path = img_name
+        image.save()
     # save import file
     importFile = ImportFile()
     importFile.save()
@@ -87,10 +98,16 @@ def sendWarehouse(request,order_id):
     order.save()
 
     member = Member.objects.get(id = request.session.get('member'))
-
     updateStatus = OrderHistory(order=order,status=order.statusNow,member=member)
-
     updateStatus.save()
+
+    # Thông báo cho khách hàng
+    notification = Notification()
+    notification.customer = order.cart.customer
+    notification.content = 'Đơn hàng mã ' + str(order.id) + ' đã được chúng tôi tiếp nhận'
+    notification.attach = 'saler/view-order/'+str(order.id)
+    notification.save()
+
 
     return redirect('mystore:saler')
     
@@ -112,7 +129,7 @@ def viewOrder(request,order_id):
     # shipper = Member.objects.get(id=shipment.shipper.member.id)
     tax = int(0.05 * sum)
     total = sum + tax
-
+    context['order'] = order
     context['customer'] = customer
     context['citem'] = cart_item
     # context['shipper'] = shipper

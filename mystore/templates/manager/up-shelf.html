@@ -1,0 +1,29 @@
+{% extends 'manager/dashboard-base.html' %} {% block title %}
+<title>Lên kệ</title>
+{% endblock title %}
+{% block content %}
+<!-- Main content -->
+
+<body>
+    <div class="container">
+        <table class="table">
+            <thead class="thead-dark">
+                <th>Sản phẩm</th>
+                <th>Giá</th>
+                <th>Còn lại</th>
+                <th></th>
+            </thead>
+            <tbody>
+                {% for product in up %}
+                <tr>
+                    <td>{{product.name}}</td>
+                    <td>{{product.price}}</td>
+                    <td>{{product.qty_in_stock}}</td>
+                    <td><button class="btn btn-danger"><a href="{% url 'mystore:up-shelf' product_id=product.id %}" style="text-decoration: none; color: white;">Up</a></button></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+{% endblock content %}

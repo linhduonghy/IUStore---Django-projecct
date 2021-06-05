@@ -110,7 +110,7 @@
                                                 <a href="#" class="btn btn-danger" >Hủy đơn</a>
                                                 <a href="{% url 'mystore:finished' order_id=order.id %}" class="btn btn-success">Giao xong</a>
                                                 {%else%}
-                                                <a href="" class="btn btn-info">Xem đơn hàng</a>
+                                                <a class="btn btn-info" data-toggle="modal" data-target="#order-detail">Xem đơn hàng</a>
                                                 {% endif %}
 
                                             </td>
@@ -275,5 +275,52 @@
                 </div>
             </div>
         </div>
+
+        <!-- Modal xem chi tiết đơn hàng -->
+        <div class="modal fade" id="order-detail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Danh sách sản phẩm</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body form-group">
+                        <div class="col border-bottom pb-2">
+                            <table class="table table-bordered mt-4">
+                                <colgroup>
+                                    <col span="1" style="width: 60%" />
+                                    <col span="1" style="width: 15%" />
+                                    <col span="1" style="width: 10%" />
+                                    <col span="1" style="width: 15%" />
+                                </colgroup>
+                                <thead class="thead-dark">
+                                    <th>Sản phẩm</th>
+                                    <th>Giá</th>
+                                    <th>Số lượng</th>
+                                    <th>Thành tiền</th>
+                                </thead>
+                                <tbody>
+                                    {% for citem, amount in items %}
+                                    <tr>
+                                        <td>{{citem.item.name}}</td>
+                                        <td>{{citem.item.price}}</td>
+                                        <td>{{citem.qty}}</td>
+                                        <td>{{amount}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 </body>
 {% endblock content %}

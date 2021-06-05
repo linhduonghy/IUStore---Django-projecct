@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
-
+{% load number_format %}
+{% load static %}
 {% block title %}
 <title>
     IUStore
@@ -11,47 +12,49 @@
 
     <div class="search-summary mt-3">
         <div class="title">
-            Kết quả tìm kiếm cho bàn phím : <span style="color: rgb(137, 137, 137);;"> 10 kết quả</span>
+            Kết quả tìm kiếm cho '{{query}}' : <span style="color: rgb(137, 137, 137);;"> {{items|length}} kết
+                quả</span>
         </div>
 
     </div>
 
     <div class="list-search-product">
-        {% for i in '0123456789' %}
-        <div class="item d-inline-block" style="padding: 5px; margin: 30px;width: 215px; font-family: Arial, Helvetica, sans-serif;">
+        {% for item, path, discount_rate in items %}
 
-            <a href="{% url 'mystore:product-detail' product_id=i %}" style="color: black; text-decoration: none;">
+        <div class="item d-inline-block"
+            style="display:flex;flex-direction: column; justify-content: space-between; padding: 5px; margin: 10px 25px 30px 25px; width: 215px;  font-family: Arial, Helvetica, sans-serif;">
+            <a href="{% url 'mystore:item-detail' item_id=item.id %}" style="color: black; text-decoration: none;">
                 <div class="thumbnail pb-2 pt-2">
                     <div class="badge-top">
-                        <img src="https://salt.tikicdn.com/cache/280x280/ts/product/7f/e6/1e/dc0d6dcd10f4a31d5f6dcab75566637e.jpg"
-                            width="100%" alt="Máy Tính Bảng Samsung Galaxy">
+                        {% with 'images/product/'|add:path as image_path %}
+                            <img src="{% static image_path %}"
+                                width="205px" height="200px" alt="Máy Tính Bảng Samsung Galaxy">
+                        {% endwith %}
                     </div>
                 </div>
                 <div class="info">
 
-                    <div class="name">
-                        Máy Tính Bảng Samsung Galaxy Tab A
+                    <div class="name" style="height: 50px; font-size: 15px;">
+                        {{item.product.name}}
                     </div>
-                    <div class="row ml-auto ">
+                    {% comment %} <div class="row ml-auto ">
                         <span class="rate">
                             5 <i class="fas fa-star"></i>
                         </span>
-                        <span class="viewer"> (50) </span>
-                    </div>
-
-                    <div class="row ml-auto ">
-                        <span class="price  ">
-                            2.990.000 đ
+                        <span class="review"> (50) </span>
+                    </div> {% endcomment %}
+                    <div class="row ml-auto">
+                        <span class="price">
+                            {{item.product.price|int_format}} ₫
                         </span>
-                        <span class="sale  ml-4">
-                            -49%
-                        </span>
-
+                        {% if discount_rate %}
+                                <span class="sale">
+                                    {{discount_rate}}
+                                </span>
+                            {% endif %}
                     </div>
-
                 </div>
             </a>
-
         </div>
         {% endfor %}
     </div>

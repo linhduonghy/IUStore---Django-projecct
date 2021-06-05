@@ -23,8 +23,11 @@ urlpatterns = [
     path('product', product.product, name = 'product'),
     path('product/active', product.active, name = 'product-active'),
     path('bank', bank.getBanks, name='bank'),
-
-    
+    path('customer/address', customer.address, name='customer-address'),
+    # customer
+    path('order/view/<int:order_id>', customer.viewOrderDetail, name='order/view'),
+    path('item/<item_id>/comment', item.showItemComment, name='item/comment'),
+    path('item_review', item.handleComment, name='item-review'),
     # manager
     path('saler', manage.saler, name = 'saler'),
     path('shipment', manage.shipment, name = 'shipment'),
@@ -40,6 +43,8 @@ urlpatterns = [
     path('shipper/shipping/<order_id>', shipper.shipping, name='shipping'),
     path('shipper/finished/<order_id>', shipper.finished, name='finished'),
     path('saler/view-order/<order_id>', manage.viewOrder, name = 'view-order'),
+    path('product/get-list', product.getList, name = 'get-list'),
+    path('product/up-shelf/<product_id>', product.upShelf, name = 'up-shelf'),
     # address api
     path('city', addressAPI.getCities, name='city'),
     path('city/<int:city_id>/district', addressAPI.getDistrictsInCity, name='district-in-city'),

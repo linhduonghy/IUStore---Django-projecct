@@ -38,18 +38,19 @@
 
         <!-- Table -->
         <div class="bg-white" style="border-radius: 5px; padding-left: 15px;">
-            <div  class=" border-bottom">
+            <div class=" border-bottom">
                 <a href="{% url 'mystore:product' %}" class="btn  border-right ml-2"> Tất cả</a>
-                
+
                 <a href="{% url 'mystore:product-active' %}" class="btn">Đang bán</a>
             </div>
             <div class="pt-3">
-                {% if msg  %}
-                <h4>Danh sách sản phẩm đang bán ( {{products|length}} sản phẩm)</h4>
+                {% if msg %}
+                <h4>Danh sách sản phẩm đang bán</h4>
                 {% else %}
                 <h4>Danh sách sản phẩm ( {{products|length}} sản phẩm)
 
-                    <a href="{% url 'mystore:new-product' %}"" class="btn btn-success" style="margin-left: 50px;">Thêm sản phẩm</a>
+                    <a href="{% url 'mystore:new-product' %}"" class=" btn btn-success" style="margin-left: 50px;">Thêm
+                        sản phẩm</a>
                 </h4>
                 {% endif %}
 
@@ -60,7 +61,6 @@
                     </button>
                 </span>
             </div> -->
-
                 <div>
                     <table class="table table-bordered" style="max-width: 100%; margin-top: 10px">
                         <colgroup>
@@ -77,12 +77,12 @@
                             <th>Loại hàng hóa</th>
                             <th>Giá</th>
                             <th>Còn lại</th>
-                            <th> Sửa thông tin </th>
+                            <th>Sửa thông tin</th>
                         </thead>
                         <tbody>
 
                             {% for product in products%}
-                            
+
                             <tr>
                                 <td>{{product.name}}</td>
                                 <td>{{product.id}}</td>
@@ -95,7 +95,12 @@
                         </tbody>
                     </table>
                 </div>
+                <div>
+                    <button class="btn btn-dark"><a href="{% url 'mystore:get-list' %}" style="text-decoration: none; color: white;">Chọn sản phẩm lên kệ</a></button>
+                </div>
             </div>
         </div>
+    </div>
+</div>
 </body>
 {% endblock content %}

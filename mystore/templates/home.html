@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load number_format %}
+{% load static %}
 {% block title %}
 <title>
     IUStore
@@ -58,8 +59,11 @@
                 <a href="{% url 'mystore:item-detail' item_id=item.id %}" style="color: black; text-decoration: none;">
                     <div class="thumbnail pb-2 pt-2">
                         <div class="badge-top">
-                            <img src="{{path}}"
+                        {% with 'images/product/'|add:path as image_path %}
+                            <img src="{% static image_path %}"
                                 width="205px" height="200px" alt="Máy Tính Bảng Samsung Galaxy">
+                        {% endwith %}
+                            
                         </div>
                     </div>
                     <div class="info">
@@ -67,19 +71,24 @@
                         <div class="name" style="height: 50px; font-size: 15px;">
                             {{item.product.name}}
                         </div>
-                        <div class="row ml-auto ">
+                        {% comment %} <div class="row ml-auto ">
                             <span class="rate">
                                 5 <i class="fas fa-star"></i>
                             </span>
                             <span class="review"> (50) </span>
-                        </div>
+                        </div> {% endcomment %}
                         <div class="row ml-auto">
                             <span class="price">
                                 {{item.product.price|int_format}} ₫
                             </span>
-                            <span class="sale">
-                                {{discount_rate}}
-                            </span>
+                            {% if discount_rate %}
+                                <span class="sale">
+                                    {{discount_rate}}
+                                </span>
+                            {% endif %}
+                            
+                               
+                            
                         </div>
                     </div>
                 </a>
