@@ -30,16 +30,20 @@ def viewOrderDetail(request, order_id):
 
     cart_items = CartItem.objects.filter(cart = order.cart)
     items = []
+    totalPrice = 0
     for cart_item in cart_items:
+        totalPrice += cart_item.item.price * cart_item.qty
         images = Image.objects.filter(product=cart_item.item.product)
         if images.count() > 0:
             img = images[0].path
         else:
             img = None
         items.append((cart_item.item, cart_item.qty, img,cart_item.item.price*cart_item.qty))
-    
+
+    context['totalPrice'] = totalPrice
     context['items'] = items
     context['order'] = order
+    context['totalPriceWithFee'] = order.shipment.shipmentMethod.fee + totalPrice
     return render(request, 'customer/order_detail.html', context)
 def order(request):
     context = {}

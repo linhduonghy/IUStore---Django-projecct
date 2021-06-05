@@ -735,6 +735,21 @@ a {
     cursor: pointer;
     text-decoration: none;
 }
+tfoot {
+    border-top: 1px solid #dee2e6;
+}
+tfoot tr td {
+    text-align: right;
+    display: table-cell;
+    padding: 5px 30px;
+    max-width: 550px;
+    min-width: 125px;
+    color: rgb(36, 36, 36);
+    border-top: none !important;
+    font-size: 15px;
+}
+
+/* customer comment */
 .customer-comment {
     padding: 5px 0 5px 10px;
     width: 800px;

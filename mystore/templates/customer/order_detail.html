@@ -80,7 +80,22 @@
                 </tr>
                 {% endfor %}
             </tbody>
+            <tfoot >
+                <tr style="border-top: none; display: table-row; padding: 10px;">
+                    <td colspan="3">Tạm tính</td>
+                    <td style="text-align: center;">{{totalPrice}} đ</td>
+                </tr>
+                <tr style="border-top: none;">
+                    <td colspan="3">Phí vận chuyển</td>
+                    <td style="text-align: center;">{{order.shipment.shipmentMethod.fee}} đ</td>
+                </tr>
+                <tr style="border-top: none;">
+                    <td colspan="3">Tổng cộng </td>
+                    <td style="color: rgb(255, 59, 39); font-size: 18px; text-align: center;">{{totalPriceWithFee}} đ</td>
+                </tr>
+            </tfoot>
         </table>
+        
     </div>
 </div>
 
