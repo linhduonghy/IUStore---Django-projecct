@@ -7,34 +7,27 @@ from ..views import cart
 def shipper(request):
     orders = Order.objects.filter(Q(statusNow='Đợi giao') | Q(statusNow='Đang giao')|Q(statusNow='Đã giao'))
     orderDone = Order.objects.filter(statusNow='Đã giao')
-
     context = {}
     context['orders'] = []
     context['orderDone'] = []
     context['items'] = []
 
     for order in orders:
-        cart_items = CartItem.objects.filter( cart =order.cart)
-        order_item = str(cart_items[0].qty) + ' ' + cart_items[0].item.name
-        if len(cart_items)-1 > 0:
-            order_item += ' và ' +  str(len(cart_items)-1)+' các sản phẩm khác'
-        order_item = str(cart_items[0].qty) + ' ' + cart_items[0].item.name
+        orderItems = OrderItem.objects.filter( order =order)
+        order_item = str(orderItems[0].qty) + 'x' + orderItems[0].item.name
+        if len(orderItems) > 1:
+            order_item += ' ... '
         context['orders'].append((order,order_item))
 
     for order in orderDone:
-        cart_items = CartItem.objects.filter( cart =order.cart)
-        order_item = str(cart_items[0].qty) + ' ' + cart_items[0].item.name
-        if len(cart_items)-1 > 0:
-            order_item += ' và ' +  str(len(cart_items)-1)+' các sản phẩm khác'
-        order_item = str(cart_items[0].qty) + ' ' + cart_items[0].item.name
+        orderItems = OrderItem.objects.filter( order =order)
+        order_item = str(orderItems[0].qty) + 'x' + orderItems[0].item.name
+        if len(orderItems)-1 > 0:
+            order_item += ' ... '
         context['orderDone'].append((order,order_item))
 
-
-    cart_item = CartItem.objects.filter(cart=order.cart)
-    context['items'] = []
-    for citem in cart_item:
-        amount = citem.qty * citem.item.price
-        context['items'].append((citem, amount))
+    context['orderDone'] = context['orderDone'][::-1]
+    context['orders'] = context['orders'][::-1]    
 
     return render(request, 'manager/shipment.html',context)
 
@@ -55,9 +48,7 @@ def shipping (request,order_id):
     updateStatus.save()
 
     # shipper
-    shipper = Shipper()
-    shipper.member = member
-    shipper.save()
+    shipper = Shipper.objects.get(member=member)
 
     shipment = order.shipment
     shipment.shipper = shipper
@@ -72,9 +63,6 @@ def finished (request,order_id):
     order = Order.objects.get(id = order_id)
     order.statusNow = 'Đã giao'
     order.save()
-    print(order)
-    
-    print(order.statusNow)
 
     member = Member.objects.get(id = request.session.get('member'))
     updateStatus = OrderHistory()
@@ -82,4 +70,12 @@ def finished (request,order_id):
     updateStatus.order = order
     updateStatus.status = order.statusNow
     updateStatus.save()
+
+    # notice to customer
+    notification = Notification()
+    notification.customer = order.cart.customer
+    notification.content = 'Đơn hàng mã ' + \
+        str(order.id) + ' đã được giao thành công'
+    notification.attach = 'saler/view-order/'+str(order.id)
+    notification.save()
     return redirect('mystore:shipper')

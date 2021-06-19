@@ -1,0 +1,37 @@
+{% extends 'manager/dashboard-base.html' %}
+{% load number_format %}
+{% block title %}
+<title>Chi tiết sản phâm</title>
+{% endblock title %}
+{% block content %}
+<!-- Main content -->
+
+
+<body>
+    <div class="container bg-light mt-2 pt-2">
+        <h3 class="border-bottom pb-2">Thông tin về sản phẩm</h3>
+
+            <div class="product-info">
+                <span class="product-label">Mã</span>
+                <span class="product-value">{{product.id}}</span>
+            </div>
+            <div class="product-info">
+                <span class="product-label">Sản phẩm</span>
+                <span class="product-value">{{product.name}}</span>
+            </div>
+            <div class="product-info">
+                <span class="product-label">Giá</span>
+                <span class="product-value">{{product.price}}</span>
+            </div>
+            <div class="product-info">
+                <span class="product-label">Mô tả</span>
+                <span class="product-value">{{product.description}}</span>
+            </div>            
+            <div class="product-info">
+                <span class="product-label">Hàng trong kho</span>
+                <span class="product-value">{{product.qty_in_stock}}</span>
+            </div>
+    </div>
+</body>
+
+{% endblock content %}

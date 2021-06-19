@@ -110,9 +110,9 @@
                     <li class="nav-item sidenav-item mr-auto">
                         <a class="nav-link " href="{% url 'mystore:warehouse' %}">Đóng gói sản phẩm</a>
                     </li>
-                    <li class="nav-item sidenav-item mr-auto">
+                    {% comment %} <li class="nav-item sidenav-item mr-auto">
                         <a class="nav-link " href="{% url 'mystore:product' %}">Nhập / Xuất Kho</a>
-                    </li>
+                    </li> {% endcomment %}
                     <!-- Van chuyen -->
                     <li class=" navbar-text  mr-auto">
                         Vận chuyển
@@ -138,19 +138,26 @@
                         Quản lý bán hàng
                     </li>
                     <li class="nav-item sidenav-item mr-auto">
-                        <a class="nav-link " href="/mystore/saler">Tất cả đơn hàng</a>
+                        <a class="nav-link " href="{% url 'mystore:saler' %}">Tất cả đơn hàng</a>
                     </li>
 
-                    <li class="nav-item sidenav-item mr-auto">
+                    {% comment %} <li class="nav-item sidenav-item mr-auto">
                         <a class="nav-link " href="#">Trả hàng / hoàn tiền</a>
-                    </li>
+                    </li> {% endcomment %}
 
                     <!-- Thong ke -->
-                    <li class=" navbar-text  mr-auto">
+                    {% comment %} <li class=" navbar-text  mr-auto">
                         Dữ liệu
                     </li>
                     <li class="nav-item sidenav-item mr-auto">
                         <a class="nav-link " href="saler-statistic.html">Thống kê bán hàng</a>
+                    </li> {% endcomment %}
+                    <!-- review management -->
+                     <li class=" navbar-text  mr-auto">
+                        Bình luận khách hàng
+                    </li>
+                    <li class="nav-item sidenav-item mr-auto">
+                        <a class="nav-link" href="{% url 'mystore:show-feedback' %}">Bình luận</a>
                     </li>
 
                 </ul>

@@ -1,17 +1,25 @@
 from ..models import *
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 
 def notification(request):
 
     customer = Customer.objects.filter(member = request.session.get('member'))
     listNofi = Notification.objects.filter(customer=customer[0])
-    print(listNofi)
+
     context = {}
-    context['listNofi'] = listNofi
+    notifications = []
+    for notification in listNofi:
+        lst = notification.attach.split('/')
+        order_id = lst[len(lst) - 1]
+        notifications.append((notification, order_id))
+    context['listNofi'] = notifications
 
     return render(request, 'customer/notification.html',context)
 
+def removeNotification(request, noti_id):
+    Notification.objects.get(pk=noti_id).delete()
+    return redirect('mystore:notification')
 
 def info(request):
     member = Member.objects.get(id=request.session.get('member'))
@@ -50,21 +58,18 @@ def order(request):
     context['orders'] = []
     
     member = Member.objects.get(id=request.session.get('member'))
-    print(member)
     customer = Customer.objects.get(member=member)
 
     carts = Cart.objects.filter(customer = customer,is_order='True')
-    print(carts)
     
     for cart in carts:
-        
+        print(cart)
         order = Order.objects.get(cart=cart)
         
         cart_items = CartItem.objects.filter( cart = cart)
-        order_item = str(cart_items[0].qty) + ' ' + cart_items[0].item.name
-        if len(cart_items)-1 > 0:
-            order_item += ' và ' +  str(len(cart_items)-1)+' các sản phẩm khác'
-        order_item = str(cart_items[0].qty) + ' ' + cart_items[0].item.name
+        order_item = str(cart_items[0].qty) + 'x' + cart_items[0].item.name
+        if len(cart_items) > 1:
+            order_item += ' ...'
         
         totalPrice = 0
         for cart_item in cart_items:
@@ -74,12 +79,10 @@ def order(request):
 
     return render(request, 'customer/order.html',context)
 
-def address(request):
+def deliveryAddress(request):
     context = {}
     customer = Customer.objects.filter(member = request.session.get('member'))
     deliveryAddresses = DeliveryAddress.objects.filter(customer=customer[0])
     if deliveryAddresses and len(deliveryAddresses) > 0:
         context['add'] = deliveryAddresses[len(deliveryAddresses) - 1]
-    
-
-    return render(request, 'customer/address.html',context)
+    return render(request, 'customer/deliveryAddress.html',context)

@@ -14,12 +14,12 @@
                 <th></th>
             </thead>
             <tbody>
-                {% for product in up %}
+                {% for product in products %}
                 <tr>
                     <td>{{product.name}}</td>
                     <td>{{product.price}}</td>
                     <td>{{product.qty_in_stock}}</td>
-                    <td><button class="btn btn-danger"><a href="{% url 'mystore:up-shelf' product_id=product.id %}" style="text-decoration: none; color: white;">Up</a></button></td>
+                    <td><a href="{% url 'mystore:put-item-detail' product_id=product.id %}" class="btn btn-success">Đưa lên bán</a></td>
                 </tr>
                 {% endfor %}
             </tbody>

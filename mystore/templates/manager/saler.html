@@ -1,4 +1,5 @@
 {% extends 'manager/dashboard-base.html' %} {% block title %}
+{% load number_format %}
 <title>Saler</title>
 {% endblock title %}
 {% block content %}
@@ -42,12 +43,12 @@
 
                 <h4>Đơn hàng</h4>
 
-                <span class="ml-auto mr-2">
+                <!-- <span class="ml-auto mr-2">
                     <button class="btn btn-danger">
                         <span><i class="fa fa-shopping-bag" aria-hidden="true"></i></span> Giao
                         hàng loạt
                     </button>
-                </span>
+                </span> -->
             </div>
 
             <div>
@@ -60,31 +61,31 @@
                         <col span="1">
                     </colgroup>
                     <thead style="text-align: center">
+                        <th>#</th>
                         <th>Ngày tạo</th>
                         <th>Sản phẩm</th>
                         <th>Tổng đơn hàng</th>
                         <th>Trạng thái</th>
-                        <th>Xem Chi tiết</th>
-                        <th>Thao tác</th>
+                        <th>#</th>
                     </thead>
                     <tbody>
-                    {% for order,item in orders %}
+                    {% for order,item,total in orders %}
                         <tr>
-                            
-
-
+                            <td><a href="{% url 'mystore:view-order' order_id=order.id %}"  >{{order.id}} </a></td>
                             <td>{{order.created_date|date:'Y-m-d '}}</td>
                             <td>{{item}}</td>
-                            <td>#</td>
-                            
+                            <td>{{total|int_format}} VNĐ</td>                        
                             <td>{{order.statusNow}}</td>
                             <td style="text-align: center">{% if order.statusNow == 'Chờ duyệt' %}
+                                <a href="{% url 'mystore:confirm-order' order_id=order.id %}" class="btn btn-primary">
+                                    Xác nhận</a>
+                                <a href="{% url 'mystore:cancel-order' order_id=order.id %}" class="btn btn-primary">
+                                    Hủy</a>
+                                {% elif order.statusNow == 'Đã duyệt' %}
                                 <a href="{% url 'mystore:send-warehouse' order_id=order.id %}" class="btn btn-primary">
-                                    Gửi kho</a>
-
+                                    Đóng gói</a>
                                 {% endif %}
-                            </td>
-                            <td><a href="{% url 'mystore:view-order' order_id=order.id %}"  class="btn btn-success">Xem đơn hàng </a></td>
+                            </td>                            
                         </tr>
                         {% endfor %}
                     </tbody>

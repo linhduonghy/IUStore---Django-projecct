@@ -8,34 +8,47 @@ def warehouse(request):
     context = {}
     context['orders'] = []
     for order in orders:
-        cart_items = CartItem.objects.filter( cart =order.cart)
-        order_item = str(cart_items[0].qty) + ' ' + cart_items[0].item.name
-        if len(cart_items)-1 > 0:
-            order_item += ' và ' +  str(len(cart_items)-1)+' các sản phẩm khác'
-        order_item = str(cart_items[0].qty) + ' ' + cart_items[0].item.name
+        orderItems = OrderItem.objects.filter( order =order)
+        order_item = str(orderItems[0].qty) + 'x' + orderItems[0].item.name
+        if len(orderItems)-1 > 0:
+            order_item += ' ...'
         context['orders'].append((order,order_item))
 
     return render(request, 'manager/warehouse.html',context)
 
 def exportProduct(request,order_id):
-    order = Order.objects.get(id = order_id)
-    order.statusNow = 'Đợi giao'
-    print(order)
-    order.save()
-    print(order.statusNow)
-
+    
+    member_id = request.session.get('member')
     member = Member.objects.get(id = request.session.get('member'))
+    member = Member.objects.get(pk=member_id)
+    order = Order.objects.get(id = order_id)
+    orderItems = OrderItem.objects.filter( order =order)
+
+    # update order
+    order.statusNow = 'Đợi giao'
+    order.save()
+    
     updateStatus = OrderHistory()
     updateStatus.member = member
     updateStatus.order = order
     updateStatus.status = order.statusNow
     updateStatus.save()
 
-    cart_items = CartItem.objects.filter( cart =order.cart)
-    for citem in cart_items :
-        product=Product.objects.get(id=citem.item.product.id)
-        product.qty_in_stock-= citem.qty
+    # update product qty in stick
+    for orderItem in orderItems :
+        product=Product.objects.get(id=orderItem.item.product.id)
+        product.qty_in_stock -= orderItem.qty
         product.save()
     
+    # export bill
+    exportBill = ExportBill()
+    exportBill.warehouseStaff = WarehouseStaff.objects.get(member=member)
+    exportBill.save()
+    for orderItem in orderItems:
+        exportProduct = ExportProduct()
+        exportProduct.export_bill = exportBill
+        exportProduct.product = orderItem.item.product
+        exportProduct.qty = orderItem.qty
+        exportProduct.save()
 
     return redirect('mystore:warehouse')

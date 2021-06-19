@@ -9,6 +9,11 @@ def product(request):
     context['products'] = products
     return render(request, 'manager/product.html',context)
 
+
+def showProductDetail(request, product_id):
+    product = Product.objects.get(pk=product_id)
+    return render(request, template_name='manager/product_detail.html', context={'product': product})
+    
 def active(request):
     items = Item.objects.all()
     products =[]
@@ -24,7 +29,7 @@ def checkExist(product, items):
         if item.product.id == product.id:
             return False
     return True
-def getList(request):
+def getUnSoldProduct(request):
     context = {}
     items = Item.objects.all()
     products = Product.objects.all()
@@ -34,15 +39,41 @@ def getList(request):
         if checkExist(product, items):
             prs.append(product)
     
-    context['up'] = prs
+    context['products'] = prs
     return render(request, 'manager/up-shelf.html', context)
 
-def upShelf(request, product_id):
-    print(product_id)
+def putItemDetail(request, product_id):
     product = Product.objects.get(id=product_id)
+    context = {}
+    context['product'] = product
+    return render(request, template_name='manager/put-item-detail.html', context=context)
+
+def handlePutItem(request, product_id):
+    product = Product.objects.get(pk=product_id)
     item = Item()
     item.product = product
     item.name = product.name
     item.price = product.price
     item.save()
+
+    discount = Discount()
+    discount.discount_value = request.POST['discountValue']
+    discount.from_date = request.POST['fromDate']
+    discount.item = item
+    discount.save()
+    return redirect('mystore:product')
+
+def upShelf(request, product_id):
+    product = Product.objects.get(pk=product_id)
+    item = Item()
+    item.product = product
+    item.name = product.name
+    item.price = product.price
+    item.save()
+
+    discount = Discount()
+    discount.discount_value = request.POST['discountValue']
+    discount.from_date = request.POST['fromDate']
+    discount.item = item
+    discount.save()
     return redirect('mystore:product')

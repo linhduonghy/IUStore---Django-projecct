@@ -1,13 +1,7 @@
-# This is an auto-generated Django model module.
-# You'll have to do the following manually to clean this up:
-#   * Rearrange models' order
-#   * Make sure each model has one field with primary_key=True
-#   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
-#   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
-# Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
 from datetime import datetime
 import json
+import abc
 
 class Account(models.Model):
     # Field name made lowercase.
@@ -54,7 +48,6 @@ class Address(models.Model):
 
         db_table = 'address'
 
-
 class Bank(models.Model):
     # Field name made lowercase.
     id = models.AutoField(db_column='ID', primary_key=True)
@@ -69,8 +62,32 @@ class Bank(models.Model):
 
         db_table = 'bank'
 
+    __metaclass__ = abc.ABCMeta
+
     def __str__(self):
-        return self.name
+        return str(self.id) + '_' + self.name
+    
+    def getByName(self, name):
+        return Bank.objects.filter(name=name)[0]
+    @abc.abstractmethod
+    def getBank(self):
+        pass
+
+class VietcomBank(Bank):
+    def getBank(self) -> Bank:
+        vcb = VietcomBank.objects.all()[0]
+        return self.getByName(vcb.name)
+
+class VietinBank(Bank):
+    def getBank(self) -> Bank:
+        vtb = VietinBank.objects.all()[0]
+        return self.getByName(vtb.name)
+
+class TPBank(Bank):
+    def getBank(self) -> Bank:
+        tpb = TPBank.objects.all()[0]
+        return self.getByName(tpb.name)
+
 
 class Bill(models.Model):
     # Field name made lowercase.
@@ -162,7 +179,6 @@ class Customer(models.Model):
 
         db_table = 'customer'
 
-
 class DeliveryAddress(models.Model):
     # Field name made lowercase.
     id = models.AutoField(db_column='ID', primary_key=True)
@@ -226,13 +242,13 @@ class Feedback(models.Model):
     item = models.ForeignKey('Item', models.CASCADE, db_column='ItemID')
     # Field name made lowercase.
     comment = models.ForeignKey(
-        Comment, models.DO_NOTHING, db_column='CommentID')
+        Comment, models.CASCADE, db_column='CommentID')
     # Field name made lowercase.
     rate_score = models.IntegerField(db_column='Rate_score')
     # Field name made lowercase.
     created_date = models.DateTimeField(
         db_column='Created_date', default=datetime.now, blank=True)
-
+    isProcessed = models.BooleanField(null=True, blank=True)
     class Meta:
 
         db_table = 'feedback'
@@ -256,19 +272,20 @@ class Image(models.Model):
         db_table = 'image'
 
 
-class ImportFile(models.Model):
+class ImportBill(models.Model):
     # Field name made lowercase.
     id = models.AutoField(db_column='ID', primary_key=True)
     # Field name made lowercase.
+    warehouseStaff = models.ForeignKey('WarehouseStaff', models.DO_NOTHING, db_column="warehouse_staff_id", null=True)
+    # Field name made lowercase.
+
     created_date = models.DateTimeField(
         db_column='Created_date', default=datetime.now, blank=True)
 
     class Meta:
 
-        db_table = 'import_file'
+        db_table = 'import_bill'
 
-    def __str__(self):
-        return str(self.id) + ': ' + str(self.created_date)
 
 class ImportProduct(models.Model):
     # Field name made lowercase.
@@ -277,13 +294,46 @@ class ImportProduct(models.Model):
     product = models.ForeignKey(
         'Product', models.CASCADE, db_column='ProductID')
     # Field name made lowercase.
-    import_file = models.ForeignKey(
-        'ImportFile', models.DO_NOTHING, db_column='Import_fileID')
+    import_bill = models.ForeignKey(
+        'ImportBill', models.DO_NOTHING, db_column='Import_billID', null=True)
     qty = models.IntegerField(db_column='Qty')  # Field name made lowercase.
 
     class Meta:
 
         db_table = 'import_product'
+
+    def __str__(self):
+        return str(self.product) + ': ' + str(self.qty)
+
+class ExportBill(models.Model):
+    # Field name made lowercase.
+    id = models.AutoField(db_column='ID', primary_key=True)
+    # Field name made lowercase.
+    warehouseStaff = models.ForeignKey('WarehouseStaff', models.DO_NOTHING, db_column="warehouse_staff_id",null=True)
+    # Field name made lowercase.
+
+    created_date = models.DateTimeField(
+        db_column='Created_date', default=datetime.now, blank=True)
+
+    class Meta:
+
+        db_table = 'export_bill'
+
+
+class ExportProduct(models.Model):
+    # Field name made lowercase.
+    id = models.AutoField(db_column='ID', primary_key=True)
+    # Field name made lowercase.
+    product = models.ForeignKey(
+        'Product', models.CASCADE, db_column='ProductID')
+    # Field name made lowercase.
+    export_bill = models.ForeignKey(
+        'ExportBill', models.DO_NOTHING, db_column='Import_billID')
+    qty = models.IntegerField(db_column='Qty')  # Field name made lowercase.
+
+    class Meta:
+
+        db_table = 'export_product'
 
     def __str__(self):
         return str(self.product) + ': ' + str(self.qty)
@@ -365,6 +415,22 @@ class Order(models.Model):
 
         db_table = 'order'
 
+class OrderItem(models.Model):
+    # Field name made lowercase.
+    id = models.AutoField(db_column='ID', primary_key=True)
+    # Field name made lowercase.
+    order = models.ForeignKey(
+        'Order', on_delete=models.CASCADE, db_column='OrderId')
+    # Field name made lowercase.
+    item = models.ForeignKey('Item', models.CASCADE, db_column='ItemID')
+    qty = models.IntegerField(db_column='Qty')  # Field name made lowercase.
+
+    class Meta:
+
+        db_table = 'order_item'
+    
+    def __str__(self):
+        return str(self.order) + ',' + str(self.item) + ':' + str(self.qty)
 
 class OrderHistory(models.Model):
     # Field name made lowercase.
@@ -459,7 +525,21 @@ class Permission(models.Model):
 
         db_table = 'permission'
 
+class Supplier(models.Model):
+    # Field name made lowercase.
+    id = models.AutoField(db_column='ID', primary_key=True)
+    # Field name made lowercase.
+    name = models.CharField(db_column='Name', max_length=255)
+    # Field name made lowercase.
+    phone = models.CharField(db_column='Phone', max_length=255)
+    # Field name made lowercase.
+    address = models.ForeignKey('Address', models.DO_NOTHING, null=True, blank=True)
 
+    class Meta:
+        db_table = 'supplier'
+    
+    def __str__(self):
+        return self.name
 class Product(models.Model):
     # Field name made lowercase.
     id = models.AutoField(db_column='ID', primary_key=True)
@@ -467,39 +547,44 @@ class Product(models.Model):
     warehouse = models.ForeignKey(
         'Warehouse', models.DO_NOTHING, db_column='WarehouseID')
     # Field name made lowercase.
+    supplier = models.ForeignKey(
+        'Supplier', models.DO_NOTHING, db_column='SupplierID', null=True, blank=True)
+    # Field name made lowercase.
+    type = models.ForeignKey(
+        'Type', models.DO_NOTHING, db_column='TypeID',null=True)
+    # Field name made lowercase.
     name = models.CharField(
         db_column='Name', max_length=255, blank=True, null=True)
     price = models.BigIntegerField(db_column='Price')  # Field name made lowercase.
     # Field name made lowercase.
     description = models.CharField(
-        db_column='Description', max_length=255, blank=True, null=True)
+        db_column='Description', max_length=1000, blank=True, null=True)
     # Field name made lowercase.
     qty_in_stock = models.IntegerField(db_column='Qty_in_stock')
-    type = models.ForeignKey(
-        'Type', models.DO_NOTHING, db_column='TypeID',null=True)
+
+    
 
     class Meta:
 
         db_table = 'product'
     def __str__(self):
-        return self.name
+        return self.name + ' : ' + str(self.qty_in_stock)
 
 
 class Respone(models.Model):
     # Field name made lowercase.
     id = models.AutoField(db_column='ID', primary_key=True)
     # Field name made lowercase.
+    member = models.ForeignKey(Member, models.DO_NOTHING, db_column='MemberID', null=True)
+    # Field name made lowercase.
     comment = models.ForeignKey(
-        Comment, models.DO_NOTHING, db_column='CommentID')
+        Comment, models.CASCADE, db_column='CommentID')
     # Field name made lowercase.
     content = models.CharField(
         db_column='Content', max_length=255, blank=True, null=True)
     # Field name made lowercase.
     created_date = models.DateTimeField(
-        db_column='Created_date', blank=True, null=True)
-    # Field name made lowercase.
-    updated_date = models.DateTimeField(
-        db_column='Updated_date', default=datetime.now, blank=True)
+        db_column='Created_date', default=datetime.now, blank=True, null=True)
 
     class Meta:
 
@@ -627,9 +712,6 @@ class WarehouseStaff(models.Model):
     # Field name made lowercase.
     id = models.AutoField(db_column='ID', primary_key=True)
     # Field name made lowercase.
-    import_file = models.ForeignKey(
-        ImportFile, models.DO_NOTHING, db_column='Import_fileID')
-    # Field name made lowercase.
     member = models.ForeignKey(
         Member, models.DO_NOTHING, db_column='memberID')
 
@@ -653,6 +735,17 @@ class Notification(models.Model):
         db_table = 'notification'
 
 
+class Category(models.Model):
+    id = models.AutoField(db_column='ID', primary_key=True)
+    name = models.CharField(db_column='content',
+                            max_length=255, blank=True, null=True)
+
+    class Meta:
+
+        db_table = 'category'
+    def __str__(self):
+        return self.name
+
 class Type(models.Model):
     id = models.AutoField(db_column='ID', primary_key=True)
     name = models.CharField(db_column='content',
@@ -670,19 +763,6 @@ class Type(models.Model):
         return self.name
     def toJSON(self):
         return json.dumps(self.__dict__)
-
-
-class Category(models.Model):
-    id = models.AutoField(db_column='ID', primary_key=True)
-    name = models.CharField(db_column='content',
-                            max_length=255, blank=True, null=True)
-
-    class Meta:
-
-        db_table = 'category'
-    def __str__(self):
-        return self.name
-
 
 class Attribute(models.Model):
     id = models.AutoField(db_column='ID', primary_key=True)

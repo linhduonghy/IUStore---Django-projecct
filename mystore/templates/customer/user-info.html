@@ -19,6 +19,15 @@
 
         <div class="row pt-2 pb-2">
             <div class="col-2">
+                <label for="address" class="input-label">Địa chỉ</label>
+            </div>
+            <div class="col" style="max-width: 50%;">
+                <label>{{customer.member.address}}</label>
+            </div>
+        </div>
+
+        <div class="row pt-2 pb-2">
+            <div class="col-2">
                 <label for="phone" class="input-label">Số điện thoại</label>
             </div>
             <div class="col" style="max-width: 50%;">
@@ -34,7 +43,7 @@
                 <label>{{customer.member.email}}</label>
             </div>
         </div>
-        <div class="row pt-2 pb-2">
+        {% comment %} <div class="row pt-2 pb-2">
             <div class="col-2">
                 <label for="email" class="input-label">Giới tính</label>
             </div>
@@ -50,7 +59,7 @@
                 {% endif %}
                 
             </div>
-        </div>
+        </div> {% endcomment %}
 
     </div>
 </div>

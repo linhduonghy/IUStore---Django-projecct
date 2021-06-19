@@ -49,18 +49,12 @@
                 {% else %}
                 <h4>Danh sách sản phẩm ( {{products|length}} sản phẩm)
 
-                    <a href="{% url 'mystore:new-product' %}"" class=" btn btn-success" style="margin-left: 50px;">Thêm
+                    <a href="{% url 'mystore:new-product' %}" class=" btn btn-success" style="margin-left: 50px;">Thêm
                         sản phẩm</a>
+                    <a href="{% url 'mystore:put-item' %}" class="btn btn-info ml-5">Đưa sản phẩm lên bán</a>
                 </h4>
                 {% endif %}
 
-                <!-- <span class="ml-auto mr-2" >
-                    <button class="btn btn-danger">
-                        <span><i class="fa fa-shopping-bag" aria-hidden="true"></i></span> Giao
-                        hàng loạt
-                    </button>
-                </span>
-            </div> -->
                 <div>
                     <table class="table table-bordered" style="max-width: 100%; margin-top: 10px">
                         <colgroup>
@@ -84,7 +78,7 @@
                             {% for product in products%}
 
                             <tr>
-                                <td>{{product.name}}</td>
+                                <td><a href="{% url 'mystore:product-detail' product_id=product.id %}">{{product.name}}</a></td>
                                 <td>{{product.id}}</td>
                                 <td>{{product.type.name}}</td>
                                 <td>{{product.price}}</td>
@@ -95,9 +89,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div>
-                    <button class="btn btn-dark"><a href="{% url 'mystore:get-list' %}" style="text-decoration: none; color: white;">Chọn sản phẩm lên kệ</a></button>
-                </div>
+                
             </div>
         </div>
     </div>

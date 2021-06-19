@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from ..models import *
 
 
-def cart(request):
+def getCart(request):
     context = {}
     context['items'] = []
     if 'cart' in request.session:
@@ -58,7 +58,6 @@ def addToCart(request):
     item_id = request.GET['item_id']
     qty = int(request.GET['qty'])
     item = Item.objects.get(pk=int(item_id))
-    # print('add cart ' + str(item) + ' ' + str(qty))
     if 'customer' in request.session:
         customer_id = request.session['customer']
         customer = Customer.objects.get(pk=customer_id)

@@ -42,8 +42,6 @@
             <div class="pt-3 d-flex">
 
                 <h4>Đơn hàng chờ đóng gói</h4>
-
-                
             </div>
 
             <div>
@@ -61,24 +59,20 @@
 
                    
                     <tbody>
+                    {% for order,item in orders %}
                         <tr>
-                            {% for order,item in orders %}
-
-
+                            
                             <td>{{order.created_date|date:'Y-m-d '}}</td>
                             <td>{{item}}</td>
                             <td>#</td>
                             <td>{{order.statusNow}}</td>
                             <td style="text-align: center">
                                 <a href="{% url 'mystore:export-product' order_id=order.id %}" class="btn btn-primary">
-                                    Gửi Hàng</a>
-
-                                
+                                    Giao hàng</a>
                             </td>
-                            <td><a href="" class="btn btn-success">Xem đơn hàng </a></td>
-
-                            {% endfor %}
+                            <td><a href="{% url 'mystore:view-order' order_id=order.id %}" class="btn btn-success">Xem đơn hàng </a></td>                
                         </tr>
+                        {% endfor %}
                     </tbody>
                     
                     <div>

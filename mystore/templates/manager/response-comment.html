@@ -1,0 +1,27 @@
+{% extends 'manager/dashboard-base.html' %} {% block title %}
+<title>Phản hồi ý kiến khách hàng</title>
+{% endblock title %}
+{% block content %}
+<!-- Main content -->
+
+<body>
+    <div class="container-fliud bg-white pt-5" style="margin-top: 20px;">
+         
+        <h3>Phản hồi ý kiến khách hàng</h3>
+
+        <form action="{% url 'mystore:handle-response-comment' comment_id=comment.id %}" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="comment">Comment</label>
+                <input type="text" disabled value="{{comment.content}}" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="content">Phản hồi</label>
+                <input type="text" name="content" id="content" placeholder="Nhập phản hồi khách hàng ..." class="form-control">
+            </div>
+
+            <button class="btn btn-success"> Gửi </button>
+        </form>
+</div>
+</body>
+{% endblock content %}

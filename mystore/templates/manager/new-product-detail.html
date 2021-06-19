@@ -65,6 +65,16 @@
                     <label for="description">Mô tả sản phẩm*</label>
                     <textarea class="form-control" name="description" id="description" cols="10" rows="3"></textarea>
                 </div>
+                <div class="col form-group">
+                    <label for="supplier">Nhà cung cấp*</label>
+                    <select name="supplier" id="supplier" class="form-control">
+                        <option value="" style="display: none">Vui lòng chọn</option>
+                        {% for supplier in suppliers %}
+                        <option value="{{supplier.id}}">{{supplier.name}}</option>
+                        {% endfor %}
+
+                    </select>
+                </div>
 
 
             </div>
@@ -91,6 +101,7 @@
 
                     </select>
                 </div>
+                
             </div>
             <div class="col form-group mt-2 pt-2 pb-2">
                 <button class="btn btn-info" data-toggle="modal" data-target="#cancel">Hủy</button>

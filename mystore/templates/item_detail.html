@@ -14,6 +14,17 @@
 {% endblock style %}
 
 {% block content %}
+<script>
+    {% if comment %}
+        $(document).ready(function () {
+            // Handler for .ready() called.
+            $('html, body').animate({
+                scrollTop: $('#feedback').offset().top
+            }, 'slow');
+        });
+    {% endif %}
+</script>
+
 <div class="container pt-4">
 
     <!-- product detail -->
@@ -28,16 +39,25 @@
         <div class="product-content">
             <div class="product-header">
                 <h1 class="product-title">{{item.name}}</h1>
-                {% comment %} <div class="product-bellow-title">
-                    <span style="margin-right: 12px;">
-                        5 <i style="color: rgb(253, 216, 53);" class="fas fa-star"></i>
-                    </span>
-                    <a href="#" style="cursor: pointer; color: inherit; text-decoration: none;"> (Xem 1 đánh giá)
-                    </a>
-                    <span
-                        style="width: 1px; height: 15px; background-color: rgb(199, 199, 199); margin: 0 8px 0 8px"></span>
+                <div class="product-bellow-title">                    
+                    {% if rate_avg %}
+                        <span style="margin-right: 12px;" id="rate"></span>
+                        <script type="text/javascript"> 
+                            var score = "{{rate_avg}}"
+                            rate(score, 'rate')
+                         </script>
+                    {% endif %}                    
                     
-                </div> {% endcomment %}
+                    {% if feedbacks %}
+                        <a href="#feedback" style="cursor: pointer; color: inherit; text-decoration: none;"> (Xem {{ feedbacks|length }} đánh giá) </a>
+                    {% endif %}
+                    {% if exportCount and rate_avg %}
+                        <div class="product-bellow-title__separate"></div>
+                    {% endif %}
+                    {% if exportCount %}                        
+                        <div> Đã bán {{exportCount}} </div>
+                    {% endif %}
+                </div> 
             </div>
             <div class="product-body">
                 <div class="product-price">
@@ -45,7 +65,6 @@
                         <span class="product-price__current-price">{{discount_price|int_format}} đ</span>
                         <span class="product-price__price">{{current_price|int_format}} đ </span>
                         <span class="product-price__discount-rate">{{discount_rate}} %</span>
-                    
                     {% else %}
                         <span class="product-price__current-price">{{current_price|int_format}} đ</span>
                     {% endif %}
@@ -79,12 +98,12 @@
             
         </div>
         <div style="display: flex; flex-wrap: wrap; ">
-            {% for item, path, discount_rate in items %}
+            {% for item, path, discount, discount_rate,rate_avg,fb_count,exportCount in items %}
             <div class="item d-inline-block"
                 style="display:flex;flex-direction: column; justify-content: space-between; padding: 5px; margin: 10px 25px 30px 25px; width: 215px;  font-family: Arial, Helvetica, sans-serif;">
                 <a href="{% url 'mystore:item-detail' item_id=item.id %}" style="color: black; text-decoration: none;">
                     <div class="thumbnail pb-2 pt-2">
-                        <div class="badge-top">
+                        <div class="badge-top"> 
                         {% with 'images/product/'|add:path as image_path %}
                             <img src="{% static image_path %}"
                                 width="205px" height="200px" alt="Máy Tính Bảng Samsung Galaxy">
@@ -95,15 +114,31 @@
                         <div class="name" style="height: 50px; font-size: 15px;">
                             {{item.product.name}}
                         </div>
-                        {% comment %} <div class="row ml-auto ">
-                            <span class="rate">
-                                5 <i class="fas fa-star"></i>
+                        <div class="product-bellow-title" style="margin-bottom: 5px;">
+                            {% if rate_avg > 0 %}                        
+                            <span id="rate{{item.id}}">                                
+                                <script type="text/javascript">
+                                    var score = "{{rate_avg}}"                                    
+                                    rate(score, "rate{{item.id}}")
+                                </script>
                             </span>
-                            <span class="review"> (50) </span>
-                        </div> {% endcomment %}
+                            {% endif %}
+                            {% if exportCount and rate_avg %}
+                                <div class="product-bellow-title__separate"></div>
+                            {% endif %}
+                            {% if exportCount %}
+                            <span style="color: rgb(120, 120, 120); line-height: normal; font-size: 11px;">
+                                Đã bán {{exportCount}}
+                            </span>
+                            {% endif %}
+                        </div>
                         <div class="row ml-auto">
                             <span class="price">
-                                {{item.product.price|int_format}} ₫
+                                {% if discount %}
+                                    {{discount.discount_value|int_format}} ₫
+                                {% else %}
+                                    {{item.price|int_format}} ₫
+                                {% endif %}
                             </span>
                             {% if discount_rate %}
                                 <span class="sale">
@@ -138,30 +173,13 @@
         <h5 style="font-weight: 400; margin-top: 40px;"> MÔ TẢ SẢN PHẨM
         </h5>
         <div class="product-description-detail">
-            <div class="content">
-                {% comment %} Thông Số Kỹ Thuật: <br>
-
-                - Màu sắc: Đen - Xám <br>
-
-                - Chữ khắc Laser chống bay <br>
-
-                - Kết nối: USB 2.0, tương thích mọi hệ điều hành <br>
-
-                - Độ bền phím > 10.000.000 lượt bấm <br>
-
-                Bàn phím led chuyên game giả cơ với thiết kế tựa như 1 bàn phím cơ với đường nét và kiểu dáng rất phá
-                cách, hệ thống đèn led dưới nền cực kỳ ấn tượng với 7 gam màu trải đều trên bàn phím. Giúp người dùng,
-                đặc biệt là các game thủ có thể thoải mái sử dụng vào ban đêm. <br>
-
-                Giá sản phẩm trên Tiki đã bao gồm thuế theo luật hiện hành. Tuy nhiên tuỳ vào từng loại sản phẩm hoặc
-                phương thức, địa chỉ giao hàng mà có thể phát sinh thêm chi phí khác như phí vận chuyển, phụ phí hàng
-                cồng kềnh, ... <br> {% endcomment %}
+            <div class="content">            
                 {{product.description}}
             </div>
         </div>
     </div>
     <!-- customer review -->
-    <div class="customer-reviews">
+    <div class="customer-reviews" id="feedback">
         <h5 style="font-weight: 400;">
             ĐÁNH GIÁ - NHẬN XÉT TỪ KHÁCH HÀNG
         </h5>
@@ -169,7 +187,7 @@
         <div class="customer-comment">
             <form action="{% url 'mystore:item-review' %}" method="post">
                 {% csrf_token %}
-                <div class="customer-rate">
+                <div class="customer-rate" style="display: flex; justify-content: space-between; flex-direction: row;">
                     <div>
                         <input type="radio" id="one" name="rate" value="1">
                         <label for="one">
@@ -211,7 +229,7 @@
                         </label>
                     </div>
                 </div>
-                <textarea name="customer-comment" class="customer-comment form-control"></textarea>
+                <textarea name="customer-comment" class="customer-comment form-control" placeholder="Viết bình luận của bạn về sản phẩm"></textarea>
                 <input type="hidden" name="item_id" value="{{item.id}}">
                 <div style="display: flex; justify-content: flex-end;">
                     <button type="submit" class="btn btn-outline-success" style=" margin-bottom: 8px;">Gửi bình
@@ -221,7 +239,7 @@
         </div>
         {% endif %}
         <div class="customer-reviews__inner">
-            {% for feedback,rates in feedBacks %}
+            {% for feedback,rates,responses in feedbacks %}
             
             <div class="review-comment">
                 <div class="review-comment__user">
@@ -240,20 +258,28 @@
                                 <span><i class="fas fa-star"></i></span>
                             {% endfor %}
                         </div>
-                        {% comment %} <div class="review-comment__rating-text">
-                            Cực kỳ hài lòng
-                        </div> {% endcomment %}
                     </div>
                     <div class="review-comment__content">
                         {{feedback.comment.content}}
                     </div>
-                    {% comment %} <div class="review-comment__images">
-                        <div class="review-comment__image-item"
-                            style="background-image: url('https://vcdn.tikicdn.com/ts/review/12/78/f3/fdb18507bd7603e83be9492af9458641.jpg');">
-                        </div>
-                    </div> {% endcomment %}
                     <div class="review-comment_created-date">
                         <span>Nhận xét vào {{feedback.created_date}}</span>
+                    </div>
+                    <div class="review-comment__sub-comments">
+                        {% for response in responses %}
+                        <div class="review-sub-comment">
+                            <div class="review-sub-comment__inner">
+                                <div class="review-sub-comment__title">
+                                    <span class="review-sub-comment__title-name">{{response.member.name}}</span>
+                                    <span class="review-sub-comment__title-date">{{response.created_date}}</span>
+                                </div>
+                                <div class="review-sub-comment__content">
+                                    {{response.content}}
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        
                     </div>
                 </div>
             </div>
@@ -267,7 +293,7 @@
                 type: 'GET',
                 data: {
                     'item_id': "{{request.resolver_match.kwargs.item_id}}",
-                    'qty': $('#qty').val()
+                    'qty': $('#qty_value').val()
                 },
                 dataType: 'json',
                 success: function (res) {
@@ -277,4 +303,5 @@
         })
     </script>
     <script src="{% static 'js/add-to-cart.js' %}"></script>
+    <script src="{% static 'js/rate.js' %}"></script>
     {% endblock content %}

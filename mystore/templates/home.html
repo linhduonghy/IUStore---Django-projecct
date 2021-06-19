@@ -53,41 +53,59 @@
             <h3>Sản phẩm nổi bật</h3>
         </div>
         <div style="display: flex; flex-wrap: wrap; ">
-            {% for item, path, discount_rate in items %}
-            <div class="item d-inline-block"
-                style="display:flex;flex-direction: column; justify-content: space-between; padding: 5px; margin: 10px 25px 30px 25px; width: 215px;  font-family: Arial, Helvetica, sans-serif;">
-                <a href="{% url 'mystore:item-detail' item_id=item.id %}" style="color: black; text-decoration: none;">
+            {% for item, path, discount, discount_rate,rate_avg,fb_count,exportCount in items %}
+            <a href="{% url 'mystore:item-detail' item_id=item.id %}" style="color: black; text-decoration: none;">
+                <div class="item">
+
                     <div class="thumbnail pb-2 pt-2">
                         <div class="badge-top">
-                        {% with 'images/product/'|add:path as image_path %}
-                            <img src="{% static image_path %}"
-                                width="205px" height="200px" alt="Máy Tính Bảng Samsung Galaxy">
-                        {% endwith %}
+                            {% with 'images/product/'|add:path as image_path %}
+                            <img src="{% static image_path %}" width="205px" height="200px"
+                                alt="Máy Tính Bảng Samsung Galaxy">
+                            {% endwith %}
                         </div>
                     </div>
-                    <div class="info">
-                        <div class="name" style="height: 50px; font-size: 15px;">
-                            {{item.product.name}}
-                        </div>
-                        {% comment %} <div class="row ml-auto ">
-                            <span class="rate">
-                                5 <i class="fas fa-star"></i>
+                    <div> 
+                        {{item.product.name}}
+                    </div>
+                    <div>
+                        <div class="product-bellow-title" style="margin-bottom: 5px;">
+                            {% if rate_avg > 0 %}                        
+                            <span  id="rate{{item.id}}">                                
+                                <script type="text/javascript">
+                                    var score = "{{rate_avg}}"                                    
+                                    rate(score, "rate{{item.id}}")
+                                </script>
                             </span>
-                            <span class="review"> (50) </span>
-                        </div> {% endcomment %}
-                        <div class="row ml-auto">
+                            {% endif %}
+                            {% if exportCount and rate_avg %}
+                                <div class="product-bellow-title__separate"></div>
+                            {% endif %}
+                            {% if exportCount %}
+                            <span style="color: rgb(120, 120, 120); line-height: normal; font-size: 11px;">
+                                Đã bán {{exportCount}}
+                            </span>
+                            {% endif %}
+
+                        </div>
+                        <div>
                             <span class="price">
-                                {{item.product.price|int_format}} ₫
+                                {% if discount %}
+                                {{discount.discount_value|int_format}}
+                                {% else %}
+                                {{item.price|int_format}}
+                                {% endif %}
+                                ₫
                             </span>
                             {% if discount_rate %}
-                                <span class="sale">
-                                    {{discount_rate}}
-                                </span>
+                            <span class="sale">
+                                {{discount_rate}}
+                            </span>
                             {% endif %}
                         </div>
                     </div>
-                </a>
-            </div>
+                </div>
+            </a>
             {% endfor %}
         </div>
     </div>

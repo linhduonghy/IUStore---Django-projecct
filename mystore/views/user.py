@@ -86,18 +86,14 @@ def doRegister(request):
         else:
             addres.save()
 
-            permission = Permission(level=3, description='customer')
-            permission.save()
-
+            permission = Permission.objects.get(level='3')
             acc = Account(username=usr, password=pwd, permission=permission)
             acc.save()
 
-            user = Member(name=name, email=email, phone=phone, dob=dob, gender=gender, avatar=None, address=addres, account=acc)
-            user.save()
-
-            customer = Customer(member=user)
+            user = Member(name=name, email=email, phone=phone, dob=dob, gender=gender, avatar=None,account=acc)
+            user.save()  
+            customer = Customer(member = user)
             customer.save()
-
             context['username'] = acc.username
             context['password'] = acc.password
             return render(request, 'user/login.html', context)

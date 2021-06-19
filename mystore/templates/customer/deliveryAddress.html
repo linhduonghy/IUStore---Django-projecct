@@ -15,7 +15,7 @@
 {% block content %}
 
 <div class="container mt-5">
-    <h3>Sổ địa chỉ</h3>
+    <h3>Địa chỉ giao hàng của tôi:</h3>
         {% if add == None %}
         <div class="main-body bg-white p-3 mt-3 ">
             <a href="{% url 'mystore:delivery-address/show-edit' %}">
@@ -37,10 +37,15 @@
     
     <div class="bg-white mt-2 p-2">
 
-        <p>{{add.receiver }}
+        <div class="row" style="margin-left: 89%;">
             <a href="{% url 'mystore:delivery-address/show-edit' %}" class="float-right mr-5"> Chỉnh sửa</a>
-        </p>
-        <div class="row">
+        </div>
+
+        <div class="row pb-3">
+            <div class="col-2" style="color: cadetblue;">Người nhận</div>
+            <span >{{add.receiver}}</span>
+        </div>
+        <div class="row  pb-3">
             <div class="col-2" style="color: cadetblue;">Địa chỉ</div>
             <span >{{add.address}}</span>
         </div>

@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from ..views import addressAPI
 from ..models import *
+from ..factory_class import BankFactory
 
 def checkout(request):
     if 'user' not in request.session:
@@ -8,7 +9,7 @@ def checkout(request):
     
     context = {}
 
-    shipmentMethods = ShipmentMethod.objects.all()
+    shipmentMethods = ShipmentMethod.objects.all()    
     context['shipmentMethods'] = shipmentMethods
 
     paymentMethods = PaymentMethod.objects.all()
@@ -68,9 +69,10 @@ def handleCheckout(request):
     if payment_method_name == 'Thẻ ATM': # ATM payment method
         # payment detail
         paymentDetail = PaymentDetail()
-        bank = Bank.objects.get(pk=request.POST['bank'])
+        # bank = Bank.objects.get(pk=request.POST['bank'])
+        bankName = request.POST['bank']
         paymentDetail.customer = request.POST['customer_name']
-        paymentDetail.bank = bank
+        paymentDetail.bank = BankFactory.getBank(bankName=bankName)
         paymentDetail.card = request.POST['card_code']
         paymentDetail.save()
         payment.paymentDetail = paymentDetail
@@ -80,6 +82,7 @@ def handleCheckout(request):
 
     # reset cart
     cart.is_order = True
+
     if 'cart' in request.session:
         del request.session['cart']
     cart.save()
@@ -93,6 +96,14 @@ def handleCheckout(request):
     order.statusNow = 'Chờ duyệt'
     order.save() # save order 
 
+    # save order item
+    cartItems = CartItem.objects.filter(cart=cart)
+    for cartItem in cartItems:
+        orderItem = OrderItem()
+        orderItem.order = order
+        orderItem.item = cartItem.item
+        orderItem.qty = cartItem.qty
+        orderItem.save()
     return redirect('mystore:home')
 
 def editDeliveryAddress(request):
