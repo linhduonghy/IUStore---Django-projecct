@@ -117,7 +117,7 @@ def editDeliveryAddress(request):
         context['address'] = deliveryAddresses[len(deliveryAddresses) - 1]
     
     cities = addressAPI.getCities()
-    context['cities'] = cities 
+    context['cities'] = cities
     return render(request, template_name='checkout/edit-delivery_address.html', context=context)
 
 def handleDeliveryAddress(request):

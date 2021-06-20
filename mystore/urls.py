@@ -58,5 +58,5 @@ urlpatterns = [
     # address api
     path('city', addressAPI.getCities, name='city'),
     path('city/<int:city_id>/district', addressAPI.getDistrictsInCity, name='district-in-city'),
-    path('district/<int:district_id>/ward', addressAPI.getWardsInDistrict, name='ward-in-district'),
+    path('district/<int:city_id>/<int:district_id>/ward', addressAPI.getWardsInDistrict, name='ward-in-district'),
 ]

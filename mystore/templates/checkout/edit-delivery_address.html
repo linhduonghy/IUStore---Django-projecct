@@ -46,8 +46,8 @@
                     <div class="form-group" style="width: 66.6666%;">
                         <select name="city" id="city" class="form-control" >
                             <option value="" style="display: none;">Chọn Tỉnh/Thành Phố</option>
-                            {% for id, city in cities %}
-                                <option value="{{id}},{{city}}">{{city}}</option>                            
+                            {% for city in cities %}
+                                <option value="{{forloop.counter0}},{{city}}">{{city}}</option>                            
                             {% endfor %}
                         </select>
                     </div>
@@ -90,9 +90,8 @@
             success: (res) => {
                 $('#district').html('')
                 $('#district').append('<option value="" style="display: none;">Chọn Quận/Huyện</option>')
-                for (const district of res) {     
-                    console.log(district)              
-                    $('#district').append(`<option value="${district[0] + ',' + district[1]}">${district[1]}</option>`)
+                for (const i in res) {     
+                    $('#district').append(`<option value="${i + ',' + res[i]}">${res[i]}</option>`)
                 }
                 
             }
@@ -100,7 +99,9 @@
     })
     $('#district').on('change', function() {
         const district_id = this.value.split(',')[0]
-        var url_mask = "{% url 'mystore:ward-in-district' district_id=12345 %}".replace(/12345/, +(district_id.trim()));
+        const city_id = $('#city').val().split(',')[0]
+        console.log(city_id)
+        var url_mask = "{% url 'mystore:ward-in-district' city_id=777 district_id=12345 %}".replace(/12345/, +(district_id.trim())).replace(/777/, +(city_id.trim()));
         $.ajax({
             url: url_mask,
             type: 'get',
@@ -108,8 +109,8 @@
             success: (res) => {
                 $('#ward').html('')
                 $('#ward').append('<option value="" style="display: none;">Chọn Xã/Phường</option>')
-                for (const ward of res) {                   
-                    $('#ward').append(`<option value="${ward[0]+','+ward[1]}">${ward[1]}</option>`)
+                for (const i in res) {                   
+                    $('#ward').append(`<option value="${i+','+res[i]}">${res[i]}</option>`)
                 }
                 
             }
